@@ -263,6 +263,10 @@ export default function AssetsPage() {
         assets={assets}
         sites={sites}
         siteId={siteFilter}
+        typeNames={[
+          ...suggestedTypes,
+          ...types.filter((type) => !siteFilter || type.siteId === siteFilter).map((type) => type.name),
+        ]}
         canWrite={isAuthenticated && can("assets:write")}
         canDelete={isAuthenticated && can("assets:delete")}
         onChanged={() => loadData({ quiet: true })}

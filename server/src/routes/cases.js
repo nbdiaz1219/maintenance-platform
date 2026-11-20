@@ -5,6 +5,7 @@ const validate = require("../middleware/validate");
 const { assetsRead, assetsWrite, assetsDelete } = require("../middleware/routeGuards");
 const { getAccessibleSiteIds, buildSiteIdFilter, assertSiteAccess } = require("../services/siteAccessService");
 const { recordAudit } = require("../services/auditService");
+const { ensureAssetType } = require("../services/assetTypeService");
 
 const router = express.Router();
 
@@ -18,7 +19,7 @@ const caseInclude = {
 
 const createSchema = z.object({
   siteId: z.string().min(1),
-  name: z.string().trim().max(120).optional(),
+  name: z.string().trim().min(1).max(120),
   serialNumber: z.string().trim().min(1).max(80),
 });
 
@@ -30,6 +31,17 @@ const updateSchema = z.object({
 
 const shipSchema = z.object({
   siteId: z.string().min(1),
+});
+
+const componentSchema = z.object({
+  name: z.string().trim().min(1).max(120),
+  assetType: z.string().trim().min(1).max(80),
+  serialNumber: z
+    .string()
+    .trim()
+    .max(80)
+    .optional()
+    .transform((value) => value || undefined),
 });
 
 function sendServiceError(error, res, next) {
@@ -62,7 +74,7 @@ router.post("/", ...assetsWrite, validate(createSchema), async (req, res, next) 
       data: {
         siteId: req.validated.siteId,
         serialNumber,
-        name: req.validated.name || `Case ${serialNumber}`,
+        name: req.validated.name,
       },
       include: caseInclude,
     });
@@ -127,6 +139,40 @@ router.patch("/:id", ...assetsWrite, validate(updateSchema), async (req, res, ne
       metadata: { serialNumber: travelCase.serialNumber, assetCount: travelCase.assets.length },
     });
     res.json(travelCase);
+  } catch (error) {
+    sendServiceError(error, res, next);
+  }
+});
+
+router.post("/:id/components", ...assetsWrite, validate(componentSchema), async (req, res, next) => {
+  try {
+    const existing = await prisma.travelCase.findUnique({ where: { id: req.params.id } });
+    if (!existing) return res.status(404).json({ error: "Case not found" });
+    await assertSiteAccess(req.user, existing.siteId);
+
+    const asset = await prisma.asset.create({
+      data: {
+        siteId: existing.siteId,
+        caseId: existing.id,
+        name: req.validated.name,
+        assetType: req.validated.assetType,
+        serialNumber: req.validated.serialNumber || null,
+      },
+    });
+    await ensureAssetType(existing.siteId, asset.assetType);
+
+    const travelCase = await prisma.travelCase.findUnique({
+      where: { id: existing.id },
+      include: caseInclude,
+    });
+    await recordAudit({
+      action: "case.component_added",
+      entityType: "travelCase",
+      entityId: existing.id,
+      actorId: req.user.id,
+      metadata: { assetId: asset.id, name: asset.name, assetType: asset.assetType },
+    });
+    res.status(201).json(travelCase);
   } catch (error) {
     sendServiceError(error, res, next);
   }

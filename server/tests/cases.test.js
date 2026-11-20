@@ -53,6 +53,32 @@ describeIfDb("travel cases", () => {
     expect(moved.every((asset) => asset.siteId === dock.id && asset.caseId === created.body.id)).toBe(true);
   });
 
+  it("renames a case and adds a component into it", async () => {
+    const { response } = await registerUser(app, { role: "ADMIN" });
+    const token = response.body.token;
+    const site = (await createSite(app, token, { name: "Shop" })).response.body;
+    const created = await request(app)
+      .post("/api/cases")
+      .set(authHeader(token))
+      .send({ siteId: site.id, name: "Kit", serialNumber: "CASE-200" });
+
+    const renamed = await request(app)
+      .patch(`/api/cases/${created.body.id}`)
+      .set(authHeader(token))
+      .send({ name: "Spot travel kit" });
+    expect(renamed.status).toBe(200);
+    expect(renamed.body.name).toBe("Spot travel kit");
+
+    const added = await request(app)
+      .post(`/api/cases/${created.body.id}/components`)
+      .set(authHeader(token))
+      .send({ name: "Spot", assetType: "Robots", serialNumber: "SP-1" });
+    expect(added.status).toBe(201);
+    expect(added.body.assets).toEqual([
+      expect.objectContaining({ name: "Spot", assetType: "Robots", serialNumber: "SP-1" }),
+    ]);
+  });
+
   it("blocks an ops lead from creating a case at a site they cannot access", async () => {
     const admin = await registerUser(app, { role: "ADMIN" });
     const lead = await registerUser(app, { role: "OPS_LEAD" });
@@ -61,7 +87,7 @@ describeIfDb("travel cases", () => {
     const response = await request(app)
       .post("/api/cases")
       .set(authHeader(lead.response.body.token))
-      .send({ siteId: site.id, serialNumber: "CASE-9" });
+      .send({ siteId: site.id, name: "Restricted case", serialNumber: "CASE-9" });
 
     expect(response.status).toBe(403);
   });
