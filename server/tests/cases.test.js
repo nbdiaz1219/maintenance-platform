@@ -77,6 +77,14 @@ describeIfDb("travel cases", () => {
     expect(added.body.assets).toEqual([
       expect.objectContaining({ name: "Spot", assetType: "Robots", serialNumber: "SP-1" }),
     ]);
+
+    const degraded = await request(app)
+      .patch(`/api/cases/${created.body.id}`)
+      .set(authHeader(token))
+      .send({ operationalStatus: "DEGRADED" });
+    expect(degraded.status).toBe(200);
+    expect(degraded.body.operationalStatus).toBe("DEGRADED");
+    expect(degraded.body.assets[0].operationalStatus).toBe("DEGRADED");
   });
 
   it("blocks an ops lead from creating a case at a site they cannot access", async () => {

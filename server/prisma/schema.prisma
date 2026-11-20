@@ -137,9 +137,10 @@ model TravelCase {
   id           String    @id @default(cuid())
   siteId       String
   site         Site      @relation(fields: [siteId], references: [id], onDelete: Restrict)
-  name         String
-  serialNumber String    @unique
-  shippedAt    DateTime?
+  name              String
+  serialNumber      String                 @unique
+  operationalStatus AssetOperationalStatus @default(OPERATIONAL)
+  shippedAt         DateTime?
   createdAt    DateTime  @default(now())
   updatedAt    DateTime  @updatedAt
 

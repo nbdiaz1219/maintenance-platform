@@ -23,9 +23,12 @@ const createSchema = z.object({
   serialNumber: z.string().trim().min(1).max(80),
 });
 
+const caseStatusSchema = z.enum(["OPERATIONAL", "DEGRADED", "OFFLINE", "DECOMMISSIONED"]);
+
 const updateSchema = z.object({
   name: z.string().trim().min(1).max(120).optional(),
   serialNumber: z.string().trim().min(1).max(80).optional(),
+  operationalStatus: caseStatusSchema.optional(),
   assetIds: z.array(z.string().min(1)).optional(),
 });
 
@@ -121,11 +124,19 @@ router.patch("/:id", ...assetsWrite, validate(updateSchema), async (req, res, ne
         }
       }
 
+      if (req.validated.operationalStatus) {
+        await tx.asset.updateMany({
+          where: { caseId: existing.id },
+          data: { operationalStatus: req.validated.operationalStatus },
+        });
+      }
+
       return tx.travelCase.update({
         where: { id: existing.id },
         data: {
           name: req.validated.name,
           serialNumber: req.validated.serialNumber,
+          operationalStatus: req.validated.operationalStatus,
         },
         include: caseInclude,
       });
@@ -157,6 +168,7 @@ router.post("/:id/components", ...assetsWrite, validate(componentSchema), async 
         name: req.validated.name,
         assetType: req.validated.assetType,
         serialNumber: req.validated.serialNumber || null,
+        operationalStatus: existing.operationalStatus,
       },
     });
     await ensureAssetType(existing.siteId, asset.assetType);

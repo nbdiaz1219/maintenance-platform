@@ -1,6 +1,14 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { api, getErrorMessage } from "../api/client.js";
+import StatusBadge from "./StatusBadge.jsx";
+
+const caseStatuses = [
+  { value: "OPERATIONAL", label: "Operational" },
+  { value: "DEGRADED", label: "Degraded" },
+  { value: "OFFLINE", label: "Offline" },
+  { value: "DECOMMISSIONED", label: "Decommissioned" },
+];
 
 const starterTypes = ["Robots", "Raster arms"];
 
@@ -169,7 +177,10 @@ export default function TravelCases({
                       {travelCase.serialNumber} · {travelCase.site?.name} · {travelCase.assets.length} components
                     </span>
                   </span>
-                  <span className="text-[12px] font-bold text-[#706e6b]">{open ? "Hide" : "Open"}</span>
+                  <span className="flex items-center gap-3">
+                    <StatusBadge value={travelCase.operationalStatus || "OPERATIONAL"} />
+                    <span className="text-[12px] font-bold text-[#706e6b]">{open ? "Hide" : "Open"}</span>
+                  </span>
                 </button>
                 {open ? (
                   <div className="border-t border-[#e5e5e5] px-4 py-3">
@@ -222,6 +233,23 @@ export default function TravelCases({
                           >
                             Save name
                           </button>
+                          <label className="grid gap-1 text-[12px] font-bold text-[#444444]">
+                            Case status
+                            <select
+                              value={travelCase.operationalStatus || "OPERATIONAL"}
+                              aria-label={`Status for ${travelCase.name}`}
+                              onChange={(event) =>
+                                run(travelCase.id, () =>
+                                  api.patch(`/api/cases/${travelCase.id}`, { operationalStatus: event.target.value }),
+                                )
+                              }
+                              className="rounded border border-[#c9c9c9] bg-white px-3 py-1.5 text-sm font-normal text-[#181818]"
+                            >
+                              {caseStatuses.map((status) => (
+                                <option key={status.value} value={status.value}>{status.label}</option>
+                              ))}
+                            </select>
+                          </label>
                         </form>
 
                         <form
