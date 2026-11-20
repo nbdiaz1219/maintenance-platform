@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { api, getErrorMessage } from "../api/client.js";
 import { useAuth } from "../context/AuthContext.jsx";
 import AssetTypeOrganizer from "../components/AssetTypeOrganizer.jsx";
+import TravelCases from "../components/TravelCases.jsx";
 import ErrorBanner from "../components/ErrorBanner.jsx";
 import FormField from "../components/FormField.jsx";
 import LoadingState from "../components/LoadingState.jsx";
@@ -33,7 +34,15 @@ function assetTypeName(asset) {
 
 function matchesSearch(asset, query) {
   if (!query) return true;
-  const haystack = [asset.name, asset.serialNumber, asset.description, asset.assetType, asset.site?.name]
+  const haystack = [
+    asset.name,
+    asset.serialNumber,
+    asset.description,
+    asset.assetType,
+    asset.site?.name,
+    asset.travelCase?.serialNumber,
+    asset.travelCase?.name,
+  ]
     .filter(Boolean)
     .join(" ")
     .toLowerCase();
@@ -45,6 +54,7 @@ export default function AssetsPage() {
   const [assets, setAssets] = useState([]);
   const [sites, setSites] = useState([]);
   const [types, setTypes] = useState([]);
+  const [cases, setCases] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [form, setForm] = useState(emptyForm);
@@ -59,14 +69,16 @@ export default function AssetsPage() {
     if (!quiet) setLoading(true);
     setError("");
     try {
-      const [assetsResponse, sitesResponse, typesResponse] = await Promise.all([
+      const [assetsResponse, sitesResponse, typesResponse, casesResponse] = await Promise.all([
         api.get("/api/assets", { params: { sort: "name" } }),
         api.get("/api/sites"),
         api.get("/api/asset-types"),
+        api.get("/api/cases"),
       ]);
       setAssets(assetsResponse.data);
       setSites(sitesResponse.data);
       setTypes(typesResponse.data);
+      setCases(casesResponse.data);
       if (!form.siteId && sitesResponse.data[0]) {
         setForm((current) => ({ ...current, siteId: current.siteId || sitesResponse.data[0].id }));
       }
@@ -131,6 +143,8 @@ export default function AssetsPage() {
     return tally;
   }, [assets]);
 
+  const loose = useMemo(() => visible.filter((asset) => !asset.caseId), [visible]);
+
   const groups = useMemo(() => {
     const map = new Map();
     const catalog = types.filter((type) => !siteFilter || type.siteId === siteFilter);
@@ -141,7 +155,7 @@ export default function AssetsPage() {
         else current.order = Math.min(current.order, type.sortOrder);
       }
     }
-    for (const asset of visible) {
+    for (const asset of loose) {
       const name = assetTypeName(asset);
       if (!map.has(name)) {
         const orders = catalog.filter((type) => type.name === name).map((type) => type.sortOrder);
@@ -158,7 +172,7 @@ export default function AssetsPage() {
       if (group.name === "Uncategorized" && group.order >= 10000) group.order = 20000;
     }
     return [...map.values()].sort((a, b) => a.order - b.order || a.name.localeCompare(b.name));
-  }, [visible, types, siteFilter, query, statusFilter]);
+  }, [loose, types, siteFilter, query, statusFilter]);
 
   const shownGroups = typeFilter ? groups.filter((group) => group.name === typeFilter) : groups;
   const filtersActive = Boolean(search || statusFilter || siteFilter || typeFilter);
@@ -167,7 +181,7 @@ export default function AssetsPage() {
     <div>
       <PageHeader
         title="Assets"
-        description="Browse equipment by type. Admins and ops leads organize the type list for each site."
+        description="Pack traveling equipment into a case, give that case a serial number, and ship it as one unit. Loose equipment stays grouped by type."
         action={
           !isAuthenticated ? (
             <Link to="/login" className="rounded bg-[#0176d3] px-4 py-2 text-sm font-semibold text-white">
@@ -243,6 +257,16 @@ export default function AssetsPage() {
           <p className="pb-2 text-sm text-stone-500">{visible.length} shown</p>
         )}
       </div>
+
+      <TravelCases
+        cases={cases}
+        assets={assets}
+        sites={sites}
+        siteId={siteFilter}
+        canWrite={isAuthenticated && can("assets:write")}
+        canDelete={isAuthenticated && can("assets:delete")}
+        onChanged={() => loadData({ quiet: true })}
+      />
 
       {isAuthenticated && can("asset-types:manage") ? (
         <AssetTypeOrganizer
@@ -325,7 +349,7 @@ export default function AssetsPage() {
           <nav className="flex gap-2 overflow-x-auto lg:flex-col lg:overflow-visible" aria-label="Asset types">
             <TypeLink
               label="All types"
-              count={visible.length}
+              count={loose.length}
               active={!typeFilter}
               onClick={() => setTypeFilter("")}
             />

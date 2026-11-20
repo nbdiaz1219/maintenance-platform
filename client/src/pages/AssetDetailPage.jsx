@@ -156,6 +156,12 @@ export default function AssetDetailPage() {
               <dd className="font-medium">{asset.serialNumber || "—"}</dd>
             </div>
             <div className="flex justify-between gap-4">
+              <dt className="text-stone-500">Case</dt>
+              <dd className="font-medium">
+                {asset.travelCase ? `${asset.travelCase.serialNumber} · ${asset.travelCase.name}` : "Loose"}
+              </dd>
+            </div>
+            <div className="flex justify-between gap-4">
               <dt className="text-stone-500">Installed</dt>
               <dd className="font-medium">{formatDate(asset.installedAt)}</dd>
             </div>

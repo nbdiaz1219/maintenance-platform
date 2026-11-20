@@ -27,6 +27,7 @@ async function resetDatabase() {
   await prisma.sopVersion.deleteMany();
   await prisma.sopDocument.deleteMany();
   await prisma.asset.deleteMany();
+  await prisma.travelCase.deleteMany();
   await prisma.assetType.deleteMany();
   await prisma.site.deleteMany();
   await prisma.user.deleteMany();

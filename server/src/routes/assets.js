@@ -41,6 +41,8 @@ router.get("/", ...assetsRead, async (req, res, next) => {
           { description: { contains: search, mode: "insensitive" } },
           { assetType: { contains: search, mode: "insensitive" } },
           { site: { name: { contains: search, mode: "insensitive" } } },
+          { travelCase: { serialNumber: { contains: search, mode: "insensitive" } } },
+          { travelCase: { name: { contains: search, mode: "insensitive" } } },
         ],
       });
     }
@@ -49,6 +51,7 @@ router.get("/", ...assetsRead, async (req, res, next) => {
       where: { AND: filters },
       include: {
         site: true,
+        travelCase: { select: { id: true, name: true, serialNumber: true } },
         _count: { select: { workOrders: true } },
       },
       orderBy: sortByName ? [{ assetType: "asc" }, { name: "asc" }] : { createdAt: "desc" },
@@ -64,7 +67,11 @@ router.get("/:id", ...assetsRead, async (req, res, next) => {
     const siteIds = await getAccessibleSiteIds(req.user);
     const asset = await prisma.asset.findFirst({
       where: { id: req.params.id, ...buildSiteIdFilter(siteIds) },
-      include: { workOrders: true, site: true },
+      include: {
+        workOrders: true,
+        site: true,
+        travelCase: { select: { id: true, name: true, serialNumber: true, siteId: true } },
+      },
     });
     if (!asset) return res.status(404).json({ error: "Asset not found" });
     res.json(asset);
