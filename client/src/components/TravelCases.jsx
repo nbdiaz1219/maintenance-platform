@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { api, getErrorMessage } from "../api/client.js";
+import { statusLabel } from "../utils/labels.js";
 import StatusBadge from "./StatusBadge.jsx";
 
 const caseStatuses = [
@@ -36,6 +37,8 @@ export default function TravelCases({
   const [component, setComponent] = useState({});
   const [packed, setPacked] = useState({});
   const [destination, setDestination] = useState({});
+  const [statusMenuId, setStatusMenuId] = useState("");
+  const [pendingStatus, setPendingStatus] = useState(null);
   const [busy, setBusy] = useState("");
   const [error, setError] = useState("");
   const componentTypes = [...new Set([...starterTypes, ...typeNames])];
@@ -166,22 +169,50 @@ export default function TravelCases({
             const otherSites = sites.filter((site) => site.id !== travelCase.siteId);
             return (
               <li key={travelCase.id} className="bg-white">
-                <button
-                  type="button"
-                  onClick={() => setOpenId(open ? "" : travelCase.id)}
-                  className="flex w-full items-center justify-between gap-3 px-4 py-3 text-left hover:bg-[#f3f3f3]"
-                >
-                  <span>
+                <div className="flex w-full items-center justify-between gap-3 px-4 py-3 hover:bg-[#f3f3f3]">
+                  <button
+                    type="button"
+                    onClick={() => setOpenId(open ? "" : travelCase.id)}
+                    className="min-w-0 flex-1 text-left"
+                  >
                     <span className="block text-sm font-bold text-[#0176d3]">{travelCase.name}</span>
                     <span className="block text-[13px] text-[#444444]">
                       {travelCase.serialNumber} · {travelCase.site?.name} · {travelCase.assets.length} components
                     </span>
+                  </button>
+                  <span className="flex shrink-0 items-center gap-3">
+                    <CaseStatusControl
+                      travelCase={travelCase}
+                      canWrite={canWrite}
+                      busy={Boolean(busy)}
+                      open={statusMenuId === travelCase.id}
+                      onToggle={() => {
+                        setPendingStatus(null);
+                        setStatusMenuId((current) => (current === travelCase.id ? "" : travelCase.id));
+                      }}
+                      onClose={() => setStatusMenuId("")}
+                      onChoose={(status) => {
+                        setStatusMenuId("");
+                        const current = travelCase.operationalStatus || "OPERATIONAL";
+                        if (status.value === current) return;
+                        setPendingStatus({
+                          id: travelCase.id,
+                          name: travelCase.name,
+                          serialNumber: travelCase.serialNumber,
+                          value: status.value,
+                          label: status.label,
+                        });
+                      }}
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setOpenId(open ? "" : travelCase.id)}
+                      className="text-[12px] font-bold text-[#706e6b]"
+                    >
+                      {open ? "Hide" : "Open"}
+                    </button>
                   </span>
-                  <span className="flex items-center gap-3">
-                    <StatusBadge value={travelCase.operationalStatus || "OPERATIONAL"} />
-                    <span className="text-[12px] font-bold text-[#706e6b]">{open ? "Hide" : "Open"}</span>
-                  </span>
-                </button>
+                </div>
                 {open ? (
                   <div className="border-t border-[#e5e5e5] px-4 py-3">
                     <h3 className="mb-2 text-[12px] font-bold uppercase tracking-wide text-[#706e6b]">Components</h3>
@@ -233,23 +264,6 @@ export default function TravelCases({
                           >
                             Save name
                           </button>
-                          <label className="grid gap-1 text-[12px] font-bold text-[#444444]">
-                            Case status
-                            <select
-                              value={travelCase.operationalStatus || "OPERATIONAL"}
-                              aria-label={`Status for ${travelCase.name}`}
-                              onChange={(event) =>
-                                run(travelCase.id, () =>
-                                  api.patch(`/api/cases/${travelCase.id}`, { operationalStatus: event.target.value }),
-                                )
-                              }
-                              className="rounded border border-[#c9c9c9] bg-white px-3 py-1.5 text-sm font-normal text-[#181818]"
-                            >
-                              {caseStatuses.map((status) => (
-                                <option key={status.value} value={status.value}>{status.label}</option>
-                              ))}
-                            </select>
-                          </label>
                         </form>
 
                         <form
@@ -421,6 +435,99 @@ export default function TravelCases({
           })}
         </ul>
       )}
+      {pendingStatus ? (
+        <div className="fixed inset-0 z-40 flex items-center justify-center bg-black/40 p-4">
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="case-status-title"
+            className="w-full max-w-md rounded border border-[#e5e5e5] bg-white p-5 shadow-[0_2px_8px_rgba(0,0,0,0.16)]"
+          >
+            <h3 id="case-status-title" className="text-base font-bold text-[#181818]">Change case status?</h3>
+            <p className="mt-2 text-sm text-[#444444]">
+              Mark {pendingStatus.name} ({pendingStatus.serialNumber}) as {pendingStatus.label}. Every component
+              packed in this case will be marked {pendingStatus.label} too.
+            </p>
+            <div className="mt-4 flex justify-end gap-2">
+              <button
+                type="button"
+                onClick={() => setPendingStatus(null)}
+                className="rounded border border-[#c9c9c9] bg-white px-4 py-2 text-sm font-bold text-[#181818] hover:bg-[#f3f3f3]"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  const choice = pendingStatus;
+                  setPendingStatus(null);
+                  run(choice.id, () => api.patch(`/api/cases/${choice.id}`, { operationalStatus: choice.value }));
+                }}
+                className="rounded bg-[#0176d3] px-4 py-2 text-sm font-bold text-white"
+              >
+                OK
+              </button>
+            </div>
+          </div>
+        </div>
+      ) : null}
     </section>
+  );
+}
+
+function CaseStatusControl({ travelCase, canWrite, busy, open, onToggle, onClose, onChoose }) {
+  const current = travelCase.operationalStatus || "OPERATIONAL";
+  if (!canWrite) {
+    return <StatusBadge value={current} />;
+  }
+  return (
+    <span className="relative">
+      <button
+        type="button"
+        disabled={busy}
+        aria-haspopup="menu"
+        aria-expanded={open}
+        aria-label={`Change status for ${travelCase.name}, currently ${statusLabel(current)}`}
+        title="Change status"
+        onClick={onToggle}
+        className="rounded focus:outline-none focus:ring-2 focus:ring-[#0176d3] disabled:opacity-60"
+      >
+        <StatusBadge value={current} />
+      </button>
+      {open ? (
+        <>
+          <button
+            type="button"
+            className="fixed inset-0 z-20 cursor-default"
+            aria-label="Close status menu"
+            onClick={onClose}
+          />
+          <ul
+            role="menu"
+            aria-label={`Status for ${travelCase.name}`}
+            className="absolute right-0 top-full z-30 mt-1 w-52 overflow-hidden rounded border border-[#e5e5e5] bg-white py-1 text-left shadow-[0_2px_2px_0_rgba(0,0,0,0.1)]"
+          >
+            {caseStatuses.map((status) => {
+              const selected = status.value === current;
+              return (
+                <li key={status.value} role="none">
+                  <button
+                    type="button"
+                    role="menuitem"
+                    onClick={() => onChoose(status)}
+                    className={`flex w-full items-center justify-between gap-3 px-3 py-2 text-left text-sm hover:bg-[#f3f3f3] ${
+                      selected ? "font-bold text-[#0176d3]" : "text-[#181818]"
+                    }`}
+                  >
+                    {status.label}
+                    {selected ? <span className="text-[11px] font-bold uppercase text-[#706e6b]">Current</span> : null}
+                  </button>
+                </li>
+              );
+            })}
+          </ul>
+        </>
+      ) : null}
+    </span>
   );
 }
