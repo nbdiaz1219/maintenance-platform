@@ -15,8 +15,25 @@ const router = express.Router();
 router.get("/", ...assetsRead, async (req, res, next) => {
   try {
     const siteIds = await getAccessibleSiteIds(req.user);
+    const search = String(req.query.search || req.query.q || "").trim();
+    const siteFilter = buildSiteIdFilter(siteIds);
+    const where = search
+      ? {
+          AND: [
+            siteFilter,
+            {
+              OR: [
+                { name: { contains: search, mode: "insensitive" } },
+                { serialNumber: { contains: search, mode: "insensitive" } },
+                { description: { contains: search, mode: "insensitive" } },
+                { site: { name: { contains: search, mode: "insensitive" } } },
+              ],
+            },
+          ],
+        }
+      : siteFilter;
     const assets = await prisma.asset.findMany({
-      where: buildSiteIdFilter(siteIds),
+      where,
       include: { workOrders: true, site: true },
       orderBy: { createdAt: "desc" },
     });

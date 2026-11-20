@@ -42,6 +42,29 @@ describeIfDb("asset routes", () => {
     expect(listResponse.body).toHaveLength(1);
   });
 
+  it("searches assets by name, serial number, and site", async () => {
+    await createAsset(app, token, siteId, { name: "Compressor A", serialNumber: "CMP-100" });
+    await createAsset(app, token, siteId, { name: "Pump B", serialNumber: "PMP-200" });
+
+    const bySerial = await request(app)
+      .get("/api/assets?search=cmp-100")
+      .set(authHeader(token));
+    expect(bySerial.status).toBe(200);
+    expect(bySerial.body).toHaveLength(1);
+    expect(bySerial.body[0].name).toBe("Compressor A");
+
+    const byName = await request(app).get("/api/assets?q=pump").set(authHeader(token));
+    expect(byName.status).toBe(200);
+    expect(byName.body).toHaveLength(1);
+    expect(byName.body[0].name).toBe("Pump B");
+
+    const noMatch = await request(app)
+      .get("/api/assets?search=does-not-exist")
+      .set(authHeader(token));
+    expect(noMatch.status).toBe(200);
+    expect(noMatch.body).toHaveLength(0);
+  });
+
   it("returns an asset by id", async () => {
     const { response: createResponse } = await createAsset(app, token, siteId, {
       serialNumber: "SN-002",

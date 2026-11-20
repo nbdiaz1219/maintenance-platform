@@ -30,16 +30,24 @@ export default function AssetsPage() {
   const [error, setError] = useState("");
   const [form, setForm] = useState(emptyForm);
   const [submitting, setSubmitting] = useState(false);
+  const [search, setSearch] = useState("");
+  const [statusFilter, setStatusFilter] = useState("");
 
-  async function loadData() {
+  async function loadData(nextSearch = search, nextStatus = statusFilter) {
     setLoading(true);
     setError("");
     try {
+      const params = {};
+      if (nextSearch.trim()) params.search = nextSearch.trim();
       const [assetsResponse, sitesResponse] = await Promise.all([
-        api.get("/api/assets"),
+        api.get("/api/assets", { params }),
         api.get("/api/sites"),
       ]);
-      setAssets(assetsResponse.data);
+      if (nextStatus) {
+        setAssets(assetsResponse.data.filter((asset) => asset.operationalStatus === nextStatus));
+      } else {
+        setAssets(assetsResponse.data);
+      }
       setSites(sitesResponse.data);
       if (!form.siteId && sitesResponse.data[0]) {
         setForm((current) => ({ ...current, siteId: sitesResponse.data[0].id }));
@@ -53,7 +61,16 @@ export default function AssetsPage() {
 
   useEffect(() => {
     loadData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      loadData(search, statusFilter);
+    }, 300);
+    return () => clearTimeout(timer);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [search, statusFilter]);
 
   function updateField(event) {
     setForm((current) => ({ ...current, [event.target.name]: event.target.value }));
@@ -96,6 +113,41 @@ export default function AssetsPage() {
       />
 
       <ErrorBanner message={error} />
+
+      <div className="mb-6 grid gap-4 rounded-3xl border border-slate-600 bg-slate-800/90 p-4 shadow-sm md:grid-cols-[1fr_220px_auto] md:items-end">
+        <label className="grid gap-1.5">
+          <span className="text-sm font-medium text-slate-200">Search assets</span>
+          <input
+            type="search"
+            value={search}
+            onChange={(event) => setSearch(event.target.value)}
+            placeholder="Search by name, serial number, description, or site…"
+            className="w-full rounded-xl border border-slate-600 bg-slate-900 px-3 py-2 text-sm text-slate-100 placeholder:text-slate-500"
+          />
+        </label>
+        <label className="grid gap-1.5">
+          <span className="text-sm font-medium text-slate-200">Status</span>
+          <select
+            value={statusFilter}
+            onChange={(event) => setStatusFilter(event.target.value)}
+            className="w-full rounded-xl border border-slate-600 bg-slate-900 px-3 py-2 text-sm text-slate-100"
+          >
+            <option value="">All statuses</option>
+            {statusOptions.map((option) => (
+              <option key={option.value} value={option.value}>{option.label}</option>
+            ))}
+          </select>
+        </label>
+        {(search || statusFilter) ? (
+          <button
+            type="button"
+            onClick={() => { setSearch(""); setStatusFilter(""); }}
+            className="rounded-xl border border-slate-500 px-4 py-2 text-sm font-medium text-slate-200"
+          >
+            Clear
+          </button>
+        ) : null}
+      </div>
 
       {isAuthenticated && can("assets:write") ? (
         <form className="mb-6 grid gap-4 rounded-3xl border border-slate-600 bg-slate-800/90 p-6 shadow-sm md:grid-cols-2" onSubmit={handleCreate}>
@@ -140,7 +192,12 @@ export default function AssetsPage() {
       ) : null}
 
       {loading ? <LoadingState /> : null}
-      {!loading && assets.length === 0 ? <EmptyState message="No assets yet." /> : null}
+      {!loading && assets.length === 0 ? (
+        <EmptyState message={search || statusFilter ? "No assets match your search." : "No assets yet."} />
+      ) : null}
+      {!loading && assets.length > 0 ? (
+        <p className="mb-3 text-sm text-slate-400">{assets.length} asset{assets.length === 1 ? "" : "s"}{search ? ` matching “${search.trim()}”` : ""}</p>
+      ) : null}
       {!loading && assets.length > 0 ? (
         <div className="grid gap-4">
           {assets.map((asset) => (
