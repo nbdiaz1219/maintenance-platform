@@ -10,6 +10,7 @@ const assetRoutes = require("./routes/assets");
 const workOrderRoutes = require("./routes/workorders");
 const workOrderTimeEntryRoutes = require("./routes/workOrderTimeEntries");
 const timeEntryRoutes = require("./routes/timeEntries");
+const reportsWorkOrdersRoutes = require("./routes/reportsWorkOrders");
 const userRoutes = require("./routes/users");
 const auditRoutes = require("./routes/audit");
 const accessRequestRoutes = require("./routes/accessRequests");
@@ -76,6 +77,7 @@ function createApp() {
   app.use("/api/greentagging", greenTagRoutes);
   app.use("/api/time-entries", timeEntryRoutes);
   app.use("/api/workorders/:workOrderId/time-entries", workOrderTimeEntryRoutes);
+  app.use("/api/reports/work-orders", reportsWorkOrdersRoutes);
   app.use("/api/workorders", workOrderRoutes);
   app.use("/api/sync", require("./routes/sync"));
   app.use(routes);

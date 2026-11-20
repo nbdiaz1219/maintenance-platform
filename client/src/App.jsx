@@ -24,6 +24,7 @@ import ForgotPasswordPage from "./pages/ForgotPasswordPage.jsx";
 import ResetPasswordPage from "./pages/ResetPasswordPage.jsx";
 import HoursReportPage from "./pages/HoursReportPage.jsx";
 import SubmittedReportsPage from "./pages/SubmittedReportsPage.jsx";
+import WorkOrdersReportPage from "./pages/WorkOrdersReportPage.jsx";
 import GreentaggingPage from "./pages/GreentaggingPage.jsx";
 import GreentaggingDetailPage from "./pages/GreentaggingDetailPage.jsx";
 
@@ -71,6 +72,14 @@ export default function App() {
               element={
                 <PermissionRoute permission="time-entries:submitted">
                   <SubmittedReportsPage />
+                </PermissionRoute>
+              }
+            />
+            <Route
+              path="/reports/work-orders"
+              element={
+                <PermissionRoute permission="workorders:read">
+                  <WorkOrdersReportPage />
                 </PermissionRoute>
               }
             />
