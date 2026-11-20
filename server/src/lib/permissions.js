@@ -29,6 +29,7 @@ const PERMISSIONS = {
   "assets:read": ROLES,
   "assets:write": ["ADMIN", "OPS_LEAD", "OPERATOR"],
   "assets:delete": ["ADMIN", "OPS_LEAD"],
+  "asset-types:manage": ["ADMIN", "OPS_LEAD"],
 
   // Inventory
   "inventory:read": ROLES,

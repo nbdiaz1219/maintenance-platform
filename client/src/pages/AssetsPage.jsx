@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { api, getErrorMessage } from "../api/client.js";
 import { useAuth } from "../context/AuthContext.jsx";
+import AssetTypeOrganizer from "../components/AssetTypeOrganizer.jsx";
 import ErrorBanner from "../components/ErrorBanner.jsx";
 import FormField from "../components/FormField.jsx";
 import LoadingState from "../components/LoadingState.jsx";
@@ -43,6 +44,7 @@ export default function AssetsPage() {
   const { isAuthenticated, can } = useAuth();
   const [assets, setAssets] = useState([]);
   const [sites, setSites] = useState([]);
+  const [types, setTypes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [form, setForm] = useState(emptyForm);
@@ -53,16 +55,18 @@ export default function AssetsPage() {
   const [siteFilter, setSiteFilter] = useState("");
   const [typeFilter, setTypeFilter] = useState("");
 
-  async function loadData() {
-    setLoading(true);
+  async function loadData({ quiet = false } = {}) {
+    if (!quiet) setLoading(true);
     setError("");
     try {
-      const [assetsResponse, sitesResponse] = await Promise.all([
+      const [assetsResponse, sitesResponse, typesResponse] = await Promise.all([
         api.get("/api/assets", { params: { sort: "name" } }),
         api.get("/api/sites"),
+        api.get("/api/asset-types"),
       ]);
       setAssets(assetsResponse.data);
       setSites(sitesResponse.data);
+      setTypes(typesResponse.data);
       if (!form.siteId && sitesResponse.data[0]) {
         setForm((current) => ({ ...current, siteId: current.siteId || sitesResponse.data[0].id }));
       }
@@ -80,6 +84,11 @@ export default function AssetsPage() {
 
   function updateField(event) {
     setForm((current) => ({ ...current, [event.target.name]: event.target.value }));
+  }
+
+  function selectSite(siteId) {
+    setSiteFilter(siteId);
+    setTypeFilter("");
   }
 
   async function handleCreate(event) {
@@ -124,16 +133,32 @@ export default function AssetsPage() {
 
   const groups = useMemo(() => {
     const map = new Map();
+    const catalog = types.filter((type) => !siteFilter || type.siteId === siteFilter);
+    if (!query && !statusFilter) {
+      for (const type of catalog) {
+        const current = map.get(type.name);
+        if (!current) map.set(type.name, { name: type.name, assets: [], order: type.sortOrder });
+        else current.order = Math.min(current.order, type.sortOrder);
+      }
+    }
     for (const asset of visible) {
       const name = assetTypeName(asset);
-      if (!map.has(name)) map.set(name, { name, assets: [] });
+      if (!map.has(name)) {
+        const orders = catalog.filter((type) => type.name === name).map((type) => type.sortOrder);
+        map.set(name, {
+          name,
+          assets: [],
+          order: orders.length ? Math.min(...orders) : name === "Uncategorized" ? 20000 : 10000,
+        });
+      }
       map.get(name).assets.push(asset);
     }
     for (const group of map.values()) {
       group.assets.sort((a, b) => a.name.localeCompare(b.name));
+      if (group.name === "Uncategorized" && group.order >= 10000) group.order = 20000;
     }
-    return [...map.values()].sort((a, b) => a.name.localeCompare(b.name));
-  }, [visible]);
+    return [...map.values()].sort((a, b) => a.order - b.order || a.name.localeCompare(b.name));
+  }, [visible, types, siteFilter, query, statusFilter]);
 
   const shownGroups = typeFilter ? groups.filter((group) => group.name === typeFilter) : groups;
   const filtersActive = Boolean(search || statusFilter || siteFilter || typeFilter);
@@ -142,7 +167,7 @@ export default function AssetsPage() {
     <div>
       <PageHeader
         title="Assets"
-        description="Browse equipment by type — Robots, Raster arms, and whatever you add next."
+        description="Browse equipment by type. Admins and ops leads organize the type list for each site."
         action={
           !isAuthenticated ? (
             <Link to="/login" className="rounded-xl bg-orange-500 px-4 py-2 text-sm font-semibold text-white">
@@ -192,7 +217,7 @@ export default function AssetsPage() {
           <span className="text-sm font-medium text-slate-200">Site</span>
           <select
             value={siteFilter}
-            onChange={(event) => setSiteFilter(event.target.value)}
+            onChange={(event) => selectSite(event.target.value)}
             className="w-full rounded-xl border border-slate-600 bg-slate-900 px-3 py-2 text-sm text-slate-100"
           >
             <option value="">All sites</option>
@@ -218,6 +243,17 @@ export default function AssetsPage() {
           <p className="pb-2 text-sm text-slate-400">{visible.length} shown</p>
         )}
       </div>
+
+      {isAuthenticated && can("asset-types:manage") ? (
+        <AssetTypeOrganizer
+          siteId={siteFilter}
+          sites={sites}
+          types={types}
+          usedNames={assets.filter((asset) => asset.siteId === siteFilter).map(assetTypeName)}
+          onSiteChange={selectSite}
+          onChanged={() => loadData({ quiet: true })}
+        />
+      ) : null}
 
       {showCreate && isAuthenticated && can("assets:write") ? (
         <form className="mb-6 grid gap-4 rounded-3xl border border-slate-600 bg-slate-800/90 p-6 shadow-sm md:grid-cols-2" onSubmit={handleCreate}>
@@ -259,7 +295,11 @@ export default function AssetsPage() {
             />
           </div>
           <datalist id="asset-type-options">
-            {[...new Set([...suggestedTypes, ...assets.map(assetTypeName)])].map((type) => (
+            {[...new Set([
+              ...types.filter((type) => !form.siteId || type.siteId === form.siteId).map((type) => type.name),
+              ...suggestedTypes,
+              ...assets.map(assetTypeName),
+            ])].map((type) => (
               <option key={type} value={type} />
             ))}
           </datalist>
@@ -276,7 +316,7 @@ export default function AssetsPage() {
       ) : null}
 
       {loading ? <LoadingState /> : null}
-      {!loading && visible.length === 0 ? (
+      {!loading && visible.length === 0 && groups.length === 0 ? (
         <EmptyState message={filtersActive ? "No assets match these filters." : "No assets yet."} />
       ) : null}
 
@@ -303,6 +343,12 @@ export default function AssetsPage() {
             {shownGroups.map((group) => (
               <section key={group.name}>
                 <h3 className="mb-3 text-xl font-semibold text-slate-100">{group.name}</h3>
+                {group.assets.length === 0 ? (
+                  <p className="rounded-3xl border border-dashed border-slate-600 px-5 py-4 text-sm text-slate-400">
+                    No assets in this type yet.
+                  </p>
+                ) : null}
+                {group.assets.length > 0 ? (
                 <ul className="divide-y divide-slate-700 overflow-hidden rounded-3xl border border-slate-600 bg-slate-800/90">
                   {group.assets.map((asset) => (
                     <li key={asset.id}>
@@ -321,6 +367,7 @@ export default function AssetsPage() {
                     </li>
                   ))}
                 </ul>
+                ) : null}
               </section>
             ))}
           </div>

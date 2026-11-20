@@ -101,6 +101,7 @@ model Site {
   updatedAt DateTime @updatedAt
 
   assets     Asset[]
+  assetTypes AssetType[]
   workOrders WorkOrder[]
   siteAccess SiteAccess[]
 }
@@ -125,6 +126,20 @@ model Asset {
   @@index([siteId])
   @@index([operationalStatus])
   @@index([assetType])
+}
+
+/// Site-scoped catalog that admins and ops leads use to organize assets.
+model AssetType {
+  id        String   @id @default(cuid())
+  siteId    String
+  site      Site     @relation(fields: [siteId], references: [id], onDelete: Cascade)
+  name      String
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([siteId, name])
+  @@index([siteId, sortOrder])
 }
 
 // ——— Work management ———

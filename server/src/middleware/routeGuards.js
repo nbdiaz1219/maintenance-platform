@@ -10,6 +10,7 @@ const sitesDelete = [auth, requirePermission("sites:delete")];
 const assetsRead = [auth, requirePermission("assets:read")];
 const assetsWrite = [auth, requirePermission("assets:write")];
 const assetsDelete = [auth, requirePermission("assets:delete")];
+const assetTypesManage = [auth, requirePermission("asset-types:manage")];
 const inventoryRead = [auth, requirePermission("inventory:read")];
 const inventoryWrite = [auth, requirePermission("inventory:write")];
 const inventoryDelete = [auth, requirePermission("inventory:delete")];
@@ -43,6 +44,7 @@ module.exports = {
   assetsRead,
   assetsWrite,
   assetsDelete,
+  assetTypesManage,
   inventoryRead,
   inventoryWrite,
   inventoryDelete,

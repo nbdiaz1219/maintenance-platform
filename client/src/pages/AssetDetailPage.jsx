@@ -34,6 +34,7 @@ export default function AssetDetailPage() {
   const [error, setError] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [inventoryParts, setInventoryParts] = useState([]);
+  const [typeNames, setTypeNames] = useState(["Robots", "Raster arms"]);
 
   async function loadAsset() {
     setLoading(true);
@@ -65,6 +66,21 @@ export default function AssetDetailPage() {
   useEffect(() => {
     loadAsset();
   }, [id]);
+
+  useEffect(() => {
+    if (!form.siteId) return undefined;
+    let cancelled = false;
+    api
+      .get("/api/asset-types", { params: { siteId: form.siteId } })
+      .then((response) => {
+        if (cancelled) return;
+        setTypeNames([...new Set(["Robots", "Raster arms", ...response.data.map((type) => type.name)])]);
+      })
+      .catch(() => {});
+    return () => {
+      cancelled = true;
+    };
+  }, [form.siteId]);
 
   function updateField(event) {
     setForm((current) => ({ ...current, [event.target.name]: event.target.value }));
@@ -172,8 +188,9 @@ export default function AssetDetailPage() {
               required
             />
             <datalist id="asset-type-options">
-              <option value="Robots" />
-              <option value="Raster arms" />
+              {typeNames.map((type) => (
+                <option key={type} value={type} />
+              ))}
             </datalist>
             <FormField label="Asset name" name="name" value={form.name} onChange={updateField} required />
             <FormField label="Serial number" name="serialNumber" value={form.serialNumber} onChange={updateField} />

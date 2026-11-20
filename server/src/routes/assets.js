@@ -4,6 +4,7 @@ const validate = require("../middleware/validate");
 const { assetsWrite, assetsDelete, assetsRead } = require("../middleware/routeGuards");
 const { createAssetSchema, updateAssetSchema } = require("../schemas/asset");
 const { recordAudit } = require("../services/auditService");
+const { ensureAssetType } = require("../services/assetTypeService");
 const {
   getAccessibleSiteIds,
   buildSiteIdFilter,
@@ -77,6 +78,7 @@ router.post("/", ...assetsWrite, validate(createAssetSchema), async (req, res, n
     await assertSiteAccess(req.user, req.validated.siteId);
 
     const asset = await prisma.asset.create({ data: req.validated });
+    await ensureAssetType(asset.siteId, asset.assetType);
 
     await recordAudit({
       action: "asset.created",
@@ -107,6 +109,9 @@ router.patch("/:id", ...assetsWrite, validate(updateAssetSchema), async (req, re
       where: { id: req.params.id },
       data: req.validated,
     });
+    if (req.validated.assetType) {
+      await ensureAssetType(asset.siteId, asset.assetType);
+    }
 
     await recordAudit({
       action: "asset.updated",
