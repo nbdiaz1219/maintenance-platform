@@ -35,6 +35,7 @@ export default function FormField({
   as = "input",
   options = [],
   placeholder,
+  list,
   disabled = false,
   revealPassword = type === "password",
 }) {
@@ -50,6 +51,7 @@ export default function FormField({
     required,
     disabled,
     placeholder,
+    list,
     className: showToggle ? "flow-input pr-11" : "flow-input",
   };
 

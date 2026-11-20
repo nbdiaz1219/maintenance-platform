@@ -28,6 +28,7 @@ export default function AssetDetailPage() {
     description: "",
     serialNumber: "",
     operationalStatus: "OPERATIONAL",
+    assetType: "Uncategorized",
   });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -52,6 +53,7 @@ export default function AssetDetailPage() {
         description: assetResponse.data.description || "",
         serialNumber: assetResponse.data.serialNumber || "",
         operationalStatus: assetResponse.data.operationalStatus,
+        assetType: assetResponse.data.assetType || "Uncategorized",
       });
     } catch (err) {
       setError(getErrorMessage(err, "Unable to load asset"));
@@ -130,6 +132,10 @@ export default function AssetDetailPage() {
           <h3 className="text-lg font-semibold">Details</h3>
           <dl className="mt-4 space-y-3 text-sm">
             <div className="flex justify-between gap-4">
+              <dt className="text-slate-400">Type</dt>
+              <dd className="font-medium">{asset.assetType || "Uncategorized"}</dd>
+            </div>
+            <div className="flex justify-between gap-4">
               <dt className="text-slate-400">Serial number</dt>
               <dd className="font-medium">{asset.serialNumber || "—"}</dd>
             </div>
@@ -156,6 +162,19 @@ export default function AssetDetailPage() {
               onChange={updateField}
               options={sites.map((site) => ({ value: site.id, label: site.name }))}
             />
+            <FormField
+              label="Type"
+              name="assetType"
+              value={form.assetType}
+              onChange={updateField}
+              list="asset-type-options"
+              placeholder="Robots, Raster arms…"
+              required
+            />
+            <datalist id="asset-type-options">
+              <option value="Robots" />
+              <option value="Raster arms" />
+            </datalist>
             <FormField label="Asset name" name="name" value={form.name} onChange={updateField} required />
             <FormField label="Serial number" name="serialNumber" value={form.serialNumber} onChange={updateField} />
             <FormField

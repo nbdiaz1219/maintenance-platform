@@ -112,6 +112,7 @@ model Asset {
   name                String
   description         String?
   serialNumber        String?                  @unique
+  assetType           String                   @default("Uncategorized")
   operationalStatus   AssetOperationalStatus   @default(OPERATIONAL)
   installedAt         DateTime?
   createdAt           DateTime                 @default(now())
@@ -123,6 +124,7 @@ model Asset {
 
   @@index([siteId])
   @@index([operationalStatus])
+  @@index([assetType])
 }
 
 // ——— Work management ———

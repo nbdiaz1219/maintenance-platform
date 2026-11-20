@@ -86,6 +86,20 @@ describeIfDb("asset routes", () => {
     expect(offline.body[0]._count.workOrders).toBe(0);
   });
 
+  it("groups a name-sorted list by asset type", async () => {
+    await createAsset(app, token, siteId, { name: "Arm 2", assetType: "Raster arms" });
+    await createAsset(app, token, siteId, { name: "Spot", assetType: "Robots" });
+    await createAsset(app, token, siteId, { name: "Arm 1", assetType: "Raster arms" });
+
+    const response = await request(app).get("/api/assets?sort=name").set(authHeader(token));
+    expect(response.status).toBe(200);
+    expect(response.body.map((asset) => `${asset.assetType}:${asset.name}`)).toEqual([
+      "Raster arms:Arm 1",
+      "Raster arms:Arm 2",
+      "Robots:Spot",
+    ]);
+  });
+
   it("returns an asset by id", async () => {
     const { response: createResponse } = await createAsset(app, token, siteId, {
       serialNumber: "SN-002",

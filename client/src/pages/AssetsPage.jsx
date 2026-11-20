@@ -15,17 +15,24 @@ const statusOptions = [
   { value: "DECOMMISSIONED", label: "Decommissioned" },
 ];
 
+const suggestedTypes = ["Robots", "Raster arms"];
+
 const emptyForm = {
   siteId: "",
+  assetType: "Robots",
   name: "",
   description: "",
   serialNumber: "",
   operationalStatus: "OPERATIONAL",
 };
 
+function assetTypeName(asset) {
+  return (asset.assetType || "Uncategorized").trim() || "Uncategorized";
+}
+
 function matchesSearch(asset, query) {
   if (!query) return true;
-  const haystack = [asset.name, asset.serialNumber, asset.description, asset.site?.name]
+  const haystack = [asset.name, asset.serialNumber, asset.description, asset.assetType, asset.site?.name]
     .filter(Boolean)
     .join(" ")
     .toLowerCase();
@@ -44,6 +51,7 @@ export default function AssetsPage() {
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
   const [siteFilter, setSiteFilter] = useState("");
+  const [typeFilter, setTypeFilter] = useState("");
 
   async function loadData() {
     setLoading(true);
@@ -85,7 +93,7 @@ export default function AssetsPage() {
         serialNumber: form.serialNumber || undefined,
       };
       await api.post("/api/assets", payload);
-      setForm((current) => ({ ...emptyForm, siteId: current.siteId }));
+      setForm((current) => ({ ...emptyForm, siteId: current.siteId, assetType: current.assetType || "Robots" }));
       setShowCreate(false);
       await loadData();
     } catch (err) {
@@ -117,22 +125,24 @@ export default function AssetsPage() {
   const groups = useMemo(() => {
     const map = new Map();
     for (const asset of visible) {
-      const key = asset.site?.id || "unassigned";
-      if (!map.has(key)) {
-        map.set(key, { id: key, name: asset.site?.name || "No site", assets: [] });
-      }
-      map.get(key).assets.push(asset);
+      const name = assetTypeName(asset);
+      if (!map.has(name)) map.set(name, { name, assets: [] });
+      map.get(name).assets.push(asset);
+    }
+    for (const group of map.values()) {
+      group.assets.sort((a, b) => a.name.localeCompare(b.name));
     }
     return [...map.values()].sort((a, b) => a.name.localeCompare(b.name));
   }, [visible]);
 
-  const filtersActive = Boolean(search || statusFilter || siteFilter);
+  const shownGroups = typeFilter ? groups.filter((group) => group.name === typeFilter) : groups;
+  const filtersActive = Boolean(search || statusFilter || siteFilter || typeFilter);
 
   return (
     <div>
       <PageHeader
         title="Assets"
-        description="Equipment grouped by site. Search by name, serial, description, or site."
+        description="Browse equipment by type — Robots, Raster arms, and whatever you add next."
         action={
           !isAuthenticated ? (
             <Link to="/login" className="rounded-xl bg-orange-500 px-4 py-2 text-sm font-semibold text-white">
@@ -174,7 +184,7 @@ export default function AssetsPage() {
             type="search"
             value={search}
             onChange={(event) => setSearch(event.target.value)}
-            placeholder="Name, serial, description, or site"
+            placeholder="Name, type, serial, description, or site"
             className="w-full rounded-xl border border-slate-600 bg-slate-900 px-3 py-2 text-sm text-slate-100 placeholder:text-slate-500"
           />
         </label>
@@ -198,6 +208,7 @@ export default function AssetsPage() {
               setSearch("");
               setStatusFilter("");
               setSiteFilter("");
+              setTypeFilter("");
             }}
             className="rounded-xl border border-slate-500 px-4 py-2 text-sm font-medium text-slate-200"
           >
@@ -219,6 +230,15 @@ export default function AssetsPage() {
             options={sites.map((site) => ({ value: site.id, label: site.name }))}
             required
           />
+          <FormField
+            label="Type"
+            name="assetType"
+            value={form.assetType}
+            onChange={updateField}
+            list="asset-type-options"
+            placeholder="Robots, Raster arms…"
+            required
+          />
           <FormField label="Asset name" name="name" value={form.name} onChange={updateField} required />
           <FormField label="Serial number" name="serialNumber" value={form.serialNumber} onChange={updateField} />
           <FormField
@@ -238,6 +258,11 @@ export default function AssetsPage() {
               onChange={updateField}
             />
           </div>
+          <datalist id="asset-type-options">
+            {[...new Set([...suggestedTypes, ...assets.map(assetTypeName)])].map((type) => (
+              <option key={type} value={type} />
+            ))}
+          </datalist>
           <div className="md:col-span-2">
             <button
               type="submit"
@@ -256,51 +281,67 @@ export default function AssetsPage() {
       ) : null}
 
       {!loading && groups.length > 0 ? (
-        <div className="space-y-8">
-          {groups.map((group) => (
-            <section key={group.id}>
-              <div className="mb-3 flex items-baseline justify-between gap-3">
-                <h3 className="text-lg font-semibold text-slate-100">{group.name}</h3>
-                <p className="text-sm text-slate-400">
-                  {group.assets.length} asset{group.assets.length === 1 ? "" : "s"}
-                </p>
-              </div>
-              <div className="overflow-hidden rounded-3xl border border-slate-600 bg-slate-800/90 shadow-sm">
-                <table className="min-w-full text-left text-sm">
-                  <thead className="bg-slate-700/70 text-xs uppercase tracking-wide text-slate-400">
-                    <tr>
-                      <th className="px-4 py-3">Asset</th>
-                      <th className="px-4 py-3">Serial</th>
-                      <th className="px-4 py-3">Status</th>
-                      <th className="px-4 py-3 text-right">Work orders</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {group.assets.map((asset) => (
-                      <tr key={asset.id} className="border-t border-slate-700">
-                        <td className="px-4 py-3">
-                          <Link className="font-medium text-orange-300 hover:underline" to={`/assets/${asset.id}`}>
-                            {asset.name}
-                          </Link>
-                          {asset.description ? (
-                            <span className="mt-0.5 block max-w-md truncate text-slate-400">{asset.description}</span>
-                          ) : null}
-                        </td>
-                        <td className="px-4 py-3 text-slate-300">{asset.serialNumber || "—"}</td>
-                        <td className="px-4 py-3">
-                          <StatusBadge value={asset.operationalStatus} />
-                        </td>
-                        <td className="px-4 py-3 text-right text-slate-300">{asset._count?.workOrders ?? 0}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </section>
-          ))}
+        <div className="grid gap-6 lg:grid-cols-[220px_minmax(0,1fr)]">
+          <nav className="flex gap-2 overflow-x-auto lg:flex-col lg:overflow-visible" aria-label="Asset types">
+            <TypeLink
+              label="All types"
+              count={visible.length}
+              active={!typeFilter}
+              onClick={() => setTypeFilter("")}
+            />
+            {groups.map((group) => (
+              <TypeLink
+                key={group.name}
+                label={group.name}
+                count={group.assets.length}
+                active={typeFilter === group.name}
+                onClick={() => setTypeFilter(group.name)}
+              />
+            ))}
+          </nav>
+          <div className="space-y-8">
+            {shownGroups.map((group) => (
+              <section key={group.name}>
+                <h3 className="mb-3 text-xl font-semibold text-slate-100">{group.name}</h3>
+                <ul className="divide-y divide-slate-700 overflow-hidden rounded-3xl border border-slate-600 bg-slate-800/90">
+                  {group.assets.map((asset) => (
+                    <li key={asset.id}>
+                      <Link
+                        to={`/assets/${asset.id}`}
+                        className="flex items-center justify-between gap-4 px-5 py-4 transition-colors hover:bg-slate-700/50"
+                      >
+                        <div className="min-w-0">
+                          <p className="truncate text-base font-semibold text-slate-100">{asset.name}</p>
+                          <p className="mt-1 truncate text-sm text-slate-400">
+                            {[asset.site?.name, asset.serialNumber].filter(Boolean).join(" · ") || "No site"}
+                          </p>
+                        </div>
+                        <StatusBadge value={asset.operationalStatus} />
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            ))}
+          </div>
         </div>
       ) : null}
     </div>
+  );
+}
+
+function TypeLink({ label, count, active, onClick }) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={`flex shrink-0 items-center justify-between gap-3 rounded-2xl px-4 py-3 text-left text-sm font-semibold lg:w-full ${
+        active ? "bg-orange-500 text-white" : "bg-slate-800 text-slate-100 ring-1 ring-inset ring-slate-600"
+      }`}
+    >
+      <span>{label}</span>
+      <span className={active ? "text-orange-100" : "text-slate-400"}>{count}</span>
+    </button>
   );
 }
 

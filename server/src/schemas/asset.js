@@ -7,11 +7,22 @@ const operationalStatusSchema = z.enum([
   "DECOMMISSIONED",
 ]);
 
+const assetTypeSchema = z
+  .string()
+  .trim()
+  .max(80)
+  .optional()
+  .transform((value) => {
+    if (value === undefined) return undefined;
+    return value || "Uncategorized";
+  });
+
 const createAssetSchema = z.object({
   siteId: z.string().min(1),
   name: z.string().min(1),
   description: z.string().optional(),
   serialNumber: z.string().optional(),
+  assetType: assetTypeSchema,
   operationalStatus: operationalStatusSchema.optional(),
   installedAt: z.coerce.date().optional(),
 });
@@ -22,6 +33,7 @@ const updateAssetSchema = z
     name: z.string().min(1).optional(),
     description: z.string().nullable().optional(),
     serialNumber: z.string().nullable().optional(),
+    assetType: assetTypeSchema,
     operationalStatus: operationalStatusSchema.optional(),
     installedAt: z.coerce.date().nullable().optional(),
   })

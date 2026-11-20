@@ -38,6 +38,7 @@ router.get("/", ...assetsRead, async (req, res, next) => {
           { name: { contains: search, mode: "insensitive" } },
           { serialNumber: { contains: search, mode: "insensitive" } },
           { description: { contains: search, mode: "insensitive" } },
+          { assetType: { contains: search, mode: "insensitive" } },
           { site: { name: { contains: search, mode: "insensitive" } } },
         ],
       });
@@ -49,7 +50,7 @@ router.get("/", ...assetsRead, async (req, res, next) => {
         site: true,
         _count: { select: { workOrders: true } },
       },
-      orderBy: sortByName ? [{ site: { name: "asc" } }, { name: "asc" }] : { createdAt: "desc" },
+      orderBy: sortByName ? [{ assetType: "asc" }, { name: "asc" }] : { createdAt: "desc" },
     });
     res.json(assets);
   } catch (error) {
