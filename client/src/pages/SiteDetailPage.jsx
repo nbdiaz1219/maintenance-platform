@@ -75,7 +75,7 @@ export default function SiteDetailPage() {
         title={site.name}
         description={site.address || "No address provided"}
         action={
-          <Link to="/sites" className="rounded-xl border border-stone-200 px-4 py-2 text-sm font-medium">
+          <Link to="/sites" className="rounded border border-stone-200 px-4 py-2 text-sm font-medium">
             Back to sites
           </Link>
         }
@@ -84,7 +84,7 @@ export default function SiteDetailPage() {
       <ErrorBanner message={error} />
 
       <div className="grid gap-6 lg:grid-cols-2">
-        <section className="rounded-3xl border border-stone-200 bg-white p-6 shadow-sm">
+        <section className="rounded border border-stone-200 bg-white p-6 shadow-[0_2px_2px_0_rgba(0,0,0,0.1)]">
           <h3 className="text-lg font-semibold">Linked records</h3>
           <dl className="mt-4 space-y-3 text-sm">
             <div className="flex justify-between gap-4">
@@ -99,7 +99,7 @@ export default function SiteDetailPage() {
         </section>
 
         {isAuthenticated && can("sites:write") ? (
-          <form className="space-y-4 rounded-3xl border border-stone-200 bg-white p-6 shadow-sm" onSubmit={handleSave}>
+          <form className="space-y-4 rounded border border-stone-200 bg-white p-6 shadow-[0_2px_2px_0_rgba(0,0,0,0.1)]" onSubmit={handleSave}>
             <h3 className="text-lg font-semibold">Edit site</h3>
             <FormField label="Site name" name="name" value={form.name} onChange={updateField} required />
             <FormField label="Address" name="address" value={form.address} onChange={updateField} />
@@ -107,7 +107,7 @@ export default function SiteDetailPage() {
               <button
                 type="submit"
                 disabled={submitting}
-                className="rounded-xl bg-orange-500 px-4 py-2 text-sm font-semibold text-white disabled:opacity-60"
+                className="rounded bg-[#0176d3] px-4 py-2 text-sm font-semibold text-white disabled:opacity-60"
               >
                 Save changes
               </button>
@@ -116,7 +116,7 @@ export default function SiteDetailPage() {
                   type="button"
                   disabled={submitting}
                   onClick={handleDelete}
-                  className="rounded-xl border border-rose-200 px-4 py-2 text-sm font-semibold text-rose-700"
+                  className="rounded border border-rose-200 px-4 py-2 text-sm font-semibold text-rose-700"
                 >
                   Delete site
                 </button>
@@ -124,14 +124,14 @@ export default function SiteDetailPage() {
             </div>
           </form>
         ) : (
-          <section className="rounded-3xl border border-stone-200 bg-white p-6 shadow-sm">
+          <section className="rounded border border-stone-200 bg-white p-6 shadow-[0_2px_2px_0_rgba(0,0,0,0.1)]">
             <p className="text-sm text-stone-500">
               {!isAuthenticated
                 ? "Sign in to edit or delete this site."
                 : "Ops Lead or Operator access is required to edit sites."}
             </p>
             {!isAuthenticated ? (
-              <Link to="/login" className="mt-4 inline-flex rounded-xl bg-orange-500 px-4 py-2 text-sm font-semibold text-white">
+              <Link to="/login" className="mt-4 inline-flex rounded bg-[#0176d3] px-4 py-2 text-sm font-semibold text-white">
                 Sign in
               </Link>
             ) : null}

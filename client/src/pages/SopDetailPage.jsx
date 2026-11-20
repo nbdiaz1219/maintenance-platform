@@ -10,7 +10,7 @@ import { formatDate } from "../utils/labels.js";
 
 function VersionDetail({ version, copied, onCopy }) {
   return (
-    <div className="mt-3 space-y-3 rounded-2xl border border-stone-200 bg-white/80 p-4 text-sm">
+    <div className="mt-3 space-y-3 rounded border border-stone-200 bg-white/80 p-4 text-sm">
       {version.summary ? <p className="text-stone-600">{version.summary}</p> : null}
       {version.documentUrl ? (
         <div className="flex flex-wrap items-center gap-2">
@@ -18,14 +18,14 @@ function VersionDetail({ version, copied, onCopy }) {
             href={version.documentUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex font-medium text-orange-700 hover:underline"
+            className="inline-flex font-medium text-[#0176d3] hover:underline"
           >
             Open document
           </a>
           <button
             type="button"
             onClick={() => onCopy(version.id, version.documentUrl)}
-            className="rounded-lg border border-stone-300 px-2.5 py-1 text-xs font-semibold text-stone-700 hover:bg-stone-50"
+            className="rounded border border-stone-300 px-2.5 py-1 text-xs font-semibold text-stone-700 hover:bg-stone-50"
           >
             {copied ? "Copied" : "Copy link"}
           </button>
@@ -186,7 +186,7 @@ export default function SopDetailPage() {
     return (
       <div>
         <ErrorBanner message={error || "SOP not found."} />
-        <Link to="/sops" className="text-sm font-medium text-orange-700 hover:underline">
+        <Link to="/sops" className="text-sm font-medium text-[#0176d3] hover:underline">
           Back to SOPs
         </Link>
       </div>
@@ -199,7 +199,7 @@ export default function SopDetailPage() {
         title={sop.title}
         description={`${sop.department} · v${sop.version} · Updated ${formatDate(sop.updatedAt)}`}
         action={
-          <Link to="/sops" className="rounded-xl border border-stone-200 px-4 py-2 text-sm font-medium text-stone-700">
+          <Link to="/sops" className="rounded border border-stone-200 px-4 py-2 text-sm font-medium text-stone-700">
             All SOPs
           </Link>
         }
@@ -208,10 +208,10 @@ export default function SopDetailPage() {
       <ErrorBanner message={error} />
 
       <div className="grid gap-6 lg:grid-cols-2">
-        <section className="rounded-3xl border border-stone-200 bg-white p-6 shadow-sm">
+        <section className="rounded border border-stone-200 bg-white p-6 shadow-[0_2px_2px_0_rgba(0,0,0,0.1)]">
           <div className="flex items-center justify-between gap-3">
             <h3 className="text-lg font-semibold">Current procedure</h3>
-            <span className="rounded-full bg-orange-50 px-2.5 py-1 text-xs font-medium text-orange-800">
+            <span className="rounded-full bg-[#eef4ff] px-2.5 py-1 text-xs font-medium text-[#032d60]">
               v{sop.version}
             </span>
           </div>
@@ -222,21 +222,21 @@ export default function SopDetailPage() {
                 href={sop.documentUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex rounded-xl bg-orange-600 px-4 py-2 text-sm font-semibold text-white hover:bg-orange-700"
+                className="inline-flex rounded bg-[#0176d3] px-4 py-2 text-sm font-semibold text-white hover:bg-[#032d60]"
               >
                 Open in Google Drive
               </a>
               <button
                 type="button"
                 onClick={() => copyDocumentLink(sop.documentUrl)}
-                className="inline-flex rounded-xl border border-stone-300 px-4 py-2 text-sm font-semibold text-stone-700 hover:bg-stone-50"
+                className="inline-flex rounded border border-stone-300 px-4 py-2 text-sm font-semibold text-stone-700 hover:bg-stone-50"
               >
                 {copiedLink ? "Copied" : "Copy link"}
               </button>
             </div>
           ) : null}
           {sop.content ? (
-            <pre className="mt-4 whitespace-pre-wrap rounded-2xl border border-stone-200 bg-white/80 p-4 text-sm leading-relaxed text-stone-900">
+            <pre className="mt-4 whitespace-pre-wrap rounded border border-stone-200 bg-white/80 p-4 text-sm leading-relaxed text-stone-900">
               {sop.content}
             </pre>
           ) : !sop.documentUrl ? (
@@ -245,7 +245,7 @@ export default function SopDetailPage() {
         </section>
 
         {isAuthenticated && can("sops:write") ? (
-          <form className="space-y-4 rounded-3xl border border-stone-200 bg-white p-6 shadow-sm" onSubmit={handleSave}>
+          <form className="space-y-4 rounded border border-stone-200 bg-white p-6 shadow-[0_2px_2px_0_rgba(0,0,0,0.1)]" onSubmit={handleSave}>
             <h3 className="text-lg font-semibold">Edit SOP</h3>
             <p className="text-sm text-stone-500">
               Saving changes archives the current version in history. Bump the version number when you publish
@@ -287,7 +287,7 @@ export default function SopDetailPage() {
               <button
                 type="submit"
                 disabled={submitting}
-                className="rounded-xl bg-stone-900 px-4 py-2 text-sm font-semibold text-white disabled:opacity-60"
+                className="rounded border border-[#c9c9c9] bg-white px-4 py-2 text-sm font-semibold text-[#181818] disabled:opacity-60"
               >
                 {submitting ? "Saving..." : "Save changes"}
               </button>
@@ -296,7 +296,7 @@ export default function SopDetailPage() {
                   type="button"
                   onClick={handleDelete}
                   disabled={submitting}
-                  className="rounded-xl border border-rose-200 px-4 py-2 text-sm font-semibold text-rose-700 hover:bg-rose-50 disabled:opacity-60"
+                  className="rounded border border-rose-200 px-4 py-2 text-sm font-semibold text-rose-700 hover:bg-rose-50 disabled:opacity-60"
                 >
                   Delete
                 </button>
@@ -304,14 +304,14 @@ export default function SopDetailPage() {
             </div>
           </form>
         ) : (
-          <section className="rounded-3xl border border-stone-200 bg-white p-6 shadow-sm">
+          <section className="rounded border border-stone-200 bg-white p-6 shadow-[0_2px_2px_0_rgba(0,0,0,0.1)]">
             <p className="text-sm text-stone-500">
               {!isAuthenticated
                 ? "Sign in to edit department SOPs."
                 : "Ops Lead access is required to edit SOPs."}
             </p>
             {!isAuthenticated ? (
-              <Link to="/login" className="mt-4 inline-flex rounded-xl bg-orange-500 px-4 py-2 text-sm font-semibold text-white">
+              <Link to="/login" className="mt-4 inline-flex rounded bg-[#0176d3] px-4 py-2 text-sm font-semibold text-white">
                 Sign in
               </Link>
             ) : null}
@@ -319,7 +319,7 @@ export default function SopDetailPage() {
         )}
       </div>
 
-      <section className="mt-6 rounded-3xl border border-stone-200 bg-white p-6 shadow-sm">
+      <section className="mt-6 rounded border border-stone-200 bg-white p-6 shadow-[0_2px_2px_0_rgba(0,0,0,0.1)]">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <h3 className="text-lg font-semibold">Version history</h3>
           <p className="text-sm text-stone-500">
@@ -333,7 +333,7 @@ export default function SopDetailPage() {
             No previous versions yet. The first edit will archive v{sop.version} here.
           </p>
         ) : (
-          <div className="mt-4 overflow-hidden rounded-2xl border border-stone-200">
+          <div className="mt-4 overflow-hidden rounded border border-stone-200">
             <table className="min-w-full text-left text-sm">
               <thead className="bg-stone-100/70 text-xs uppercase tracking-wide text-stone-500">
                 <tr>
@@ -360,7 +360,7 @@ export default function SopDetailPage() {
                           <button
                             type="button"
                             onClick={() => setExpandedVersionId(isExpanded ? null : version.id)}
-                            className="text-sm font-medium text-orange-700 hover:underline"
+                            className="text-sm font-medium text-[#0176d3] hover:underline"
                           >
                             {isExpanded ? "Hide" : "View"}
                           </button>

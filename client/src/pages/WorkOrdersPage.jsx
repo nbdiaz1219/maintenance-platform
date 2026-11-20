@@ -110,7 +110,7 @@ export default function WorkOrdersPage() {
         description="Create tasks and assign them to any active user."
         action={
           !isAuthenticated ? (
-            <Link to="/login" className="rounded-xl bg-orange-500 px-4 py-2 text-sm font-semibold text-white">
+            <Link to="/login" className="rounded bg-[#0176d3] px-4 py-2 text-sm font-semibold text-white">
               Sign in to create
             </Link>
           ) : !can("workorders:create") ? (
@@ -122,7 +122,7 @@ export default function WorkOrdersPage() {
       <ErrorBanner message={error} />
 
       {isAuthenticated && can("workorders:create") ? (
-        <form className="mb-6 grid gap-4 rounded-3xl border border-stone-200 bg-white p-6 shadow-sm md:grid-cols-2" onSubmit={handleCreate}>
+        <form className="mb-6 grid gap-4 rounded border border-stone-200 bg-white p-6 shadow-[0_2px_2px_0_rgba(0,0,0,0.1)] md:grid-cols-2" onSubmit={handleCreate}>
           <FormField label="Title" name="title" value={form.title} onChange={updateField} required />
           <FormField
             label="Priority"
@@ -181,7 +181,7 @@ export default function WorkOrdersPage() {
             <button
               type="submit"
               disabled={submitting || sites.length === 0}
-              className="rounded-xl bg-orange-500 px-4 py-2 text-sm font-semibold text-white disabled:opacity-60"
+              className="rounded bg-[#0176d3] px-4 py-2 text-sm font-semibold text-white disabled:opacity-60"
             >
               {submitting ? "Creating..." : "Create work order"}
             </button>

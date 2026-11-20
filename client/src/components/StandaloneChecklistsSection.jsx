@@ -92,7 +92,7 @@ export default function StandaloneChecklistsSection({ writable, canDelete }) {
     <div className="space-y-6">
       <ErrorBanner message={error} />
 
-      <div className="rounded-3xl border-2 border-orange-200 bg-orange-50 p-4">
+      <div className="rounded border-2 border-[#d8e6fe] bg-[#eef4ff] p-4">
         <div className="flex flex-wrap items-end justify-between gap-3">
           <div className="min-w-[16rem] flex-1">
             <FormField
@@ -118,7 +118,7 @@ export default function StandaloneChecklistsSection({ writable, canDelete }) {
             <button
               type="button"
               onClick={() => setShowCreate((open) => !open)}
-              className="rounded-xl bg-orange-500 px-4 py-2 text-sm font-semibold text-white"
+              className="rounded bg-[#0176d3] px-4 py-2 text-sm font-semibold text-white"
             >
               {showCreate ? "Close" : "New procedure"}
             </button>
@@ -132,7 +132,7 @@ export default function StandaloneChecklistsSection({ writable, canDelete }) {
 
       {writable && showCreate ? (
         <form
-          className="space-y-4 rounded-3xl border border-stone-200 bg-white p-6"
+          className="space-y-4 rounded border border-stone-200 bg-white p-6"
           onSubmit={handleCreate}
         >
           <h3 className="text-lg font-semibold">Create Green Tagging Procedure</h3>
@@ -154,7 +154,7 @@ export default function StandaloneChecklistsSection({ writable, canDelete }) {
           <button
             type="submit"
             disabled={busy}
-            className="rounded-xl bg-orange-500 px-4 py-2 text-sm font-semibold text-white disabled:opacity-60"
+            className="rounded bg-[#0176d3] px-4 py-2 text-sm font-semibold text-white disabled:opacity-60"
           >
             Create procedure
           </button>
@@ -162,7 +162,7 @@ export default function StandaloneChecklistsSection({ writable, canDelete }) {
       ) : null}
 
       {!selected ? (
-        <section className="rounded-3xl border border-dashed border-orange-200 bg-orange-50 p-8 text-center">
+        <section className="rounded border border-dashed border-[#d8e6fe] bg-[#eef4ff] p-8 text-center">
           <p className="text-sm text-stone-600">
             {writable
               ? "Create a new Green Tagging Procedure, or select one above to edit."
@@ -170,10 +170,10 @@ export default function StandaloneChecklistsSection({ writable, canDelete }) {
           </p>
         </section>
       ) : (
-        <section className="rounded-2xl border border-orange-200 bg-white p-6 shadow-sm">
+        <section className="rounded border border-[#d8e6fe] bg-white p-6 shadow-[0_2px_2px_0_rgba(0,0,0,0.1)]">
           <div className="mb-5 flex flex-wrap items-end justify-between gap-3">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-orange-800/90">
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#0176d3]">
                 Green Tagging Procedure
               </p>
               <h3 className="mt-1 text-2xl font-semibold text-stone-900">{selected.title}</h3>
@@ -181,7 +181,7 @@ export default function StandaloneChecklistsSection({ writable, canDelete }) {
             </div>
             <div className="flex flex-wrap items-center gap-2">
               {items.length ? (
-                <span className="rounded-full bg-orange-500/20 px-3 py-1 text-sm font-semibold text-orange-200">
+                <span className="rounded-full bg-[#0176d3]/20 px-3 py-1 text-sm font-semibold text-[#0b5cab]">
                   {doneCount}/{items.length} done
                 </span>
               ) : null}
@@ -199,7 +199,7 @@ export default function StandaloneChecklistsSection({ writable, canDelete }) {
                     setChecklists((current) => current.filter((item) => item.id !== selected.id));
                     setSelectedId("");
                   }}
-                  className="rounded-xl border border-rose-300/40 px-3 py-1.5 text-xs font-semibold text-rose-700"
+                  className="rounded border border-rose-300/40 px-3 py-1.5 text-xs font-semibold text-rose-700"
                 >
                   Delete procedure
                 </button>
@@ -244,19 +244,19 @@ export default function StandaloneChecklistsSection({ writable, canDelete }) {
               <button
                 type="submit"
                 disabled={busy}
-                className="rounded-xl border border-stone-200 px-3 py-1.5 text-xs font-medium text-stone-700 disabled:opacity-60"
+                className="rounded border border-stone-200 px-3 py-1.5 text-xs font-medium text-stone-700 disabled:opacity-60"
               >
                 Save procedure details
               </button>
             </form>
           ) : selected.notes ? (
-            <pre className="mb-4 whitespace-pre-wrap rounded-2xl border border-stone-200 bg-white/70 p-4 text-sm text-stone-900">
+            <pre className="mb-4 whitespace-pre-wrap rounded border border-stone-200 bg-white/70 p-4 text-sm text-stone-900">
               {selected.notes}
             </pre>
           ) : null}
 
           {items.length === 0 ? (
-            <p className="rounded-2xl border border-dashed border-orange-200 px-4 py-8 text-center text-sm text-stone-500">
+            <p className="rounded border border-dashed border-[#d8e6fe] px-4 py-8 text-center text-sm text-stone-500">
               No steps yet. Add procedure items below.
             </p>
           ) : (
@@ -268,8 +268,8 @@ export default function StandaloneChecklistsSection({ writable, canDelete }) {
                   <li
                     key={item.id}
                     className={[
-                      "rounded-2xl border px-3 py-3",
-                      done ? "border-orange-200 bg-orange-50" : "border-stone-200 bg-stone-100",
+                      "rounded border px-3 py-3",
+                      done ? "border-[#d8e6fe] bg-[#eef4ff]" : "border-stone-200 bg-stone-100",
                     ].join(" ")}
                   >
                     <div className="flex items-start gap-3">
@@ -318,14 +318,14 @@ export default function StandaloneChecklistsSection({ writable, canDelete }) {
                             />
                             <button
                               type="submit"
-                              className="rounded-lg bg-orange-500 px-3 py-1.5 text-xs font-semibold text-white"
+                              className="rounded bg-[#0176d3] px-3 py-1.5 text-xs font-semibold text-white"
                             >
                               Save
                             </button>
                             <button
                               type="button"
                               onClick={() => setEditingId("")}
-                              className="rounded-lg border border-stone-200 px-3 py-1.5 text-xs text-stone-600"
+                              className="rounded border border-stone-200 px-3 py-1.5 text-xs text-stone-600"
                             >
                               Cancel
                             </button>
@@ -348,7 +348,7 @@ export default function StandaloneChecklistsSection({ writable, canDelete }) {
                                   setEditingId(item.id);
                                   setEditLabel(item.label);
                                 }}
-                                className="text-xs font-medium text-orange-800 hover:underline"
+                                className="text-xs font-medium text-[#032d60] hover:underline"
                               >
                                 Edit text
                               </button>
@@ -356,13 +356,13 @@ export default function StandaloneChecklistsSection({ writable, canDelete }) {
                           </div>
                         )}
 
-                        <div className="mt-3 rounded-xl border border-dashed border-stone-200 bg-stone-50 p-3">
+                        <div className="mt-3 rounded border border-dashed border-stone-200 bg-stone-50 p-3">
                           <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
                             <p className="text-xs font-semibold uppercase tracking-wide text-stone-500">
                               Photos {photos.length ? `(${photos.length})` : ""}
                             </p>
                             {writable ? (
-                              <label className="inline-flex cursor-pointer rounded-lg bg-orange-500 px-3 py-1.5 text-xs font-semibold text-white">
+                              <label className="inline-flex cursor-pointer rounded bg-[#0176d3] px-3 py-1.5 text-xs font-semibold text-white">
                                 <input
                                   type="file"
                                   accept="image/jpeg,image/png,image/webp,image/gif,image/heic,image/heif,.jpg,.jpeg,.png,.webp,.gif,.heic"
@@ -396,7 +396,7 @@ export default function StandaloneChecklistsSection({ writable, canDelete }) {
                                     <img
                                       src={photo.url}
                                       alt={photo.originalName || "Photo"}
-                                      className="h-24 w-24 rounded-xl border border-stone-200 object-cover"
+                                      className="h-24 w-24 rounded border border-stone-200 object-cover"
                                     />
                                   </a>
                                   {writable ? (
@@ -481,7 +481,7 @@ export default function StandaloneChecklistsSection({ writable, canDelete }) {
               <button
                 type="submit"
                 disabled={busy}
-                className="rounded-xl border border-orange-200 px-4 py-2 text-sm font-semibold text-orange-800 disabled:opacity-60"
+                className="rounded border border-[#d8e6fe] px-4 py-2 text-sm font-semibold text-[#032d60] disabled:opacity-60"
               >
                 Add item
               </button>

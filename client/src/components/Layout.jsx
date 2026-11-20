@@ -22,10 +22,10 @@ const navItems = [
 
 function navClassName({ isActive }) {
   return [
-    "rounded-xl px-3 py-2.5 text-sm font-medium transition-all duration-300 ease-out",
+    "shrink-0 border-l-4 px-3 py-2 text-left text-[13px] lg:w-full",
     isActive
-      ? "bg-stone-900 text-white"
-      : "text-stone-600 hover:bg-stone-100 hover:text-stone-900",
+      ? "border-[#0176d3] bg-[#eef4ff] font-bold text-[#0176d3]"
+      : "border-transparent font-normal text-[#181818] hover:bg-[#f3f3f3]",
   ].join(" ");
 }
 
@@ -41,44 +41,40 @@ export default function Layout() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#f4f4f1] text-stone-900">
-      <div className="mx-auto flex min-h-screen w-full max-w-7xl flex-col gap-6 px-4 py-6 lg:flex-row lg:px-6">
-        <aside className="flex shrink-0 flex-col gap-6 rounded-2xl border border-stone-200 bg-white p-6 text-stone-900 shadow-sm lg:w-64">
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-wide text-orange-800/90">
-              EMAT Tracking Database
-            </p>
-            <h1 className="mt-2 text-2xl font-bold tracking-tight">Navy Sustainment</h1>
-            {version ? <p className="mt-2 text-xs text-stone-400">V{version}</p> : null}
-          </div>
+    <div className="flex min-h-screen flex-col bg-[#f3f3f3] text-[#181818] lg:flex-row">
+      <aside className="flex shrink-0 flex-col border-b border-[#e5e5e5] bg-white lg:min-h-screen lg:w-56 lg:border-b-0 lg:border-r">
+        <div className="border-b border-[#e5e5e5] px-4 py-3">
+          <p className="text-[11px] font-bold uppercase tracking-wide text-[#0176d3]">EMAT</p>
+          <h1 className="text-sm font-bold text-[#181818]">Tracking Database</h1>
+          {version ? <p className="mt-1 text-[11px] text-[#706e6b]">Version {version}</p> : null}
+        </div>
 
-          <nav className="flex flex-col gap-1.5">
-            {navItems
-              .filter((item) => !item.permission || can(item.permission))
-              .map((item) => (
-                <NavLink key={item.to} to={item.to} end={item.end} className={navClassName}>
-                  {item.label}
-                </NavLink>
-              ))}
-          </nav>
+        <nav className="flex gap-1 overflow-x-auto p-2 lg:flex-1 lg:flex-col lg:overflow-visible" aria-label="Application">
+          {navItems
+            .filter((item) => !item.permission || can(item.permission))
+            .map((item) => (
+              <NavLink key={item.to} to={item.to} end={item.end} className={navClassName}>
+                {item.label}
+              </NavLink>
+            ))}
+        </nav>
 
-          <div className="mt-auto rounded-2xl border border-stone-200 bg-stone-50 p-4">
-            <p className="text-sm font-medium">{user?.name || user?.email}</p>
-            <p className="mt-1 text-xs text-stone-500">{roleLabel}</p>
-            <button
-              type="button"
-              onClick={logout}
-              className="mt-4 w-full rounded-xl border border-stone-200 px-3 py-2 text-sm transition-all duration-300 hover:bg-stone-100"
-            >
-              Sign out
-            </button>
-          </div>
-        </aside>
+        <div className="border-t border-[#e5e5e5] px-4 py-3">
+          <p className="truncate text-[13px] font-bold text-[#181818]">{user?.name || user?.email}</p>
+          <p className="mt-0.5 text-[11px] text-[#706e6b]">{roleLabel}</p>
+          <button
+            type="button"
+            onClick={logout}
+            className="mt-3 rounded border border-[#c9c9c9] bg-white px-3 py-1.5 text-[13px] text-[#181818] hover:bg-[#f3f3f3]"
+          >
+            Sign out
+          </button>
+        </div>
+      </aside>
 
-        <main className="flow-page flex-1">
-          <Outlet />
-        </main>
-      </div>
+      <main className="min-w-0 flex-1 px-4 py-4 lg:px-6 lg:py-5">
+        <Outlet />
+      </main>
     </div>
   );
 }

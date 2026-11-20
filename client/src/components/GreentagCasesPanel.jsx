@@ -64,7 +64,7 @@ export default function GreentagCasesPanel({ assignment, writable, onAssignmentC
   }
 
   return (
-    <section className="mt-6 rounded-3xl border border-stone-200 bg-white p-6 shadow-sm">
+    <section className="mt-6 rounded border border-stone-200 bg-white p-6 shadow-[0_2px_2px_0_rgba(0,0,0,0.1)]">
       <div className="mb-4 flex flex-wrap items-end justify-between gap-3">
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-sky-800/90">Process cases</p>
@@ -75,14 +75,14 @@ export default function GreentagCasesPanel({ assignment, writable, onAssignmentC
         </div>
         <Link
           to={`/greentagging/${assignment.id}`}
-          className="text-sm font-semibold text-orange-800 hover:text-orange-200"
+          className="text-sm font-semibold text-[#032d60] hover:text-[#0b5cab]"
         >
           Edit cases →
         </Link>
       </div>
 
       {cases.length === 0 ? (
-        <p className="rounded-2xl border border-dashed border-stone-200 px-4 py-6 text-center text-sm text-stone-500">
+        <p className="rounded border border-dashed border-stone-200 px-4 py-6 text-center text-sm text-stone-500">
           No process cases yet.
           {writable ? " Standard Case A–W will appear after the job syncs." : null}
         </p>
@@ -104,7 +104,7 @@ export default function GreentagCasesPanel({ assignment, writable, onAssignmentC
                     type="button"
                     disabled={busy}
                     onClick={() => updateStatus("COMPLETED")}
-                    className="rounded-xl bg-emerald-600 px-3 py-2 text-sm font-semibold text-white disabled:opacity-60"
+                    className="rounded bg-emerald-600 px-3 py-2 text-sm font-semibold text-white disabled:opacity-60"
                   >
                     Mark {activeCase.title} complete
                   </button>
@@ -113,7 +113,7 @@ export default function GreentagCasesPanel({ assignment, writable, onAssignmentC
                     type="button"
                     disabled={busy}
                     onClick={() => updateStatus("IN_PROGRESS")}
-                    className="rounded-xl border border-stone-300 px-3 py-2 text-sm font-semibold text-stone-700 disabled:opacity-60"
+                    className="rounded border border-stone-300 px-3 py-2 text-sm font-semibold text-stone-700 disabled:opacity-60"
                   >
                     Reopen {activeCase.title}
                   </button>
@@ -129,11 +129,11 @@ export default function GreentagCasesPanel({ assignment, writable, onAssignmentC
                 <StatusBadge value={activeCase.status} />
               </div>
               {activeCase.directions ? (
-                <pre className="max-h-64 overflow-auto whitespace-pre-wrap rounded-2xl border border-stone-200 bg-white/70 p-4 text-sm leading-relaxed text-stone-900">
+                <pre className="max-h-64 overflow-auto whitespace-pre-wrap rounded border border-stone-200 bg-white/70 p-4 text-sm leading-relaxed text-stone-900">
                   {activeCase.directions}
                 </pre>
               ) : (
-                <p className="rounded-2xl border border-dashed border-stone-200 p-4 text-sm text-stone-500">
+                <p className="rounded border border-dashed border-stone-200 p-4 text-sm text-stone-500">
                   No directions for this case yet. Open the job to edit them.
                 </p>
               )}

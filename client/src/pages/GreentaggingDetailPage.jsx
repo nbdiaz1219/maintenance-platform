@@ -306,13 +306,13 @@ export default function GreentaggingDetailPage() {
             <StatusBadge value={assignment.status} label={greenTagStatusLabel(assignment.status)} />
             <a
               href="#overall-checklist"
-              className="rounded-xl bg-orange-500 px-4 py-2 text-sm font-semibold text-white"
+              className="rounded bg-[#0176d3] px-4 py-2 text-sm font-semibold text-white"
             >
               Overall checklist
             </a>
             <Link
               to="/greentagging"
-              className="rounded-xl border border-stone-200 px-4 py-2 text-sm font-medium"
+              className="rounded border border-stone-200 px-4 py-2 text-sm font-medium"
             >
               Back to board
             </Link>
@@ -322,7 +322,7 @@ export default function GreentaggingDetailPage() {
 
       <ErrorBanner message={error} />
 
-      <section className="mb-6 rounded-3xl border border-stone-200 bg-white p-5 shadow-sm">
+      <section className="mb-6 rounded border border-stone-200 bg-white p-5 shadow-[0_2px_2px_0_rgba(0,0,0,0.1)]">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div className="flex flex-wrap items-center gap-2">
             {PIPELINE.map((step, index) => {
@@ -334,9 +334,9 @@ export default function GreentaggingDetailPage() {
                     className={[
                       "rounded-full px-3 py-1 text-xs font-semibold",
                       active
-                        ? "bg-orange-500 text-white"
+                        ? "bg-[#0176d3] text-white"
                         : done
-                          ? "bg-orange-500/20 text-orange-200"
+                          ? "bg-[#0176d3]/20 text-[#0b5cab]"
                           : "bg-stone-100 text-stone-500",
                     ].join(" ")}
                   >
@@ -348,7 +348,7 @@ export default function GreentaggingDetailPage() {
             })}
           </div>
           <div className="flex flex-wrap items-center gap-3 text-sm">
-            <a href="#overall-checklist" className="font-semibold text-orange-800 hover:underline">
+            <a href="#overall-checklist" className="font-semibold text-[#032d60] hover:underline">
               Checklist {checklistDone}/{checklistItems.length || 0}
             </a>
             <span className="text-stone-400">·</span>
@@ -366,7 +366,7 @@ export default function GreentaggingDetailPage() {
                 type="button"
                 disabled={submitting}
                 onClick={() => handleQuickStatus("IN_PROGRESS")}
-                className="rounded-xl bg-amber-400 px-4 py-2 text-sm font-semibold text-stone-900 disabled:opacity-60"
+                className="rounded bg-amber-400 px-4 py-2 text-sm font-semibold text-stone-900 disabled:opacity-60"
               >
                 Start greentagging
               </button>
@@ -377,7 +377,7 @@ export default function GreentaggingDetailPage() {
                   type="button"
                   disabled={submitting}
                   onClick={() => handleQuickStatus("COMPLETED")}
-                  className="rounded-xl bg-orange-500 px-4 py-2 text-sm font-semibold text-white disabled:opacity-60"
+                  className="rounded bg-[#0176d3] px-4 py-2 text-sm font-semibold text-white disabled:opacity-60"
                 >
                   Mark complete
                 </button>
@@ -385,7 +385,7 @@ export default function GreentaggingDetailPage() {
                   type="button"
                   disabled={submitting}
                   onClick={() => handleQuickStatus("ON_HOLD")}
-                  className="rounded-xl border border-stone-200 px-4 py-2 text-sm font-medium text-stone-700 disabled:opacity-60"
+                  className="rounded border border-stone-200 px-4 py-2 text-sm font-medium text-stone-700 disabled:opacity-60"
                 >
                   Put on hold
                 </button>
@@ -396,14 +396,14 @@ export default function GreentaggingDetailPage() {
                 type="button"
                 disabled={submitting}
                 onClick={() => handleQuickStatus("OPEN")}
-                className="rounded-xl border border-stone-200 px-4 py-2 text-sm font-medium text-stone-700 disabled:opacity-60"
+                className="rounded border border-stone-200 px-4 py-2 text-sm font-medium text-stone-700 disabled:opacity-60"
               >
                 Reopen to awaiting
               </button>
             ) : null}
             <a
               href="#overall-checklist"
-              className="rounded-xl border border-orange-400/50 px-4 py-2 text-sm font-semibold text-orange-800"
+              className="rounded border border-[#c9c9c9] px-4 py-2 text-sm font-semibold text-[#032d60]"
             >
               Jump to checklist
             </a>
@@ -412,7 +412,7 @@ export default function GreentaggingDetailPage() {
           <div className="mt-4">
             <a
               href="#overall-checklist"
-              className="rounded-xl border border-orange-400/50 px-4 py-2 text-sm font-semibold text-orange-800"
+              className="rounded border border-[#c9c9c9] px-4 py-2 text-sm font-semibold text-[#032d60]"
             >
               Jump to checklist
             </a>
@@ -422,11 +422,11 @@ export default function GreentaggingDetailPage() {
 
       <section
         id="overall-checklist"
-        className="mb-6 scroll-mt-6 rounded-2xl border border-orange-200 bg-white p-6 shadow-sm"
+        className="mb-6 scroll-mt-6 rounded border border-[#d8e6fe] bg-white p-6 shadow-[0_2px_2px_0_rgba(0,0,0,0.1)]"
       >
         <div className="mb-5 flex flex-wrap items-end justify-between gap-3">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-orange-800/90">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#0176d3]">
               Start here
             </p>
             <h3 className="mt-1 text-2xl font-semibold tracking-tight text-stone-900">Overall checklist</h3>
@@ -436,7 +436,7 @@ export default function GreentaggingDetailPage() {
             </p>
           </div>
           {checklistItems.length ? (
-            <p className="rounded-full bg-orange-500/20 px-3 py-1 text-sm font-semibold text-orange-200">
+            <p className="rounded-full bg-[#0176d3]/20 px-3 py-1 text-sm font-semibold text-[#0b5cab]">
               {checklistDone}/{checklistItems.length} done
             </p>
           ) : null}
@@ -472,19 +472,19 @@ export default function GreentaggingDetailPage() {
             <button
               type="submit"
               disabled={submitting}
-              className="rounded-xl border border-stone-200 px-3 py-1.5 text-xs font-medium text-stone-700 disabled:opacity-60"
+              className="rounded border border-stone-200 px-3 py-1.5 text-xs font-medium text-stone-700 disabled:opacity-60"
             >
               Save notes
             </button>
           </form>
         ) : assignment.instructions ? (
-          <pre className="mb-4 whitespace-pre-wrap rounded-2xl border border-stone-200 bg-white/70 p-4 text-sm leading-relaxed text-stone-900">
+          <pre className="mb-4 whitespace-pre-wrap rounded border border-stone-200 bg-white/70 p-4 text-sm leading-relaxed text-stone-900">
             {assignment.instructions}
           </pre>
         ) : null}
 
         {checklistItems.length === 0 ? (
-          <div className="rounded-2xl border border-dashed border-orange-200 bg-stone-50 px-4 py-8 text-center">
+          <div className="rounded border border-dashed border-[#d8e6fe] bg-stone-50 px-4 py-8 text-center">
             <p className="text-sm text-stone-600">No checklist items yet.</p>
             {writable ? (
               <button
@@ -502,7 +502,7 @@ export default function GreentaggingDetailPage() {
                     setSubmitting(false);
                   }
                 }}
-                className="mt-3 rounded-xl bg-orange-500 px-4 py-2 text-sm font-semibold text-white disabled:opacity-60"
+                className="mt-3 rounded bg-[#0176d3] px-4 py-2 text-sm font-semibold text-white disabled:opacity-60"
               >
                 Add starter checklist
               </button>
@@ -517,8 +517,8 @@ export default function GreentaggingDetailPage() {
                 <li
                   key={item.id}
                   className={[
-                    "rounded-2xl border px-3 py-3",
-                    done ? "border-orange-200 bg-orange-50" : "border-stone-200 bg-stone-100",
+                    "rounded border px-3 py-3",
+                    done ? "border-[#d8e6fe] bg-[#eef4ff]" : "border-stone-200 bg-stone-100",
                   ].join(" ")}
                 >
                   <div className="flex items-start gap-3">
@@ -554,13 +554,13 @@ export default function GreentaggingDetailPage() {
                         </p>
                       ) : null}
 
-                      <div className="mt-3 rounded-xl border border-dashed border-stone-200 bg-stone-50 p-3">
+                      <div className="mt-3 rounded border border-dashed border-stone-200 bg-stone-50 p-3">
                         <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
                           <p className="text-xs font-semibold uppercase tracking-wide text-stone-500">
                             Photos {photos.length ? `(${photos.length})` : ""}
                           </p>
                           {writable ? (
-                            <label className="inline-flex cursor-pointer items-center gap-2 rounded-lg bg-orange-500 px-3 py-1.5 text-xs font-semibold text-white hover:bg-orange-400">
+                            <label className="inline-flex cursor-pointer items-center gap-2 rounded bg-[#0176d3] px-3 py-1.5 text-xs font-semibold text-white hover:bg-[#014486]">
                               <input
                                 type="file"
                                 accept="image/jpeg,image/png,image/webp,image/gif,image/heic,image/heif,.jpg,.jpeg,.png,.webp,.gif,.heic"
@@ -600,7 +600,7 @@ export default function GreentaggingDetailPage() {
                                   <img
                                     src={photo.url}
                                     alt={photo.originalName || "Checklist photo"}
-                                    className="h-24 w-24 rounded-xl border border-stone-200 object-cover"
+                                    className="h-24 w-24 rounded border border-stone-200 object-cover"
                                   />
                                 </a>
                                 {writable ? (
@@ -704,7 +704,7 @@ export default function GreentaggingDetailPage() {
             <button
               type="submit"
               disabled={submitting}
-              className="rounded-xl border border-orange-200 px-4 py-2 text-sm font-semibold text-orange-800 disabled:opacity-60"
+              className="rounded border border-[#d8e6fe] px-4 py-2 text-sm font-semibold text-[#032d60] disabled:opacity-60"
             >
               Add item
             </button>
@@ -713,14 +713,14 @@ export default function GreentaggingDetailPage() {
       </section>
 
       <div className="mb-6 grid gap-6 lg:grid-cols-2">
-        <section className="rounded-3xl border border-stone-200 bg-white p-6 shadow-sm">
+        <section className="rounded border border-stone-200 bg-white p-6 shadow-[0_2px_2px_0_rgba(0,0,0,0.1)]">
           <h3 className="text-lg font-semibold">Asset</h3>
           <dl className="mt-4 space-y-3 text-sm">
             <div className="flex justify-between gap-4">
               <dt className="text-stone-500">Name</dt>
               <dd className="font-medium">
                 {assignment.asset ? (
-                  <Link className="text-orange-800 hover:underline" to={`/assets/${assignment.asset.id}`}>
+                  <Link className="text-[#032d60] hover:underline" to={`/assets/${assignment.asset.id}`}>
                     {assignment.asset.name}
                   </Link>
                 ) : (
@@ -752,7 +752,7 @@ export default function GreentaggingDetailPage() {
 
         {writable ? (
           <form
-            className="space-y-4 rounded-3xl border border-stone-200 bg-white p-6 shadow-sm"
+            className="space-y-4 rounded border border-stone-200 bg-white p-6 shadow-[0_2px_2px_0_rgba(0,0,0,0.1)]"
             onSubmit={handleSaveAssignment}
           >
             <h3 className="text-lg font-semibold">Assignment details</h3>
@@ -807,7 +807,7 @@ export default function GreentaggingDetailPage() {
               <button
                 type="submit"
                 disabled={submitting}
-                className="rounded-xl bg-orange-500 px-4 py-2 text-sm font-semibold text-white disabled:opacity-60"
+                className="rounded bg-[#0176d3] px-4 py-2 text-sm font-semibold text-white disabled:opacity-60"
               >
                 Save assignment
               </button>
@@ -816,7 +816,7 @@ export default function GreentaggingDetailPage() {
                   type="button"
                   disabled={submitting}
                   onClick={handleDeleteAssignment}
-                  className="rounded-xl border border-rose-300/40 px-4 py-2 text-sm font-semibold text-rose-700"
+                  className="rounded border border-rose-300/40 px-4 py-2 text-sm font-semibold text-rose-700"
                 >
                   Delete assignment
                 </button>
@@ -824,13 +824,13 @@ export default function GreentaggingDetailPage() {
             </div>
           </form>
         ) : (
-          <section className="rounded-3xl border border-stone-200 bg-white p-6 shadow-sm">
+          <section className="rounded border border-stone-200 bg-white p-6 shadow-[0_2px_2px_0_rgba(0,0,0,0.1)]">
             <p className="text-sm text-stone-500">You can view the checklist and process cases for this assignment.</p>
           </section>
         )}
       </div>
 
-      <section className="rounded-3xl border border-stone-200 bg-white p-6 shadow-sm">
+      <section className="rounded border border-stone-200 bg-white p-6 shadow-[0_2px_2px_0_rgba(0,0,0,0.1)]">
         <div className="mb-4">
           <h3 className="text-lg font-semibold">Process cases</h3>
           <p className="mt-1 text-sm text-stone-500">
@@ -839,7 +839,7 @@ export default function GreentaggingDetailPage() {
         </div>
 
         {assignment.cases.length === 0 ? (
-          <div className="rounded-2xl border border-dashed border-stone-200 px-4 py-8 text-center">
+          <div className="rounded border border-dashed border-stone-200 px-4 py-8 text-center">
             <p className="text-sm text-stone-500">No process cases yet.</p>
             {writable ? (
               <button
@@ -866,7 +866,7 @@ export default function GreentaggingDetailPage() {
                     setSubmitting(false);
                   }
                 }}
-                className="mt-3 rounded-xl bg-orange-500 px-4 py-2 text-sm font-semibold text-white disabled:opacity-60"
+                className="mt-3 rounded bg-[#0176d3] px-4 py-2 text-sm font-semibold text-white disabled:opacity-60"
               >
                 Add Case A–W
               </button>
@@ -893,11 +893,11 @@ export default function GreentaggingDetailPage() {
                     <StatusBadge value={activeCase.status} />
                   </div>
                   {activeCase.directions ? (
-                    <pre className="whitespace-pre-wrap rounded-2xl border border-stone-200 bg-white/70 p-4 text-sm leading-relaxed text-stone-900">
+                    <pre className="whitespace-pre-wrap rounded border border-stone-200 bg-white/70 p-4 text-sm leading-relaxed text-stone-900">
                       {activeCase.directions}
                     </pre>
                   ) : (
-                    <p className="rounded-2xl border border-dashed border-stone-200 p-4 text-sm text-stone-500">
+                    <p className="rounded border border-dashed border-stone-200 p-4 text-sm text-stone-500">
                       No directions yet for this case.
                     </p>
                   )}
@@ -943,7 +943,7 @@ export default function GreentaggingDetailPage() {
                       <button
                         type="submit"
                         disabled={submitting}
-                        className="rounded-xl bg-orange-500 px-4 py-2 text-sm font-semibold text-white disabled:opacity-60"
+                        className="rounded bg-[#0176d3] px-4 py-2 text-sm font-semibold text-white disabled:opacity-60"
                       >
                         Save case
                       </button>
@@ -952,7 +952,7 @@ export default function GreentaggingDetailPage() {
                           type="button"
                           disabled={submitting}
                           onClick={handleDeleteCase}
-                          className="rounded-xl border border-rose-300/40 px-4 py-2 text-sm font-semibold text-rose-700"
+                          className="rounded border border-rose-300/40 px-4 py-2 text-sm font-semibold text-rose-700"
                         >
                           Delete case
                         </button>
@@ -992,7 +992,7 @@ export default function GreentaggingDetailPage() {
             <button
               type="submit"
               disabled={submitting}
-              className="rounded-xl border border-orange-200 px-4 py-2 text-sm font-semibold text-orange-800 disabled:opacity-60"
+              className="rounded border border-[#d8e6fe] px-4 py-2 text-sm font-semibold text-[#032d60] disabled:opacity-60"
             >
               Add case
             </button>

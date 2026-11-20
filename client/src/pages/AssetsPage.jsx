@@ -170,14 +170,14 @@ export default function AssetsPage() {
         description="Browse equipment by type. Admins and ops leads organize the type list for each site."
         action={
           !isAuthenticated ? (
-            <Link to="/login" className="rounded-xl bg-orange-500 px-4 py-2 text-sm font-semibold text-white">
+            <Link to="/login" className="rounded bg-[#0176d3] px-4 py-2 text-sm font-semibold text-white">
               Sign in to create
             </Link>
           ) : can("assets:write") ? (
             <button
               type="button"
               onClick={() => setShowCreate((open) => !open)}
-              className="rounded-xl bg-orange-500 px-4 py-2 text-sm font-semibold text-white"
+              className="rounded bg-[#0176d3] px-4 py-2 text-sm font-semibold text-white"
             >
               {showCreate ? "Close" : "Add asset"}
             </button>
@@ -202,7 +202,7 @@ export default function AssetsPage() {
         ))}
       </div>
 
-      <div className="mb-6 grid gap-4 rounded-3xl border border-stone-200 bg-white p-4 shadow-sm md:grid-cols-[1fr_220px_auto] md:items-end">
+      <div className="mb-6 grid gap-4 rounded border border-stone-200 bg-white p-4 shadow-[0_2px_2px_0_rgba(0,0,0,0.1)] md:grid-cols-[1fr_220px_auto] md:items-end">
         <label className="grid gap-1.5">
           <span className="text-sm font-medium text-stone-700">Search</span>
           <input
@@ -210,7 +210,7 @@ export default function AssetsPage() {
             value={search}
             onChange={(event) => setSearch(event.target.value)}
             placeholder="Name, type, serial, description, or site"
-            className="w-full rounded-xl border border-stone-200 bg-white px-3 py-2 text-sm text-stone-900 placeholder:text-stone-400"
+            className="w-full rounded border border-stone-200 bg-white px-3 py-2 text-sm text-stone-900 placeholder:text-stone-400"
           />
         </label>
         <label className="grid gap-1.5">
@@ -218,7 +218,7 @@ export default function AssetsPage() {
           <select
             value={siteFilter}
             onChange={(event) => selectSite(event.target.value)}
-            className="w-full rounded-xl border border-stone-200 bg-white px-3 py-2 text-sm text-stone-900"
+            className="w-full rounded border border-stone-200 bg-white px-3 py-2 text-sm text-stone-900"
           >
             <option value="">All sites</option>
             {sites.map((site) => (
@@ -235,7 +235,7 @@ export default function AssetsPage() {
               setSiteFilter("");
               setTypeFilter("");
             }}
-            className="rounded-xl border border-stone-300 px-4 py-2 text-sm font-medium text-stone-700"
+            className="rounded border border-stone-300 px-4 py-2 text-sm font-medium text-stone-700"
           >
             Clear
           </button>
@@ -256,7 +256,7 @@ export default function AssetsPage() {
       ) : null}
 
       {showCreate && isAuthenticated && can("assets:write") ? (
-        <form className="mb-6 grid gap-4 rounded-3xl border border-stone-200 bg-white p-6 shadow-sm md:grid-cols-2" onSubmit={handleCreate}>
+        <form className="mb-6 grid gap-4 rounded border border-stone-200 bg-white p-6 shadow-[0_2px_2px_0_rgba(0,0,0,0.1)] md:grid-cols-2" onSubmit={handleCreate}>
           <FormField
             label="Site"
             name="siteId"
@@ -307,7 +307,7 @@ export default function AssetsPage() {
             <button
               type="submit"
               disabled={submitting || sites.length === 0}
-              className="rounded-xl bg-stone-900 px-4 py-2 text-sm font-semibold text-white disabled:opacity-60"
+              className="rounded border border-[#c9c9c9] bg-white px-4 py-2 text-sm font-semibold text-[#181818] disabled:opacity-60"
             >
               {submitting ? "Creating..." : "Create asset"}
             </button>
@@ -344,12 +344,12 @@ export default function AssetsPage() {
               <section key={group.name}>
                 <h3 className="mb-3 text-xl font-semibold text-stone-900">{group.name}</h3>
                 {group.assets.length === 0 ? (
-                  <p className="rounded-3xl border border-dashed border-stone-200 px-5 py-4 text-sm text-stone-500">
+                  <p className="rounded border border-dashed border-stone-200 px-5 py-4 text-sm text-stone-500">
                     No assets in this type yet.
                   </p>
                 ) : null}
                 {group.assets.length > 0 ? (
-                <ul className="divide-y divide-stone-200 overflow-hidden rounded-3xl border border-stone-200 bg-white">
+                <ul className="divide-y divide-stone-200 overflow-hidden rounded border border-stone-200 bg-white">
                   {group.assets.map((asset) => (
                     <li key={asset.id}>
                       <Link
@@ -382,12 +382,12 @@ function TypeLink({ label, count, active, onClick }) {
     <button
       type="button"
       onClick={onClick}
-      className={`flex shrink-0 items-center justify-between gap-3 rounded-2xl px-4 py-3 text-left text-sm font-semibold lg:w-full ${
-        active ? "bg-orange-500 text-white" : "bg-white text-stone-900 ring-1 ring-inset ring-stone-200"
+      className={`flex shrink-0 items-center justify-between gap-3 rounded px-4 py-3 text-left text-sm font-semibold lg:w-full ${
+        active ? "bg-[#0176d3] text-white" : "bg-white text-stone-900 ring-1 ring-inset ring-stone-200"
       }`}
     >
       <span>{label}</span>
-      <span className={active ? "text-orange-900" : "text-stone-500"}>{count}</span>
+      <span className={active ? "text-white/80" : "text-stone-500"}>{count}</span>
     </button>
   );
 }
@@ -399,12 +399,12 @@ function FilterChip({ label, count, active, onClick }) {
       onClick={onClick}
       className={`rounded-full px-3 py-1.5 text-sm font-medium ring-1 ring-inset ${
         active
-          ? "bg-orange-500 text-white ring-orange-400"
+          ? "bg-[#0176d3] text-white ring-[#0176d3]"
           : "bg-white text-stone-700 ring-stone-200 hover:bg-stone-100"
       }`}
     >
       {label}
-      <span className={active ? "ml-1.5 text-orange-900" : "ml-1.5 text-stone-500"}>{count}</span>
+      <span className={active ? "ml-1.5 text-white/80" : "ml-1.5 text-stone-500"}>{count}</span>
     </button>
   );
 }

@@ -1,7 +1,7 @@
 import { getRoleDescription, getRoleLabel } from "../lib/permissions.js";
 
 const selectClassName =
-  "mt-2 w-full rounded-xl border border-stone-200 bg-white px-3 py-2 text-sm text-stone-900 outline-none ring-orange-500 focus:ring-2 disabled:bg-stone-100/50";
+  "mt-2 w-full rounded border border-stone-200 bg-white px-3 py-2 text-sm text-stone-900 outline-none ring-[#0176d3] focus:ring-2 disabled:bg-stone-100/50";
 
 export default function RoleSelect({
   label,

@@ -49,8 +49,8 @@ const BOARD_COLUMNS = [
     title: "Complete",
     description: "Greentagging finished",
     statuses: ["COMPLETED"],
-    accent: "border-orange-200 bg-orange-50",
-    header: "text-orange-800",
+    accent: "border-[#d8e6fe] bg-[#eef4ff]",
+    header: "text-[#032d60]",
   },
 ];
 
@@ -80,9 +80,9 @@ function AssignmentCard({ item, writable, busyId, onMove, selected, onSelect }) 
   return (
     <article
       className={[
-        "rounded-2xl border p-4 shadow-sm transition",
+        "rounded border p-4 shadow-[0_2px_2px_0_rgba(0,0,0,0.1)] transition",
         selected
-          ? "border-orange-400 bg-orange-50 ring-2 ring-orange-200"
+          ? "border-[#0176d3] bg-[#eef4ff] ring-2 ring-[#d8e6fe]"
           : "border-stone-200/80 bg-white/70 hover:border-stone-300",
       ].join(" ")}
     >
@@ -109,7 +109,7 @@ function AssignmentCard({ item, writable, busyId, onMove, selected, onSelect }) 
         ) : null}
 
         {selected ? (
-          <p className="mt-3 text-xs font-semibold uppercase tracking-wide text-orange-800">
+          <p className="mt-3 text-xs font-semibold uppercase tracking-wide text-[#032d60]">
             Checklist open below ↓
           </p>
         ) : (
@@ -126,7 +126,7 @@ function AssignmentCard({ item, writable, busyId, onMove, selected, onSelect }) 
               document.getElementById("overall-checklist")?.scrollIntoView({ behavior: "smooth", block: "start" });
             });
           }}
-          className="rounded-lg bg-orange-500 px-3 py-1.5 text-xs font-semibold text-white"
+          className="rounded bg-[#0176d3] px-3 py-1.5 text-xs font-semibold text-white"
         >
           Open checklist
         </button>
@@ -135,7 +135,7 @@ function AssignmentCard({ item, writable, busyId, onMove, selected, onSelect }) 
             type="button"
             disabled={isBusy}
             onClick={() => onMove(item.id, "IN_PROGRESS")}
-            className="rounded-lg bg-amber-500/20 px-3 py-1.5 text-xs font-semibold text-amber-200 ring-1 ring-amber-500/40 disabled:opacity-60"
+            className="rounded bg-amber-500/20 px-3 py-1.5 text-xs font-semibold text-amber-200 ring-1 ring-amber-500/40 disabled:opacity-60"
           >
             Start
           </button>
@@ -145,7 +145,7 @@ function AssignmentCard({ item, writable, busyId, onMove, selected, onSelect }) 
             type="button"
             disabled={isBusy}
             onClick={() => onMove(item.id, "COMPLETED")}
-            className="rounded-lg bg-orange-500/20 px-3 py-1.5 text-xs font-semibold text-orange-200 ring-1 ring-orange-200 disabled:opacity-60"
+            className="rounded bg-[#0176d3]/20 px-3 py-1.5 text-xs font-semibold text-[#0b5cab] ring-1 ring-[#d8e6fe] disabled:opacity-60"
           >
             Mark complete
           </button>
@@ -155,7 +155,7 @@ function AssignmentCard({ item, writable, busyId, onMove, selected, onSelect }) 
             type="button"
             disabled={isBusy}
             onClick={() => onMove(item.id, "OPEN")}
-            className="rounded-lg border border-stone-200 px-3 py-1.5 text-xs font-medium text-stone-600 disabled:opacity-60"
+            className="rounded border border-stone-200 px-3 py-1.5 text-xs font-medium text-stone-600 disabled:opacity-60"
           >
             Reopen
           </button>
@@ -165,7 +165,7 @@ function AssignmentCard({ item, writable, busyId, onMove, selected, onSelect }) 
             type="button"
             disabled={isBusy}
             onClick={() => onMove(item.id, "OPEN")}
-            className="rounded-lg border border-stone-200 px-3 py-1.5 text-xs font-medium text-stone-600 disabled:opacity-60"
+            className="rounded border border-stone-200 px-3 py-1.5 text-xs font-medium text-stone-600 disabled:opacity-60"
           >
             Resume queue
           </button>
@@ -351,7 +351,7 @@ export default function GreentaggingPage() {
             <button
               type="button"
               onClick={() => setShowCreate((open) => !open)}
-              className="rounded-xl bg-orange-500 px-4 py-2 text-sm font-semibold text-white"
+              className="rounded bg-[#0176d3] px-4 py-2 text-sm font-semibold text-white"
             >
               {showCreate ? "Close form" : "Log arrival from field"}
             </button>
@@ -366,9 +366,9 @@ export default function GreentaggingPage() {
           type="button"
           onClick={() => setMode("jobs")}
           className={[
-            "rounded-xl px-4 py-2 text-sm font-semibold transition",
+            "rounded px-4 py-2 text-sm font-semibold transition",
             mode === "jobs"
-              ? "bg-orange-500 text-white"
+              ? "bg-[#0176d3] text-white"
               : "border border-stone-200 bg-white/60 text-stone-600 hover:border-stone-300",
           ].join(" ")}
         >
@@ -378,9 +378,9 @@ export default function GreentaggingPage() {
           type="button"
           onClick={() => setMode("standalone")}
           className={[
-            "rounded-xl px-4 py-2 text-sm font-semibold transition",
+            "rounded px-4 py-2 text-sm font-semibold transition",
             mode === "standalone"
-              ? "bg-orange-500 text-white"
+              ? "bg-[#0176d3] text-white"
               : "border border-stone-200 bg-white/60 text-stone-600 hover:border-stone-300",
           ].join(" ")}
         >
@@ -392,7 +392,7 @@ export default function GreentaggingPage() {
         <StandaloneChecklistsSection writable={writable} canDelete={canDelete} />
       ) : (
         <>
-      <div className="mb-6 rounded-3xl border-2 border-orange-200 bg-orange-50 p-4 shadow-sm">
+      <div className="mb-6 rounded border-2 border-[#d8e6fe] bg-[#eef4ff] p-4 shadow-[0_2px_2px_0_rgba(0,0,0,0.1)]">
         <FormField
           label="Choose any job to edit (including completed)"
           name="selectedJob"
@@ -422,16 +422,16 @@ export default function GreentaggingPage() {
         {[
           { id: "awaiting", label: "Awaiting from field", value: counts.awaiting, tone: "text-sky-800" },
           { id: "in_progress", label: "In progress", value: counts.in_progress, tone: "text-amber-800" },
-          { id: "complete", label: "Complete", value: counts.complete, tone: "text-orange-800" },
+          { id: "complete", label: "Complete", value: counts.complete, tone: "text-[#032d60]" },
         ].map((card) => (
-          <div key={card.id} className="rounded-2xl border border-stone-200 bg-white p-4">
+          <div key={card.id} className="rounded border border-stone-200 bg-white p-4">
             <p className="text-xs uppercase tracking-wide text-stone-500">{card.label}</p>
             <p className={`mt-2 text-3xl font-bold ${card.tone}`}>{loading ? "…" : card.value}</p>
           </div>
         ))}
       </div>
 
-      <div className="mb-6 flex flex-wrap items-end gap-4 rounded-3xl border border-stone-200 bg-white p-4 shadow-sm">
+      <div className="mb-6 flex flex-wrap items-end gap-4 rounded border border-stone-200 bg-white p-4 shadow-[0_2px_2px_0_rgba(0,0,0,0.1)]">
         <div className="min-w-[14rem] flex-1">
           <FormField
             label="Filter board by asset"
@@ -477,7 +477,7 @@ export default function GreentaggingPage() {
 
       {isAuthenticated && writable && showCreate ? (
         <form
-          className="mb-6 space-y-4 rounded-3xl border border-sky-500/30 bg-white p-6 shadow-sm"
+          className="mb-6 space-y-4 rounded border border-sky-500/30 bg-white p-6 shadow-[0_2px_2px_0_rgba(0,0,0,0.1)]"
           onSubmit={handleCreate}
         >
           <div>
@@ -547,7 +547,7 @@ export default function GreentaggingPage() {
           <button
             type="submit"
             disabled={submitting}
-            className="rounded-xl bg-orange-500 px-4 py-2 text-sm font-semibold text-white disabled:opacity-60"
+            className="rounded bg-[#0176d3] px-4 py-2 text-sm font-semibold text-white disabled:opacity-60"
           >
             Add to awaiting queue
           </button>
@@ -561,7 +561,7 @@ export default function GreentaggingPage() {
           {columns.map((column) => (
             <section
               key={column.id}
-              className={`rounded-3xl border p-4 shadow-sm ${column.accent}`}
+              className={`rounded border p-4 shadow-[0_2px_2px_0_rgba(0,0,0,0.1)] ${column.accent}`}
             >
               <div className="mb-4 flex items-start justify-between gap-3">
                 <div>
@@ -574,7 +574,7 @@ export default function GreentaggingPage() {
               </div>
 
               {column.items.length === 0 ? (
-                <p className="rounded-2xl border border-dashed border-stone-200/80 px-3 py-8 text-center text-sm text-stone-500">
+                <p className="rounded border border-dashed border-stone-200/80 px-3 py-8 text-center text-sm text-stone-500">
                   Nothing here right now.
                 </p>
               ) : (
@@ -598,7 +598,7 @@ export default function GreentaggingPage() {
       ) : null}
 
       {!loading && showCancelled && cancelledItems.length > 0 ? (
-        <section className="mt-6 rounded-3xl border border-stone-200 bg-white p-4">
+        <section className="mt-6 rounded border border-stone-200 bg-white p-4">
           <h3 className="mb-3 text-sm font-semibold uppercase tracking-wide text-stone-500">Cancelled</h3>
           <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
             {cancelledItems.map((item) => (

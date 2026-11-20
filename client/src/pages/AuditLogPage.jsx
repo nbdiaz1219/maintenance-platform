@@ -56,7 +56,7 @@ export default function AuditLogPage() {
       <ErrorBanner message={error} />
       {loading ? <LoadingState label="Loading audit log..." /> : null}
       {!loading ? (
-        <div className="overflow-hidden rounded-3xl border border-stone-200 bg-white shadow-sm">
+        <div className="overflow-hidden rounded border border-stone-200 bg-white shadow-[0_2px_2px_0_rgba(0,0,0,0.1)]">
           <table className="min-w-full text-left text-sm">
             <thead className="bg-stone-100/70 text-xs uppercase tracking-wide text-stone-500">
               <tr>

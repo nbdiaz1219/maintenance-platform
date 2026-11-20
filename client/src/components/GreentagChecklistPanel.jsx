@@ -51,9 +51,9 @@ export default function GreentagChecklistPanel({
     return (
       <section
         id="overall-checklist"
-        className="scroll-mt-6 rounded-3xl border-2 border-dashed border-orange-200 bg-orange-50 p-8 text-center"
+        className="scroll-mt-6 rounded border-2 border-dashed border-[#d8e6fe] bg-[#eef4ff] p-8 text-center"
       >
-        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-orange-800/90">Overall checklist</p>
+        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#0176d3]">Overall checklist</p>
         <h3 className="mt-2 text-xl font-semibold text-stone-900">Select a greentagging job</h3>
         <p className="mt-2 text-sm text-stone-500">
           Click any card on the board above. Its checklist and photo uploads will show here.
@@ -65,12 +65,12 @@ export default function GreentagChecklistPanel({
   return (
     <section
       id="overall-checklist"
-      className="scroll-mt-6 rounded-2xl border border-orange-200 bg-white p-6 shadow-sm"
+      className="scroll-mt-6 rounded border border-[#d8e6fe] bg-white p-6 shadow-[0_2px_2px_0_rgba(0,0,0,0.1)]"
     >
       {showHeader ? (
         <div className="mb-5 flex flex-wrap items-end justify-between gap-3">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-orange-800/90">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#0176d3]">
               Overall checklist
             </p>
             <h3 className="mt-1 text-2xl font-semibold tracking-tight text-stone-900">{assignment.title}</h3>
@@ -83,13 +83,13 @@ export default function GreentagChecklistPanel({
           </div>
           <div className="flex flex-wrap items-center gap-2">
             {items.length ? (
-              <span className="rounded-full bg-orange-500/20 px-3 py-1 text-sm font-semibold text-orange-200">
+              <span className="rounded-full bg-[#0176d3]/20 px-3 py-1 text-sm font-semibold text-[#0b5cab]">
                 {doneCount}/{items.length} done
               </span>
             ) : null}
             <Link
               to={`/greentagging/${assignment.id}`}
-              className="rounded-xl border border-stone-200 px-3 py-1.5 text-xs font-medium text-stone-700"
+              className="rounded border border-stone-200 px-3 py-1.5 text-xs font-medium text-stone-700"
             >
               Full details
             </Link>
@@ -124,19 +124,19 @@ export default function GreentagChecklistPanel({
           <button
             type="submit"
             disabled={busy}
-            className="rounded-xl border border-stone-200 px-3 py-1.5 text-xs font-medium text-stone-700 disabled:opacity-60"
+            className="rounded border border-stone-200 px-3 py-1.5 text-xs font-medium text-stone-700 disabled:opacity-60"
           >
             Save notes
           </button>
         </form>
       ) : assignment.instructions ? (
-        <pre className="mb-4 whitespace-pre-wrap rounded-2xl border border-stone-200 bg-white/70 p-4 text-sm leading-relaxed text-stone-900">
+        <pre className="mb-4 whitespace-pre-wrap rounded border border-stone-200 bg-white/70 p-4 text-sm leading-relaxed text-stone-900">
           {assignment.instructions}
         </pre>
       ) : null}
 
       {items.length === 0 ? (
-        <div className="rounded-2xl border border-dashed border-orange-200 bg-stone-50 px-4 py-8 text-center">
+        <div className="rounded border border-dashed border-[#d8e6fe] bg-stone-50 px-4 py-8 text-center">
           <p className="text-sm text-stone-600">No checklist items yet.</p>
           {writable ? (
             <button
@@ -148,7 +148,7 @@ export default function GreentagChecklistPanel({
                   return response.data;
                 }, "Unable to add starter checklist")
               }
-              className="mt-3 rounded-xl bg-orange-500 px-4 py-2 text-sm font-semibold text-white disabled:opacity-60"
+              className="mt-3 rounded bg-[#0176d3] px-4 py-2 text-sm font-semibold text-white disabled:opacity-60"
             >
               Add starter checklist
             </button>
@@ -163,8 +163,8 @@ export default function GreentagChecklistPanel({
               <li
                 key={item.id}
                 className={[
-                  "rounded-2xl border px-3 py-3",
-                  done ? "border-orange-200 bg-orange-50" : "border-stone-200 bg-stone-100",
+                  "rounded border px-3 py-3",
+                  done ? "border-[#d8e6fe] bg-[#eef4ff]" : "border-stone-200 bg-stone-100",
                 ].join(" ")}
               >
                 <div className="flex items-start gap-3">
@@ -212,7 +212,7 @@ export default function GreentagChecklistPanel({
                         <button
                           type="submit"
                           disabled={busy}
-                          className="rounded-lg bg-orange-500 px-3 py-1.5 text-xs font-semibold text-white disabled:opacity-60"
+                          className="rounded bg-[#0176d3] px-3 py-1.5 text-xs font-semibold text-white disabled:opacity-60"
                         >
                           Save
                         </button>
@@ -223,7 +223,7 @@ export default function GreentagChecklistPanel({
                             setEditingId("");
                             setEditLabel("");
                           }}
-                          className="rounded-lg border border-stone-200 px-3 py-1.5 text-xs text-stone-600"
+                          className="rounded border border-stone-200 px-3 py-1.5 text-xs text-stone-600"
                         >
                           Cancel
                         </button>
@@ -247,7 +247,7 @@ export default function GreentagChecklistPanel({
                               setEditingId(item.id);
                               setEditLabel(item.label);
                             }}
-                            className="text-xs font-medium text-orange-800 hover:underline disabled:opacity-60"
+                            className="text-xs font-medium text-[#032d60] hover:underline disabled:opacity-60"
                           >
                             Edit text
                           </button>
@@ -260,13 +260,13 @@ export default function GreentagChecklistPanel({
                       </p>
                     ) : null}
 
-                    <div className="mt-3 rounded-xl border border-dashed border-stone-200 bg-stone-50 p-3">
+                    <div className="mt-3 rounded border border-dashed border-stone-200 bg-stone-50 p-3">
                       <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
                         <p className="text-xs font-semibold uppercase tracking-wide text-stone-500">
                           Photos {photos.length ? `(${photos.length})` : ""}
                         </p>
                         {writable ? (
-                          <label className="inline-flex cursor-pointer items-center gap-2 rounded-lg bg-orange-500 px-3 py-1.5 text-xs font-semibold text-white hover:bg-orange-400">
+                          <label className="inline-flex cursor-pointer items-center gap-2 rounded bg-[#0176d3] px-3 py-1.5 text-xs font-semibold text-white hover:bg-[#014486]">
                             <input
                               type="file"
                               accept="image/jpeg,image/png,image/webp,image/gif,image/heic,image/heif,.jpg,.jpeg,.png,.webp,.gif,.heic"
@@ -300,7 +300,7 @@ export default function GreentagChecklistPanel({
                                 <img
                                   src={photo.url}
                                   alt={photo.originalName || "Checklist photo"}
-                                  className="h-24 w-24 rounded-xl border border-stone-200 object-cover"
+                                  className="h-24 w-24 rounded border border-stone-200 object-cover"
                                 />
                               </a>
                               {writable ? (
@@ -386,7 +386,7 @@ export default function GreentagChecklistPanel({
           <button
             type="submit"
             disabled={busy}
-            className="rounded-xl border border-orange-200 px-4 py-2 text-sm font-semibold text-orange-800 disabled:opacity-60"
+            className="rounded border border-[#d8e6fe] px-4 py-2 text-sm font-semibold text-[#032d60] disabled:opacity-60"
           >
             Add item
           </button>

@@ -69,7 +69,7 @@ export default function AssetTypeOrganizer({ siteId, sites, types, usedNames, on
   }
 
   return (
-    <section className="mb-6 rounded-3xl border border-stone-200 bg-white p-5 shadow-sm">
+    <section className="mb-6 rounded border border-stone-200 bg-white p-5 shadow-[0_2px_2px_0_rgba(0,0,0,0.1)]">
       <div className="mb-4 flex flex-wrap items-end justify-between gap-3">
         <div>
           <h2 className="text-lg font-semibold text-stone-900">Organize types</h2>
@@ -82,7 +82,7 @@ export default function AssetTypeOrganizer({ siteId, sites, types, usedNames, on
           <select
             value={siteId}
             onChange={(event) => onSiteChange(event.target.value)}
-            className="min-w-48 rounded-xl border border-stone-200 bg-white px-3 py-2 text-sm text-stone-900"
+            className="min-w-48 rounded border border-stone-200 bg-white px-3 py-2 text-sm text-stone-900"
           >
             <option value="">Choose a site</option>
             {sites.map((site) => (
@@ -98,7 +98,7 @@ export default function AssetTypeOrganizer({ siteId, sites, types, usedNames, on
         <p className="text-sm text-stone-500">Choose a site to add, rename, reorder, or remove its types.</p>
       ) : (
         <>
-          <ul className="divide-y divide-stone-200 overflow-hidden rounded-2xl border border-stone-200">
+          <ul className="divide-y divide-stone-200 overflow-hidden rounded border border-stone-200">
             {siteTypes.length === 0 ? (
               <li className="px-4 py-3 text-sm text-stone-500">No types yet for this site.</li>
             ) : null}
@@ -108,19 +108,19 @@ export default function AssetTypeOrganizer({ siteId, sites, types, usedNames, on
                   value={names[type.id] ?? type.name}
                   onChange={(event) => setNames((current) => ({ ...current, [type.id]: event.target.value }))}
                   aria-label={`Type name for ${type.name}`}
-                  className="min-w-40 flex-1 rounded-xl border border-stone-200 bg-white px-3 py-2 text-sm text-stone-900"
+                  className="min-w-40 flex-1 rounded border border-stone-200 bg-white px-3 py-2 text-sm text-stone-900"
                 />
                 <span className="text-xs text-stone-500">{type.assetCount} assets</span>
-                <button type="button" disabled={busyId === type.id} onClick={() => rename(type)} className="rounded-lg px-2 py-1 text-sm font-medium text-stone-900 hover:bg-stone-100">
+                <button type="button" disabled={busyId === type.id} onClick={() => rename(type)} className="rounded px-2 py-1 text-sm font-medium text-stone-900 hover:bg-stone-100">
                   Rename
                 </button>
-                <button type="button" disabled={index === 0 || Boolean(busyId)} onClick={() => move(type, -1)} className="rounded-lg px-2 py-1 text-sm text-stone-700 hover:bg-stone-100 disabled:opacity-40">
+                <button type="button" disabled={index === 0 || Boolean(busyId)} onClick={() => move(type, -1)} className="rounded px-2 py-1 text-sm text-stone-700 hover:bg-stone-100 disabled:opacity-40">
                   Up
                 </button>
-                <button type="button" disabled={index === siteTypes.length - 1 || Boolean(busyId)} onClick={() => move(type, 1)} className="rounded-lg px-2 py-1 text-sm text-stone-700 hover:bg-stone-100 disabled:opacity-40">
+                <button type="button" disabled={index === siteTypes.length - 1 || Boolean(busyId)} onClick={() => move(type, 1)} className="rounded px-2 py-1 text-sm text-stone-700 hover:bg-stone-100 disabled:opacity-40">
                   Down
                 </button>
-                <button type="button" disabled={Boolean(busyId)} onClick={() => remove(type)} className="rounded-lg px-2 py-1 text-sm text-red-300 hover:bg-stone-100">
+                <button type="button" disabled={Boolean(busyId)} onClick={() => remove(type)} className="rounded px-2 py-1 text-sm text-red-300 hover:bg-stone-100">
                   Remove
                 </button>
               </li>
@@ -139,9 +139,9 @@ export default function AssetTypeOrganizer({ siteId, sites, types, usedNames, on
               onChange={(event) => setDraft(event.target.value)}
               placeholder="New type, such as Crawlers"
               aria-label="New asset type"
-              className="min-w-48 flex-1 rounded-xl border border-stone-200 bg-white px-3 py-2 text-sm text-stone-900 placeholder:text-stone-400"
+              className="min-w-48 flex-1 rounded border border-stone-200 bg-white px-3 py-2 text-sm text-stone-900 placeholder:text-stone-400"
             />
-            <button type="submit" disabled={!draft.trim() || Boolean(busyId)} className="rounded-xl bg-orange-500 px-4 py-2 text-sm font-semibold text-white disabled:opacity-60">
+            <button type="submit" disabled={!draft.trim() || Boolean(busyId)} className="rounded bg-[#0176d3] px-4 py-2 text-sm font-semibold text-white disabled:opacity-60">
               Add type
             </button>
           </form>

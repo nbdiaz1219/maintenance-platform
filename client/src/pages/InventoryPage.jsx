@@ -100,7 +100,7 @@ export default function InventoryPage() {
         description="Track part numbers and storage locations for each unit."
         action={
           !isAuthenticated ? (
-            <Link to="/login" className="rounded-xl bg-orange-500 px-4 py-2 text-sm font-semibold text-white">
+            <Link to="/login" className="rounded bg-[#0176d3] px-4 py-2 text-sm font-semibold text-white">
               Sign in to manage
             </Link>
           ) : !can("inventory:write") ? (
@@ -111,13 +111,13 @@ export default function InventoryPage() {
 
       <ErrorBanner message={error} />
 
-      <div className="mb-6 rounded-3xl border border-stone-200 bg-white p-4 shadow-sm">
+      <div className="mb-6 rounded border border-stone-200 bg-white p-4 shadow-[0_2px_2px_0_rgba(0,0,0,0.1)]">
         <label className="block text-sm font-medium text-stone-700">
           Filter by unit
           <select
             value={assetFilter}
             onChange={(event) => setAssetFilter(event.target.value)}
-            className="mt-2 w-full rounded-xl border border-stone-200 px-3 py-2 text-sm md:max-w-sm"
+            className="mt-2 w-full rounded border border-stone-200 px-3 py-2 text-sm md:max-w-sm"
           >
             <option value="">All units</option>
             {assets.map((asset) => (
@@ -131,7 +131,7 @@ export default function InventoryPage() {
 
       {isAuthenticated && can("inventory:write") ? (
         <form
-          className="mb-6 grid gap-4 rounded-3xl border border-stone-200 bg-white p-6 shadow-sm md:grid-cols-2"
+          className="mb-6 grid gap-4 rounded border border-stone-200 bg-white p-6 shadow-[0_2px_2px_0_rgba(0,0,0,0.1)] md:grid-cols-2"
           onSubmit={handleCreate}
         >
           <FormField
@@ -182,7 +182,7 @@ export default function InventoryPage() {
             <button
               type="submit"
               disabled={submitting || assets.length === 0}
-              className="rounded-xl bg-stone-900 px-4 py-2 text-sm font-semibold text-white disabled:opacity-60"
+              className="rounded border border-[#c9c9c9] bg-white px-4 py-2 text-sm font-semibold text-[#181818] disabled:opacity-60"
             >
               {submitting ? "Adding..." : "Add part"}
             </button>

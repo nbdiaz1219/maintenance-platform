@@ -114,23 +114,23 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[#f4f4f1] px-4 py-8">
-      <div className="flow-orb -left-20 top-0 h-96 w-96 bg-orange-500/20" />
+    <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[#f3f3f3] px-4 py-8">
+      <div className="flow-orb -left-20 top-0 h-96 w-96 bg-[#0176d3]/20" />
       <div className="flow-orb right-0 top-1/4 h-80 w-80 bg-sky-500/15 [animation-delay:-4s]" />
 
-      <div className="flow-page relative mx-auto w-full max-w-md rounded-[2rem] border border-stone-200 bg-white p-8 shadow-sm backdrop-blur-md">
-        <p className="text-sm font-semibold uppercase tracking-wide text-orange-700">
+      <div className="flow-page relative mx-auto w-full max-w-md rounded border border-stone-200 bg-white p-8 shadow-[0_2px_2px_0_rgba(0,0,0,0.1)] ">
+        <p className="text-sm font-semibold uppercase tracking-wide text-[#0176d3]">
           EMAT Tracking Database
         </p>
         {version ? <p className="mt-2 text-xs text-stone-400">V{version}</p> : null}
-        <h2 className="mt-3 text-3xl font-bold">{mode === "login" ? "Sign in" : "Request access"}</h2>
+        <h2 className="mt-3 text-2xl font-bold text-[#181818]">{mode === "login" ? "Sign in" : "Request access"}</h2>
         <p className="mt-2 text-sm text-stone-500">
           {mode === "login"
             ? "Use your account after an admin has approved your access request."
             : "Create an account request. An admin must approve it before you can sign in."}
         </p>
 
-        <div className="mt-6 flex gap-2 rounded-2xl bg-stone-100 p-1">
+        <div className="mt-6 flex gap-2 rounded bg-stone-100 p-1">
           {["login", "register"].map((value) => (
             <button
               key={value}
@@ -141,8 +141,8 @@ export default function LoginPage() {
                 setSuccess("");
               }}
               className={[
-                "flex-1 rounded-xl px-3 py-2 text-sm font-medium capitalize",
-                mode === value ? "bg-white text-stone-900 shadow-sm" : "text-stone-500",
+                "flex-1 rounded px-3 py-2 text-sm font-medium capitalize",
+                mode === value ? "bg-white text-stone-900 shadow-[0_2px_2px_0_rgba(0,0,0,0.1)]" : "text-stone-500",
               ].join(" ")}
             >
               {value === "register" ? "Request access" : value}
@@ -213,7 +213,7 @@ export default function LoginPage() {
           />
           {mode === "login" ? (
             <div className="-mt-2 text-right">
-              <Link to="/forgot-password" className="text-sm font-medium text-orange-700 hover:underline">
+              <Link to="/forgot-password" className="text-sm font-medium text-[#0176d3] hover:underline">
                 Forgot password?
               </Link>
             </div>
@@ -221,7 +221,7 @@ export default function LoginPage() {
 
           <ErrorBanner message={error} />
           {success ? (
-            <div className="rounded-xl border border-orange-200 bg-orange-50 px-4 py-3 text-sm text-orange-900">
+            <div className="rounded border border-[#d8e6fe] bg-[#eef4ff] px-4 py-3 text-sm text-[#032d60]">
               {success}
             </div>
           ) : null}
@@ -234,7 +234,7 @@ export default function LoginPage() {
                 isSiteScopedRole(form.requestedRole) &&
                 form.requestedSiteIds.length === 0)
             }
-            className="w-full rounded-xl bg-orange-500 px-4 py-3 text-sm font-semibold text-white hover:bg-orange-600 disabled:opacity-60"
+            className="w-full rounded bg-[#0176d3] px-4 py-3 text-sm font-semibold text-white hover:bg-[#014486] disabled:opacity-60"
           >
             {submitting
               ? "Please wait..."

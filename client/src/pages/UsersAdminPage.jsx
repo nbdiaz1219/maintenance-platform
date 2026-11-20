@@ -193,14 +193,14 @@ export default function UsersAdminPage() {
       />
       <ErrorBanner message={error} />
       {notice ? (
-        <div className="rounded-2xl border border-orange-200 bg-orange-50 px-4 py-3 text-sm text-orange-900">
+        <div className="rounded border border-[#d8e6fe] bg-[#eef4ff] px-4 py-3 text-sm text-[#032d60]">
           {notice}
         </div>
       ) : null}
 
       {canManage ? (
         <div className="grid gap-6 lg:grid-cols-2">
-          <form className="space-y-4 rounded-3xl border border-stone-200 bg-white p-6 shadow-sm" onSubmit={handleCreateUser}>
+          <form className="space-y-4 rounded border border-stone-200 bg-white p-6 shadow-[0_2px_2px_0_rgba(0,0,0,0.1)]" onSubmit={handleCreateUser}>
             <h3 className="text-lg font-semibold">Add user</h3>
             <p className="text-sm text-stone-500">Creates an active account immediately.</p>
             <FormField
@@ -264,13 +264,13 @@ export default function UsersAdminPage() {
             <button
               type="submit"
               disabled={creating || (isSiteScopedRole(createForm.role) && createForm.siteIds.length === 0)}
-              className="rounded-xl bg-orange-500 px-4 py-2 text-sm font-medium text-white disabled:opacity-60"
+              className="rounded bg-[#0176d3] px-4 py-2 text-sm font-medium text-white disabled:opacity-60"
             >
               {creating ? "Creating..." : "Create user"}
             </button>
           </form>
 
-          <form className="space-y-4 rounded-3xl border border-stone-200 bg-white p-6 shadow-sm" onSubmit={handleInvite}>
+          <form className="space-y-4 rounded border border-stone-200 bg-white p-6 shadow-[0_2px_2px_0_rgba(0,0,0,0.1)]" onSubmit={handleInvite}>
             <h3 className="text-lg font-semibold">Invite by email</h3>
             <p className="text-sm text-stone-500">
               Sends a link to set their password. If mail isn’t configured, you’ll get a shareable link.
@@ -321,7 +321,7 @@ export default function UsersAdminPage() {
             <button
               type="submit"
               disabled={inviting || (isSiteScopedRole(inviteForm.role) && inviteForm.siteIds.length === 0)}
-              className="rounded-xl bg-orange-500 px-4 py-2 text-sm font-medium text-white disabled:opacity-60"
+              className="rounded bg-[#0176d3] px-4 py-2 text-sm font-medium text-white disabled:opacity-60"
             >
               {inviting ? "Sending..." : "Send invite"}
             </button>
@@ -332,7 +332,7 @@ export default function UsersAdminPage() {
       {loading ? <LoadingState label="Loading users..." /> : null}
 
       {!loading && invites.length > 0 ? (
-        <div className="overflow-hidden rounded-3xl border border-stone-200 bg-white shadow-sm">
+        <div className="overflow-hidden rounded border border-stone-200 bg-white shadow-[0_2px_2px_0_rgba(0,0,0,0.1)]">
           <div className="border-b border-stone-200 px-4 py-3">
             <h3 className="font-semibold">Pending invites</h3>
           </div>
@@ -358,7 +358,7 @@ export default function UsersAdminPage() {
                   <td className="px-4 py-3">
                     <button
                       type="button"
-                      className="text-xs font-medium text-orange-700 hover:underline"
+                      className="text-xs font-medium text-[#0176d3] hover:underline"
                       onClick={() => navigator.clipboard?.writeText(invite.inviteUrl)}
                     >
                       Copy link
@@ -370,7 +370,7 @@ export default function UsersAdminPage() {
                         type="button"
                         disabled={savingId === invite.id}
                         onClick={() => handleRevokeInvite(invite.id)}
-                        className="rounded-xl border border-stone-200 px-3 py-1.5 text-xs font-medium"
+                        className="rounded border border-stone-200 px-3 py-1.5 text-xs font-medium"
                       >
                         Revoke
                       </button>
@@ -384,7 +384,7 @@ export default function UsersAdminPage() {
       ) : null}
 
       {!loading ? (
-        <div className="overflow-hidden rounded-3xl border border-stone-200 bg-white shadow-sm">
+        <div className="overflow-hidden rounded border border-stone-200 bg-white shadow-[0_2px_2px_0_rgba(0,0,0,0.1)]">
           <table className="min-w-full text-left text-sm">
             <thead className="bg-stone-100/70 text-xs uppercase tracking-wide text-stone-500">
               <tr>
@@ -405,7 +405,7 @@ export default function UsersAdminPage() {
                       className={[
                         "inline-flex rounded-full px-2.5 py-1 text-xs font-medium capitalize",
                         user.status === "ACTIVE"
-                          ? "bg-orange-50 text-orange-800"
+                          ? "bg-[#eef4ff] text-[#032d60]"
                           : "bg-amber-100 text-amber-800",
                       ].join(" ")}
                     >

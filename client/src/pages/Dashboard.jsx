@@ -12,7 +12,7 @@ const PRIORITY_ORDER = ["LOW", "MEDIUM", "HIGH", "CRITICAL"];
 const PRIORITY_BAR_COLORS = {
   LOW: "bg-slate-400",
   MEDIUM: "bg-amber-400",
-  HIGH: "bg-orange-500",
+  HIGH: "bg-[#0176d3]",
   CRITICAL: "bg-rose-500",
 };
 
@@ -25,9 +25,9 @@ function clampPercent(value) {
 function severityFillColor(percent) {
   const p = clampPercent(percent);
   if (p >= 75) return "bg-rose-500";
-  if (p >= 50) return "bg-orange-500";
+  if (p >= 50) return "bg-[#0176d3]";
   if (p >= 25) return "bg-amber-400";
-  return "bg-orange-500";
+  return "bg-[#0176d3]";
 }
 
 function MetricBarTrack({ children, className = "" }) {
@@ -199,7 +199,7 @@ export default function Dashboard() {
         description="Overview of assets and work orders across your maintenance program."
         action={
           !isAuthenticated ? (
-            <Link to="/login" className="rounded-xl bg-orange-500 px-4 py-2 text-sm font-semibold text-white">
+            <Link to="/login" className="rounded bg-[#0176d3] px-4 py-2 text-sm font-semibold text-white">
               Sign in
             </Link>
           ) : null
@@ -218,7 +218,7 @@ export default function Dashboard() {
         <article className="flow-panel p-6">
           <div className="flex items-center justify-between gap-3">
             <h3 className="text-xl font-semibold">Recent assets</h3>
-            <Link to="/assets" className="text-sm font-medium text-orange-700 hover:text-orange-900">
+            <Link to="/assets" className="text-sm font-medium text-[#0176d3] hover:text-[#032d60]">
               View all
             </Link>
           </div>
@@ -229,7 +229,7 @@ export default function Dashboard() {
                 <Link
                   key={asset.id}
                   to={`/assets/${asset.id}`}
-                  className="flex items-center justify-between gap-3 rounded-xl py-3 transition-colors duration-300 hover:bg-stone-100/40"
+                  className="flex items-center justify-between gap-3 rounded py-3 transition-colors duration-300 hover:bg-stone-100/40"
                 >
                   <div>
                     <p className="font-medium">{asset.name}</p>
@@ -245,11 +245,11 @@ export default function Dashboard() {
         <article className="flow-panel p-6">
           <div className="flex items-center justify-between gap-3">
             <h3 className="text-xl font-semibold">Recent work orders</h3>
-            <Link to="/workorders" className="text-sm font-medium text-orange-700 hover:text-orange-900">
+            <Link to="/workorders" className="text-sm font-medium text-[#0176d3] hover:text-[#032d60]">
               View all
             </Link>
           </div>
-          <div className="mt-4 overflow-hidden rounded-2xl border border-stone-200/80">
+          <div className="mt-4 overflow-hidden rounded border border-stone-200/80">
             <table className="w-full border-collapse text-left text-sm">
               <thead className="bg-stone-100/70 text-stone-600">
                 <tr>
@@ -271,7 +271,7 @@ export default function Dashboard() {
                   workOrders.slice(0, 8).map((order) => (
                     <tr key={order.id} className="hover:bg-stone-100/40">
                       <td className="p-3">
-                        <Link to={`/workorders/${order.id}`} className="font-mono text-xs text-orange-700">
+                        <Link to={`/workorders/${order.id}`} className="font-mono text-xs text-[#0176d3]">
                           {order.code}
                         </Link>
                       </td>
@@ -301,7 +301,7 @@ export default function Dashboard() {
         <article className="flow-panel p-6">
           <div className="flex items-center justify-between gap-3">
             <h3 className="text-xl font-semibold">Department SOPs</h3>
-            <Link to="/sops" className="text-sm font-medium text-orange-700 hover:text-orange-900">
+            <Link to="/sops" className="text-sm font-medium text-[#0176d3] hover:text-[#032d60]">
               View all
             </Link>
           </div>
@@ -312,9 +312,9 @@ export default function Dashboard() {
                 <Link
                   key={sop.id}
                   to={`/sops/${sop.id}`}
-                  className="flow-card block p-4 transition-transform duration-300 hover:-translate-y-0.5"
+                  className="flow-card block p-4  "
                 >
-                  <p className="text-xs font-semibold uppercase tracking-wide text-orange-700">{sop.department}</p>
+                  <p className="text-xs font-semibold uppercase tracking-wide text-[#0176d3]">{sop.department}</p>
                   <p className="mt-1 font-medium">{sop.title}</p>
                   <p className="mt-1 text-sm text-stone-500">
                     {[sop.summary, `v${sop.version}`].filter(Boolean).join(" · ")}
@@ -324,7 +324,7 @@ export default function Dashboard() {
             {!loading && sops.length === 0 ? (
               <p className="text-sm text-stone-500 sm:col-span-2 lg:col-span-3">
                 No SOPs published yet.{" "}
-                <Link to="/sops" className="font-medium text-orange-700 hover:underline">
+                <Link to="/sops" className="font-medium text-[#0176d3] hover:underline">
                   Add your first department SOP
                 </Link>
                 .

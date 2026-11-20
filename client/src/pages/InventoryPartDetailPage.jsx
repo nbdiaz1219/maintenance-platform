@@ -107,7 +107,7 @@ export default function InventoryPartDetailPage() {
       {!part ? (
         <p className="text-sm text-stone-500">
           Part not found.{" "}
-          <Link to="/inventory" className="font-medium text-orange-700">
+          <Link to="/inventory" className="font-medium text-[#0176d3]">
             Back to inventory
           </Link>
         </p>
@@ -116,7 +116,7 @@ export default function InventoryPartDetailPage() {
       {part && isAuthenticated && can("inventory:write") ? (
         <form
           onSubmit={handleSave}
-          className="grid gap-4 rounded-3xl border border-stone-200 bg-white p-6 shadow-sm md:grid-cols-2"
+          className="grid gap-4 rounded border border-stone-200 bg-white p-6 shadow-[0_2px_2px_0_rgba(0,0,0,0.1)] md:grid-cols-2"
         >
           <FormField
             label="Unit (asset)"
@@ -151,7 +151,7 @@ export default function InventoryPartDetailPage() {
             <button
               type="submit"
               disabled={submitting}
-              className="rounded-xl bg-orange-500 px-4 py-2 text-sm font-semibold text-white disabled:opacity-60"
+              className="rounded bg-[#0176d3] px-4 py-2 text-sm font-semibold text-white disabled:opacity-60"
             >
               {submitting ? "Saving..." : "Save changes"}
             </button>
@@ -160,18 +160,18 @@ export default function InventoryPartDetailPage() {
                 type="button"
                 onClick={handleDelete}
                 disabled={submitting}
-                className="rounded-xl border border-rose-200 px-4 py-2 text-sm font-medium text-rose-700 disabled:opacity-60"
+                className="rounded border border-rose-200 px-4 py-2 text-sm font-medium text-rose-700 disabled:opacity-60"
               >
                 Delete part
               </button>
             ) : null}
-            <Link to="/inventory" className="rounded-xl border border-stone-200 px-4 py-2 text-sm font-medium text-stone-700">
+            <Link to="/inventory" className="rounded border border-stone-200 px-4 py-2 text-sm font-medium text-stone-700">
               Back to inventory
             </Link>
           </div>
         </form>
       ) : part ? (
-        <div className="rounded-3xl border border-stone-200 bg-white p-6 shadow-sm">
+        <div className="rounded border border-stone-200 bg-white p-6 shadow-[0_2px_2px_0_rgba(0,0,0,0.1)]">
           <dl className="grid gap-4 text-sm md:grid-cols-2">
             <div>
               <dt className="text-stone-500">Unit</dt>
@@ -195,7 +195,7 @@ export default function InventoryPartDetailPage() {
             </div>
           </dl>
           {!isAuthenticated ? (
-            <Link to="/login" className="mt-4 inline-flex rounded-xl bg-orange-500 px-4 py-2 text-sm font-semibold text-white">
+            <Link to="/login" className="mt-4 inline-flex rounded bg-[#0176d3] px-4 py-2 text-sm font-semibold text-white">
               Sign in to edit
             </Link>
           ) : null}

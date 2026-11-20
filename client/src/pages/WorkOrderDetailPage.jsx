@@ -221,7 +221,7 @@ export default function WorkOrderDetailPage() {
           <div className="flex items-center gap-3">
             <StatusBadge value={workOrder.status} />
             <StatusBadge value={workOrder.priority} />
-            <Link to="/workorders" className="rounded-xl border border-stone-200 px-4 py-2 text-sm font-medium">
+            <Link to="/workorders" className="rounded border border-stone-200 px-4 py-2 text-sm font-medium">
               Back to work orders
             </Link>
           </div>
@@ -231,7 +231,7 @@ export default function WorkOrderDetailPage() {
       <ErrorBanner message={error} />
 
       <div className="grid gap-6 lg:grid-cols-2">
-        <section className="rounded-3xl border border-stone-200 bg-white p-6 shadow-sm">
+        <section className="rounded border border-stone-200 bg-white p-6 shadow-[0_2px_2px_0_rgba(0,0,0,0.1)]">
           <h3 className="text-lg font-semibold">Timeline</h3>
           <dl className="mt-4 space-y-3 text-sm">
             <div className="flex justify-between gap-4">
@@ -259,7 +259,7 @@ export default function WorkOrderDetailPage() {
         </section>
 
         {isAuthenticated && editable ? (
-          <form className="space-y-4 rounded-3xl border border-stone-200 bg-white p-6 shadow-sm" onSubmit={handleSave}>
+          <form className="space-y-4 rounded border border-stone-200 bg-white p-6 shadow-[0_2px_2px_0_rgba(0,0,0,0.1)]" onSubmit={handleSave}>
             <h3 className="text-lg font-semibold">Edit work order</h3>
             {fieldAccess.title ? (
               <FormField label="Title" name="title" value={form.title} onChange={updateField} required />
@@ -336,7 +336,7 @@ export default function WorkOrderDetailPage() {
               <button
                 type="submit"
                 disabled={submitting}
-                className="rounded-xl bg-orange-500 px-4 py-2 text-sm font-semibold text-white disabled:opacity-60"
+                className="rounded bg-[#0176d3] px-4 py-2 text-sm font-semibold text-white disabled:opacity-60"
               >
                 Save changes
               </button>
@@ -345,7 +345,7 @@ export default function WorkOrderDetailPage() {
                   type="button"
                   disabled={submitting}
                   onClick={handleDelete}
-                  className="rounded-xl border border-rose-200 px-4 py-2 text-sm font-semibold text-rose-700"
+                  className="rounded border border-rose-200 px-4 py-2 text-sm font-semibold text-rose-700"
                 >
                   Delete work order
                 </button>
@@ -353,14 +353,14 @@ export default function WorkOrderDetailPage() {
             </div>
           </form>
         ) : (
-          <section className="rounded-3xl border border-stone-200 bg-white p-6 shadow-sm">
+          <section className="rounded border border-stone-200 bg-white p-6 shadow-[0_2px_2px_0_rgba(0,0,0,0.1)]">
             <p className="text-sm text-stone-500">
               {!isAuthenticated
                 ? "Sign in to edit this work order."
                 : "You do not have permission to edit this work order."}
             </p>
             {!isAuthenticated ? (
-              <Link to="/login" className="mt-4 inline-flex rounded-xl bg-orange-500 px-4 py-2 text-sm font-semibold text-white">
+              <Link to="/login" className="mt-4 inline-flex rounded bg-[#0176d3] px-4 py-2 text-sm font-semibold text-white">
                 Sign in
               </Link>
             ) : null}
@@ -368,7 +368,7 @@ export default function WorkOrderDetailPage() {
         )}
       </div>
 
-      <section className="mt-6 rounded-3xl border border-stone-200 bg-white p-6 shadow-sm">
+      <section className="mt-6 rounded border border-stone-200 bg-white p-6 shadow-[0_2px_2px_0_rgba(0,0,0,0.1)]">
         <div className="flex flex-wrap items-end justify-between gap-3">
           <div>
             <h3 className="text-lg font-semibold">Hours logged</h3>
@@ -378,7 +378,7 @@ export default function WorkOrderDetailPage() {
             </p>
           </div>
           {can("time-entries:report") ? (
-            <Link to="/reports/hours" className="text-sm font-medium text-orange-800 hover:underline">
+            <Link to="/reports/hours" className="text-sm font-medium text-[#032d60] hover:underline">
               View hours report
             </Link>
           ) : null}
@@ -427,7 +427,7 @@ export default function WorkOrderDetailPage() {
               <button
                 type="submit"
                 disabled={timeSubmitting}
-                className="rounded-xl bg-orange-500 px-4 py-2 text-sm font-semibold text-white disabled:opacity-60"
+                className="rounded bg-[#0176d3] px-4 py-2 text-sm font-semibold text-white disabled:opacity-60"
               >
                 Log hours
               </button>
@@ -441,7 +441,7 @@ export default function WorkOrderDetailPage() {
           </p>
         )}
 
-        <div className="mt-4 overflow-hidden rounded-2xl border border-stone-200">
+        <div className="mt-4 overflow-hidden rounded border border-stone-200">
           <table className="min-w-full text-left text-sm">
             <thead className="bg-stone-100/70 text-xs uppercase tracking-wide text-stone-500">
               <tr>

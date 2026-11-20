@@ -122,7 +122,7 @@ export default function AccessRequestPage() {
       {!hasPending ? (
         <form
           onSubmit={handleSubmit}
-          className="space-y-4 rounded-3xl border border-stone-200 bg-white p-6 shadow-sm"
+          className="space-y-4 rounded border border-stone-200 bg-white p-6 shadow-[0_2px_2px_0_rgba(0,0,0,0.1)]"
         >
           <RoleSelect
             label="Requested role"
@@ -163,20 +163,20 @@ export default function AccessRequestPage() {
               onChange={updateField}
               rows={4}
               placeholder="Explain why you need this access"
-              className="mt-2 w-full rounded-xl border border-stone-200 px-3 py-2"
+              className="mt-2 w-full rounded border border-stone-200 px-3 py-2"
             />
           </label>
 
           <button
             type="submit"
             disabled={submitting || (isSiteScopedRole(form.requestedRole) && form.requestedSiteIds.length === 0)}
-            className="rounded-xl bg-orange-500 px-4 py-2 text-sm font-medium text-white disabled:opacity-60"
+            className="rounded bg-[#0176d3] px-4 py-2 text-sm font-medium text-white disabled:opacity-60"
           >
             {submitting ? "Submitting..." : "Submit request"}
           </button>
         </form>
       ) : (
-        <div className="rounded-3xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900">
+        <div className="rounded border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900">
           You already have a pending request. Cancel it below to submit a new one.
         </div>
       )}
@@ -184,7 +184,7 @@ export default function AccessRequestPage() {
       {loading ? <LoadingState label="Loading your requests..." /> : null}
 
       {!loading ? (
-        <div className="overflow-hidden rounded-3xl border border-stone-200 bg-white shadow-sm">
+        <div className="overflow-hidden rounded border border-stone-200 bg-white shadow-[0_2px_2px_0_rgba(0,0,0,0.1)]">
           <table className="min-w-full text-left text-sm">
             <thead className="bg-stone-100/70 text-xs uppercase tracking-wide text-stone-500">
               <tr>
@@ -228,7 +228,7 @@ export default function AccessRequestPage() {
                           type="button"
                           onClick={() => handleCancel(entry.id)}
                           disabled={cancellingId === entry.id}
-                          className="rounded-xl border border-stone-200 px-3 py-1.5 text-xs font-medium text-stone-700"
+                          className="rounded border border-stone-200 px-3 py-1.5 text-xs font-medium text-stone-700"
                         >
                           Cancel
                         </button>

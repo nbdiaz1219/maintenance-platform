@@ -56,7 +56,7 @@ export default function FormField({
   };
 
   return (
-    <label className="block text-sm font-medium text-stone-700" htmlFor={name}>
+    <label className="block text-[12px] font-bold text-[#444444]" htmlFor={name}>
       {label}
       {as === "select" ? (
         <select {...shared}>

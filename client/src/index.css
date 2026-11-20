@@ -1,34 +1,12 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: "Segoe UI", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-  --ease-flow: cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-@keyframes fade-up {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes float {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-8px);
-  }
+  --font-sans: Arial, "Helvetica Neue", Helvetica, sans-serif;
 }
 
 :root {
-  color: #1c1917;
-  background: #f4f4f1;
+  color: #181818;
+  background: #f3f3f3;
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -39,16 +17,12 @@
   box-sizing: border-box;
 }
 
-html {
-  scroll-behavior: smooth;
-}
-
 body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
-  background: #f4f4f1;
-  color: #1c1917;
+  background: #f3f3f3;
+  color: #181818;
 }
 
 button,
@@ -59,66 +33,40 @@ textarea {
 }
 
 @layer components {
-  .flow-page {
-    animation: fade-up 0.45s var(--ease-flow) both;
-  }
-
-  .flow-card {
-    border-radius: 1rem;
-    border: 1px solid #e7e5e4;
-    background: #fff;
-    box-shadow: 0 1px 2px rgb(28 25 23 / 0.04);
-    transition:
-      box-shadow 0.2s var(--ease-flow),
-      border-color 0.2s var(--ease-flow);
-  }
-
-  .flow-card:hover {
-    border-color: #d6d3d1;
-    box-shadow: 0 6px 18px rgb(28 25 23 / 0.06);
-  }
-
-  .flow-metric {
-    border-radius: 1rem;
-    border: 1px solid #e7e5e4;
-    background: #fff;
-    box-shadow: 0 1px 2px rgb(28 25 23 / 0.04);
-  }
-
+  .flow-card,
+  .flow-metric,
   .flow-panel {
-    border-radius: 1rem;
-    border: 1px solid #e7e5e4;
+    border-radius: 0.25rem;
+    border: 1px solid #e5e5e5;
     background: #fff;
-    box-shadow: 0 1px 2px rgb(28 25 23 / 0.04);
+    box-shadow: 0 2px 2px 0 rgb(0 0 0 / 0.1);
   }
 
   .flow-input {
-    margin-top: 0.5rem;
+    margin-top: 0.25rem;
     width: 100%;
-    border-radius: 0.75rem;
-    border: 1px solid #d6d3d1;
+    border-radius: 0.25rem;
+    border: 1px solid #c9c9c9;
     background: #fff;
-    color: #1c1917;
-    padding: 0.625rem 0.875rem;
-    font-size: 0.875rem;
+    color: #181818;
+    padding: 0.4rem 0.75rem;
+    font-size: 0.8125rem;
+    line-height: 1.25rem;
     outline: none;
-    transition:
-      border-color 0.2s var(--ease-flow),
-      box-shadow 0.2s var(--ease-flow);
   }
 
   .flow-input::placeholder {
-    color: #a8a29e;
+    color: #706e6b;
   }
 
   .flow-input:focus {
-    border-color: #ea580c;
-    box-shadow: 0 0 0 3px rgb(234 88 12 / 0.16);
+    border-color: #0176d3;
+    box-shadow: 0 0 0 1px #0176d3;
   }
 
   .flow-input:disabled {
-    background: #f5f5f4;
-    color: #78716c;
+    background: #f3f3f3;
+    color: #706e6b;
   }
 
   .flow-orb {

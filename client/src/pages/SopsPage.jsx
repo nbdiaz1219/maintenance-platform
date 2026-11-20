@@ -126,7 +126,7 @@ export default function SopsPage() {
         description="Standard operating procedures organized by department. Everyone can view; Ops Leads and Admins can publish and update."
         action={
           !isAuthenticated ? (
-            <Link to="/login" className="rounded-xl bg-orange-500 px-4 py-2 text-sm font-semibold text-white">
+            <Link to="/login" className="rounded bg-[#0176d3] px-4 py-2 text-sm font-semibold text-white">
               Sign in to add SOPs
             </Link>
           ) : !can("sops:write") ? (
@@ -137,7 +137,7 @@ export default function SopsPage() {
 
       <ErrorBanner message={error} />
 
-      <div className="mb-6 flex flex-wrap items-end gap-4 rounded-3xl border border-stone-200 bg-white p-4 shadow-sm">
+      <div className="mb-6 flex flex-wrap items-end gap-4 rounded border border-stone-200 bg-white p-4 shadow-[0_2px_2px_0_rgba(0,0,0,0.1)]">
         <div className="min-w-[12rem] flex-1">
           <label className="text-sm font-medium text-stone-700" htmlFor="departmentFilter">
             Filter by department
@@ -160,7 +160,7 @@ export default function SopsPage() {
 
       {isAuthenticated && can("sops:write") ? (
         <form
-          className="mb-6 grid gap-4 rounded-3xl border border-stone-200 bg-white p-6 shadow-sm md:grid-cols-2"
+          className="mb-6 grid gap-4 rounded border border-stone-200 bg-white p-6 shadow-[0_2px_2px_0_rgba(0,0,0,0.1)] md:grid-cols-2"
           onSubmit={handleCreate}
         >
           <h3 className="text-lg font-semibold md:col-span-2">Add SOP</h3>
@@ -212,7 +212,7 @@ export default function SopsPage() {
             <button
               type="submit"
               disabled={submitting}
-              className="rounded-xl bg-stone-900 px-4 py-2 text-sm font-semibold text-white disabled:opacity-60"
+              className="rounded border border-[#c9c9c9] bg-white px-4 py-2 text-sm font-semibold text-[#181818] disabled:opacity-60"
             >
               {submitting ? "Publishing..." : "Publish SOP"}
             </button>
@@ -245,7 +245,7 @@ export default function SopsPage() {
                             href={sop.documentUrl}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="rounded-lg border border-orange-200 px-3 py-1.5 text-xs font-semibold text-orange-800 hover:bg-orange-400/10"
+                            className="rounded border border-[#d8e6fe] px-3 py-1.5 text-xs font-semibold text-[#032d60] hover:bg-[#014486]/10"
                             title="Open document in Google Drive"
                           >
                             Open in Google Drive
@@ -253,7 +253,7 @@ export default function SopsPage() {
                           <button
                             type="button"
                             onClick={() => copyDocumentLink(sop.id, sop.documentUrl)}
-                            className="rounded-lg border border-stone-300 px-3 py-1.5 text-xs font-semibold text-stone-700 hover:bg-stone-50"
+                            className="rounded border border-stone-300 px-3 py-1.5 text-xs font-semibold text-stone-700 hover:bg-stone-50"
                             title="Copy document link"
                           >
                             {copiedSopId === sop.id ? "Copied" : "Copy link"}
