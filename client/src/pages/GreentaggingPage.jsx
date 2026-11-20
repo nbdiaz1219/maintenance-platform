@@ -33,24 +33,24 @@ const BOARD_COLUMNS = [
     title: "Awaiting from field",
     description: "Arrived and ready to greentag",
     statuses: ["OPEN", "ON_HOLD"],
-    accent: "border-sky-500/40 bg-sky-950/30",
-    header: "text-sky-300",
+    accent: "border-sky-200 bg-sky-50",
+    header: "text-sky-800",
   },
   {
     id: "in_progress",
     title: "In progress",
     description: "Currently being greentagged",
     statuses: ["IN_PROGRESS"],
-    accent: "border-amber-500/40 bg-amber-950/20",
-    header: "text-amber-300",
+    accent: "border-amber-200 bg-amber-50",
+    header: "text-amber-800",
   },
   {
     id: "complete",
     title: "Complete",
     description: "Greentagging finished",
     statuses: ["COMPLETED"],
-    accent: "border-orange-500/40 bg-orange-950/20",
-    header: "text-orange-300",
+    accent: "border-orange-200 bg-orange-50",
+    header: "text-orange-800",
   },
 ];
 
@@ -82,15 +82,15 @@ function AssignmentCard({ item, writable, busyId, onMove, selected, onSelect }) 
       className={[
         "rounded-2xl border p-4 shadow-sm transition",
         selected
-          ? "border-orange-400 bg-orange-950/30 ring-2 ring-orange-500/40"
-          : "border-slate-600/80 bg-slate-900/70 hover:border-slate-500",
+          ? "border-orange-400 bg-orange-50 ring-2 ring-orange-200"
+          : "border-stone-200/80 bg-white/70 hover:border-stone-300",
       ].join(" ")}
     >
       <button type="button" className="w-full text-left" onClick={() => onSelect(item.id)}>
         <div className="flex items-start justify-between gap-2">
           <div className="min-w-0">
-            <p className="truncate font-semibold text-slate-100">{item.title}</p>
-            <p className="mt-1 text-sm text-slate-400">
+            <p className="truncate font-semibold text-stone-900">{item.title}</p>
+            <p className="mt-1 text-sm text-stone-500">
               {item.asset?.name || "Unknown asset"}
               {item.asset?.site?.name ? ` · ${item.asset.site.name}` : ""}
             </p>
@@ -98,22 +98,22 @@ function AssignmentCard({ item, writable, busyId, onMove, selected, onSelect }) 
           <StatusBadge value={item.status} label={greenTagStatusLabel(item.status)} />
         </div>
 
-        <p className="mt-3 text-xs text-slate-400">
+        <p className="mt-3 text-xs text-stone-500">
           {progress.label}
           {checklist ? ` · ${checklist}` : ""}
           {item.assignee ? ` · ${item.assignee.name || item.assignee.email}` : " · Unassigned"}
         </p>
 
         {item.summary ? (
-          <p className="mt-2 line-clamp-2 text-sm text-slate-300">{item.summary}</p>
+          <p className="mt-2 line-clamp-2 text-sm text-stone-600">{item.summary}</p>
         ) : null}
 
         {selected ? (
-          <p className="mt-3 text-xs font-semibold uppercase tracking-wide text-orange-300">
+          <p className="mt-3 text-xs font-semibold uppercase tracking-wide text-orange-800">
             Checklist open below ↓
           </p>
         ) : (
-          <p className="mt-3 text-xs text-slate-500">Click to open checklist</p>
+          <p className="mt-3 text-xs text-stone-400">Click to open checklist</p>
         )}
       </button>
 
@@ -145,7 +145,7 @@ function AssignmentCard({ item, writable, busyId, onMove, selected, onSelect }) 
             type="button"
             disabled={isBusy}
             onClick={() => onMove(item.id, "COMPLETED")}
-            className="rounded-lg bg-orange-500/20 px-3 py-1.5 text-xs font-semibold text-orange-200 ring-1 ring-orange-500/40 disabled:opacity-60"
+            className="rounded-lg bg-orange-500/20 px-3 py-1.5 text-xs font-semibold text-orange-200 ring-1 ring-orange-200 disabled:opacity-60"
           >
             Mark complete
           </button>
@@ -155,7 +155,7 @@ function AssignmentCard({ item, writable, busyId, onMove, selected, onSelect }) 
             type="button"
             disabled={isBusy}
             onClick={() => onMove(item.id, "OPEN")}
-            className="rounded-lg border border-slate-600 px-3 py-1.5 text-xs font-medium text-slate-300 disabled:opacity-60"
+            className="rounded-lg border border-stone-200 px-3 py-1.5 text-xs font-medium text-stone-600 disabled:opacity-60"
           >
             Reopen
           </button>
@@ -165,7 +165,7 @@ function AssignmentCard({ item, writable, busyId, onMove, selected, onSelect }) 
             type="button"
             disabled={isBusy}
             onClick={() => onMove(item.id, "OPEN")}
-            className="rounded-lg border border-slate-600 px-3 py-1.5 text-xs font-medium text-slate-300 disabled:opacity-60"
+            className="rounded-lg border border-stone-200 px-3 py-1.5 text-xs font-medium text-stone-600 disabled:opacity-60"
           >
             Resume queue
           </button>
@@ -369,7 +369,7 @@ export default function GreentaggingPage() {
             "rounded-xl px-4 py-2 text-sm font-semibold transition",
             mode === "jobs"
               ? "bg-orange-500 text-white"
-              : "border border-slate-600 bg-slate-900/60 text-slate-300 hover:border-slate-500",
+              : "border border-stone-200 bg-white/60 text-stone-600 hover:border-stone-300",
           ].join(" ")}
         >
           Jobs & assets
@@ -381,7 +381,7 @@ export default function GreentaggingPage() {
             "rounded-xl px-4 py-2 text-sm font-semibold transition",
             mode === "standalone"
               ? "bg-orange-500 text-white"
-              : "border border-slate-600 bg-slate-900/60 text-slate-300 hover:border-slate-500",
+              : "border border-stone-200 bg-white/60 text-stone-600 hover:border-stone-300",
           ].join(" ")}
         >
           Green Tagging
@@ -392,7 +392,7 @@ export default function GreentaggingPage() {
         <StandaloneChecklistsSection writable={writable} canDelete={canDelete} />
       ) : (
         <>
-      <div className="mb-6 rounded-3xl border-2 border-orange-500/40 bg-orange-950/20 p-4 shadow-sm">
+      <div className="mb-6 rounded-3xl border-2 border-orange-200 bg-orange-50 p-4 shadow-sm">
         <FormField
           label="Choose any job to edit (including completed)"
           name="selectedJob"
@@ -412,7 +412,7 @@ export default function GreentaggingPage() {
             })),
           ]}
         />
-        <p className="mt-2 text-xs text-slate-400">
+        <p className="mt-2 text-xs text-stone-500">
           Job checklists are linked to an asset arrival. For procedures with no job/asset, use the Green
           Tagging Procedures tab.
         </p>
@@ -420,18 +420,18 @@ export default function GreentaggingPage() {
 
       <div className="mb-6 grid gap-4 sm:grid-cols-3">
         {[
-          { id: "awaiting", label: "Awaiting from field", value: counts.awaiting, tone: "text-sky-300" },
-          { id: "in_progress", label: "In progress", value: counts.in_progress, tone: "text-amber-300" },
-          { id: "complete", label: "Complete", value: counts.complete, tone: "text-orange-300" },
+          { id: "awaiting", label: "Awaiting from field", value: counts.awaiting, tone: "text-sky-800" },
+          { id: "in_progress", label: "In progress", value: counts.in_progress, tone: "text-amber-800" },
+          { id: "complete", label: "Complete", value: counts.complete, tone: "text-orange-800" },
         ].map((card) => (
-          <div key={card.id} className="rounded-2xl border border-slate-600 bg-slate-800/90 p-4">
-            <p className="text-xs uppercase tracking-wide text-slate-400">{card.label}</p>
+          <div key={card.id} className="rounded-2xl border border-stone-200 bg-white p-4">
+            <p className="text-xs uppercase tracking-wide text-stone-500">{card.label}</p>
             <p className={`mt-2 text-3xl font-bold ${card.tone}`}>{loading ? "…" : card.value}</p>
           </div>
         ))}
       </div>
 
-      <div className="mb-6 flex flex-wrap items-end gap-4 rounded-3xl border border-slate-600 bg-slate-800/90 p-4 shadow-sm">
+      <div className="mb-6 flex flex-wrap items-end gap-4 rounded-3xl border border-stone-200 bg-white p-4 shadow-sm">
         <div className="min-w-[14rem] flex-1">
           <FormField
             label="Filter board by asset"
@@ -463,12 +463,12 @@ export default function GreentaggingPage() {
           />
         </div>
         {counts.cancelled > 0 ? (
-          <label className="mb-1 flex items-center gap-2 text-sm text-slate-300">
+          <label className="mb-1 flex items-center gap-2 text-sm text-stone-600">
             <input
               type="checkbox"
               checked={showCancelled}
               onChange={(event) => setShowCancelled(event.target.checked)}
-              className="rounded border-slate-500"
+              className="rounded border-stone-300"
             />
             Show cancelled ({counts.cancelled})
           </label>
@@ -477,13 +477,13 @@ export default function GreentaggingPage() {
 
       {isAuthenticated && writable && showCreate ? (
         <form
-          className="mb-6 space-y-4 rounded-3xl border border-sky-500/30 bg-slate-800/90 p-6 shadow-sm"
+          className="mb-6 space-y-4 rounded-3xl border border-sky-500/30 bg-white p-6 shadow-sm"
           onSubmit={handleCreate}
         >
           <div>
             <h3 className="text-lg font-semibold">Log arrival from field</h3>
-            <p className="mt-1 text-sm text-slate-400">
-              Creates an assignment in <span className="text-sky-300">Awaiting from field</span> with
+            <p className="mt-1 text-sm text-stone-500">
+              Creates an assignment in <span className="text-sky-800">Awaiting from field</span> with
               Case A, B, C, D, and W ready to follow.
             </p>
           </div>
@@ -541,7 +541,7 @@ export default function GreentaggingPage() {
               placeholder="Optional notes in addition to the checklist"
             />
           </div>
-          <p className="text-xs text-slate-400">
+          <p className="text-xs text-stone-500">
             New arrivals get a starter checklist plus Case A–W automatically.
           </p>
           <button
@@ -566,15 +566,15 @@ export default function GreentaggingPage() {
               <div className="mb-4 flex items-start justify-between gap-3">
                 <div>
                   <h3 className={`text-base font-semibold ${column.header}`}>{column.title}</h3>
-                  <p className="mt-1 text-xs text-slate-400">{column.description}</p>
+                  <p className="mt-1 text-xs text-stone-500">{column.description}</p>
                 </div>
-                <span className="rounded-full bg-slate-950/50 px-2.5 py-1 text-xs font-semibold text-slate-200">
+                <span className="rounded-full bg-stone-100 px-2.5 py-1 text-xs font-semibold text-stone-700">
                   {column.items.length}
                 </span>
               </div>
 
               {column.items.length === 0 ? (
-                <p className="rounded-2xl border border-dashed border-slate-600/80 px-3 py-8 text-center text-sm text-slate-400">
+                <p className="rounded-2xl border border-dashed border-stone-200/80 px-3 py-8 text-center text-sm text-stone-500">
                   Nothing here right now.
                 </p>
               ) : (
@@ -598,8 +598,8 @@ export default function GreentaggingPage() {
       ) : null}
 
       {!loading && showCancelled && cancelledItems.length > 0 ? (
-        <section className="mt-6 rounded-3xl border border-slate-600 bg-slate-800/90 p-4">
-          <h3 className="mb-3 text-sm font-semibold uppercase tracking-wide text-slate-400">Cancelled</h3>
+        <section className="mt-6 rounded-3xl border border-stone-200 bg-white p-4">
+          <h3 className="mb-3 text-sm font-semibold uppercase tracking-wide text-stone-500">Cancelled</h3>
           <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
             {cancelledItems.map((item) => (
               <AssignmentCard

@@ -114,23 +114,23 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-slate-950 px-4 py-8">
+    <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[#f4f4f1] px-4 py-8">
       <div className="flow-orb -left-20 top-0 h-96 w-96 bg-orange-500/20" />
       <div className="flow-orb right-0 top-1/4 h-80 w-80 bg-sky-500/15 [animation-delay:-4s]" />
 
-      <div className="flow-page relative mx-auto w-full max-w-md rounded-[2rem] border border-slate-600 bg-slate-900/95 p-8 shadow-[0_20px_60px_rgb(2,6,23,0.55)] backdrop-blur-md">
-        <p className="text-sm font-semibold uppercase tracking-[0.35em] text-orange-400">
+      <div className="flow-page relative mx-auto w-full max-w-md rounded-[2rem] border border-stone-200 bg-white p-8 shadow-sm backdrop-blur-md">
+        <p className="text-sm font-semibold uppercase tracking-wide text-orange-700">
           EMAT Tracking Database
         </p>
-        {version ? <p className="mt-2 text-xs text-slate-500">V{version}</p> : null}
+        {version ? <p className="mt-2 text-xs text-stone-400">V{version}</p> : null}
         <h2 className="mt-3 text-3xl font-bold">{mode === "login" ? "Sign in" : "Request access"}</h2>
-        <p className="mt-2 text-sm text-slate-400">
+        <p className="mt-2 text-sm text-stone-500">
           {mode === "login"
             ? "Use your account after an admin has approved your access request."
             : "Create an account request. An admin must approve it before you can sign in."}
         </p>
 
-        <div className="mt-6 flex gap-2 rounded-2xl bg-slate-700/80 p-1">
+        <div className="mt-6 flex gap-2 rounded-2xl bg-stone-100 p-1">
           {["login", "register"].map((value) => (
             <button
               key={value}
@@ -142,7 +142,7 @@ export default function LoginPage() {
               }}
               className={[
                 "flex-1 rounded-xl px-3 py-2 text-sm font-medium capitalize",
-                mode === value ? "bg-slate-800 text-slate-100 shadow-sm" : "text-slate-400",
+                mode === value ? "bg-white text-stone-900 shadow-sm" : "text-stone-500",
               ].join(" ")}
             >
               {value === "register" ? "Request access" : value}
@@ -164,15 +164,15 @@ export default function LoginPage() {
               />
               {isSiteScopedRole(form.requestedRole) ? (
                 <div>
-                  <p className="text-sm font-medium text-slate-200">Sites</p>
+                  <p className="text-sm font-medium text-stone-700">Sites</p>
                   <div className="mt-2 space-y-2">
                     {sites.length === 0 ? (
-                      <p className="text-sm text-slate-400">
+                      <p className="text-sm text-stone-500">
                         No sites available yet. Choose Requester, or ask an admin to add sites first.
                       </p>
                     ) : (
                       sites.map((site) => (
-                        <label key={site.id} className="flex items-center gap-2 text-sm text-slate-200">
+                        <label key={site.id} className="flex items-center gap-2 text-sm text-stone-700">
                           <input
                             type="checkbox"
                             checked={form.requestedSiteIds.includes(site.id)}
@@ -213,7 +213,7 @@ export default function LoginPage() {
           />
           {mode === "login" ? (
             <div className="-mt-2 text-right">
-              <Link to="/forgot-password" className="text-sm font-medium text-orange-400 hover:underline">
+              <Link to="/forgot-password" className="text-sm font-medium text-orange-700 hover:underline">
                 Forgot password?
               </Link>
             </div>
@@ -221,7 +221,7 @@ export default function LoginPage() {
 
           <ErrorBanner message={error} />
           {success ? (
-            <div className="rounded-xl border border-orange-800 bg-orange-950/60 px-4 py-3 text-sm text-orange-100">
+            <div className="rounded-xl border border-orange-200 bg-orange-50 px-4 py-3 text-sm text-orange-900">
               {success}
             </div>
           ) : null}

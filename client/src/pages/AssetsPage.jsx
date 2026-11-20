@@ -182,7 +182,7 @@ export default function AssetsPage() {
               {showCreate ? "Close" : "Add asset"}
             </button>
           ) : (
-            <span className="text-sm text-slate-400">Ops Lead or Operator access required to create</span>
+            <span className="text-sm text-stone-500">Ops Lead or Operator access required to create</span>
           )
         }
       />
@@ -202,23 +202,23 @@ export default function AssetsPage() {
         ))}
       </div>
 
-      <div className="mb-6 grid gap-4 rounded-3xl border border-slate-600 bg-slate-800/90 p-4 shadow-sm md:grid-cols-[1fr_220px_auto] md:items-end">
+      <div className="mb-6 grid gap-4 rounded-3xl border border-stone-200 bg-white p-4 shadow-sm md:grid-cols-[1fr_220px_auto] md:items-end">
         <label className="grid gap-1.5">
-          <span className="text-sm font-medium text-slate-200">Search</span>
+          <span className="text-sm font-medium text-stone-700">Search</span>
           <input
             type="search"
             value={search}
             onChange={(event) => setSearch(event.target.value)}
             placeholder="Name, type, serial, description, or site"
-            className="w-full rounded-xl border border-slate-600 bg-slate-900 px-3 py-2 text-sm text-slate-100 placeholder:text-slate-500"
+            className="w-full rounded-xl border border-stone-200 bg-white px-3 py-2 text-sm text-stone-900 placeholder:text-stone-400"
           />
         </label>
         <label className="grid gap-1.5">
-          <span className="text-sm font-medium text-slate-200">Site</span>
+          <span className="text-sm font-medium text-stone-700">Site</span>
           <select
             value={siteFilter}
             onChange={(event) => selectSite(event.target.value)}
-            className="w-full rounded-xl border border-slate-600 bg-slate-900 px-3 py-2 text-sm text-slate-100"
+            className="w-full rounded-xl border border-stone-200 bg-white px-3 py-2 text-sm text-stone-900"
           >
             <option value="">All sites</option>
             {sites.map((site) => (
@@ -235,12 +235,12 @@ export default function AssetsPage() {
               setSiteFilter("");
               setTypeFilter("");
             }}
-            className="rounded-xl border border-slate-500 px-4 py-2 text-sm font-medium text-slate-200"
+            className="rounded-xl border border-stone-300 px-4 py-2 text-sm font-medium text-stone-700"
           >
             Clear
           </button>
         ) : (
-          <p className="pb-2 text-sm text-slate-400">{visible.length} shown</p>
+          <p className="pb-2 text-sm text-stone-500">{visible.length} shown</p>
         )}
       </div>
 
@@ -256,7 +256,7 @@ export default function AssetsPage() {
       ) : null}
 
       {showCreate && isAuthenticated && can("assets:write") ? (
-        <form className="mb-6 grid gap-4 rounded-3xl border border-slate-600 bg-slate-800/90 p-6 shadow-sm md:grid-cols-2" onSubmit={handleCreate}>
+        <form className="mb-6 grid gap-4 rounded-3xl border border-stone-200 bg-white p-6 shadow-sm md:grid-cols-2" onSubmit={handleCreate}>
           <FormField
             label="Site"
             name="siteId"
@@ -307,7 +307,7 @@ export default function AssetsPage() {
             <button
               type="submit"
               disabled={submitting || sites.length === 0}
-              className="rounded-xl bg-slate-950 px-4 py-2 text-sm font-semibold text-white disabled:opacity-60"
+              className="rounded-xl bg-stone-900 px-4 py-2 text-sm font-semibold text-white disabled:opacity-60"
             >
               {submitting ? "Creating..." : "Create asset"}
             </button>
@@ -342,23 +342,23 @@ export default function AssetsPage() {
           <div className="space-y-8">
             {shownGroups.map((group) => (
               <section key={group.name}>
-                <h3 className="mb-3 text-xl font-semibold text-slate-100">{group.name}</h3>
+                <h3 className="mb-3 text-xl font-semibold text-stone-900">{group.name}</h3>
                 {group.assets.length === 0 ? (
-                  <p className="rounded-3xl border border-dashed border-slate-600 px-5 py-4 text-sm text-slate-400">
+                  <p className="rounded-3xl border border-dashed border-stone-200 px-5 py-4 text-sm text-stone-500">
                     No assets in this type yet.
                   </p>
                 ) : null}
                 {group.assets.length > 0 ? (
-                <ul className="divide-y divide-slate-700 overflow-hidden rounded-3xl border border-slate-600 bg-slate-800/90">
+                <ul className="divide-y divide-stone-200 overflow-hidden rounded-3xl border border-stone-200 bg-white">
                   {group.assets.map((asset) => (
                     <li key={asset.id}>
                       <Link
                         to={`/assets/${asset.id}`}
-                        className="flex items-center justify-between gap-4 px-5 py-4 transition-colors hover:bg-slate-700/50"
+                        className="flex items-center justify-between gap-4 px-5 py-4 transition-colors hover:bg-stone-50"
                       >
                         <div className="min-w-0">
-                          <p className="truncate text-base font-semibold text-slate-100">{asset.name}</p>
-                          <p className="mt-1 truncate text-sm text-slate-400">
+                          <p className="truncate text-base font-semibold text-stone-900">{asset.name}</p>
+                          <p className="mt-1 truncate text-sm text-stone-500">
                             {[asset.site?.name, asset.serialNumber].filter(Boolean).join(" · ") || "No site"}
                           </p>
                         </div>
@@ -383,11 +383,11 @@ function TypeLink({ label, count, active, onClick }) {
       type="button"
       onClick={onClick}
       className={`flex shrink-0 items-center justify-between gap-3 rounded-2xl px-4 py-3 text-left text-sm font-semibold lg:w-full ${
-        active ? "bg-orange-500 text-white" : "bg-slate-800 text-slate-100 ring-1 ring-inset ring-slate-600"
+        active ? "bg-orange-500 text-white" : "bg-white text-stone-900 ring-1 ring-inset ring-stone-200"
       }`}
     >
       <span>{label}</span>
-      <span className={active ? "text-orange-100" : "text-slate-400"}>{count}</span>
+      <span className={active ? "text-orange-900" : "text-stone-500"}>{count}</span>
     </button>
   );
 }
@@ -400,11 +400,11 @@ function FilterChip({ label, count, active, onClick }) {
       className={`rounded-full px-3 py-1.5 text-sm font-medium ring-1 ring-inset ${
         active
           ? "bg-orange-500 text-white ring-orange-400"
-          : "bg-slate-800 text-slate-200 ring-slate-600 hover:bg-slate-700"
+          : "bg-white text-stone-700 ring-stone-200 hover:bg-stone-100"
       }`}
     >
       {label}
-      <span className={active ? "ml-1.5 text-orange-100" : "ml-1.5 text-slate-400"}>{count}</span>
+      <span className={active ? "ml-1.5 text-orange-900" : "ml-1.5 text-stone-500"}>{count}</span>
     </button>
   );
 }

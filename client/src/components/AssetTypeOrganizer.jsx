@@ -69,20 +69,20 @@ export default function AssetTypeOrganizer({ siteId, sites, types, usedNames, on
   }
 
   return (
-    <section className="mb-6 rounded-3xl border border-slate-600 bg-slate-800/90 p-5 shadow-sm">
+    <section className="mb-6 rounded-3xl border border-stone-200 bg-white p-5 shadow-sm">
       <div className="mb-4 flex flex-wrap items-end justify-between gap-3">
         <div>
-          <h2 className="text-lg font-semibold text-slate-100">Organize types</h2>
-          <p className="mt-1 text-sm text-slate-400">
+          <h2 className="text-lg font-semibold text-stone-900">Organize types</h2>
+          <p className="mt-1 text-sm text-stone-500">
             Admins and ops leads set the type list for a site. Operators can still pick a type on an asset.
           </p>
         </div>
         <label className="grid gap-1.5">
-          <span className="text-sm font-medium text-slate-200">Site</span>
+          <span className="text-sm font-medium text-stone-700">Site</span>
           <select
             value={siteId}
             onChange={(event) => onSiteChange(event.target.value)}
-            className="min-w-48 rounded-xl border border-slate-600 bg-slate-900 px-3 py-2 text-sm text-slate-100"
+            className="min-w-48 rounded-xl border border-stone-200 bg-white px-3 py-2 text-sm text-stone-900"
           >
             <option value="">Choose a site</option>
             {sites.map((site) => (
@@ -95,12 +95,12 @@ export default function AssetTypeOrganizer({ siteId, sites, types, usedNames, on
       {error ? <p className="mb-3 text-sm text-red-300">{error}</p> : null}
 
       {!siteId ? (
-        <p className="text-sm text-slate-400">Choose a site to add, rename, reorder, or remove its types.</p>
+        <p className="text-sm text-stone-500">Choose a site to add, rename, reorder, or remove its types.</p>
       ) : (
         <>
-          <ul className="divide-y divide-slate-700 overflow-hidden rounded-2xl border border-slate-700">
+          <ul className="divide-y divide-stone-200 overflow-hidden rounded-2xl border border-stone-200">
             {siteTypes.length === 0 ? (
-              <li className="px-4 py-3 text-sm text-slate-400">No types yet for this site.</li>
+              <li className="px-4 py-3 text-sm text-stone-500">No types yet for this site.</li>
             ) : null}
             {siteTypes.map((type, index) => (
               <li key={type.id} className="flex flex-wrap items-center gap-2 px-3 py-3">
@@ -108,19 +108,19 @@ export default function AssetTypeOrganizer({ siteId, sites, types, usedNames, on
                   value={names[type.id] ?? type.name}
                   onChange={(event) => setNames((current) => ({ ...current, [type.id]: event.target.value }))}
                   aria-label={`Type name for ${type.name}`}
-                  className="min-w-40 flex-1 rounded-xl border border-slate-600 bg-slate-900 px-3 py-2 text-sm text-slate-100"
+                  className="min-w-40 flex-1 rounded-xl border border-stone-200 bg-white px-3 py-2 text-sm text-stone-900"
                 />
-                <span className="text-xs text-slate-400">{type.assetCount} assets</span>
-                <button type="button" disabled={busyId === type.id} onClick={() => rename(type)} className="rounded-lg px-2 py-1 text-sm font-medium text-slate-100 hover:bg-slate-700">
+                <span className="text-xs text-stone-500">{type.assetCount} assets</span>
+                <button type="button" disabled={busyId === type.id} onClick={() => rename(type)} className="rounded-lg px-2 py-1 text-sm font-medium text-stone-900 hover:bg-stone-100">
                   Rename
                 </button>
-                <button type="button" disabled={index === 0 || Boolean(busyId)} onClick={() => move(type, -1)} className="rounded-lg px-2 py-1 text-sm text-slate-200 hover:bg-slate-700 disabled:opacity-40">
+                <button type="button" disabled={index === 0 || Boolean(busyId)} onClick={() => move(type, -1)} className="rounded-lg px-2 py-1 text-sm text-stone-700 hover:bg-stone-100 disabled:opacity-40">
                   Up
                 </button>
-                <button type="button" disabled={index === siteTypes.length - 1 || Boolean(busyId)} onClick={() => move(type, 1)} className="rounded-lg px-2 py-1 text-sm text-slate-200 hover:bg-slate-700 disabled:opacity-40">
+                <button type="button" disabled={index === siteTypes.length - 1 || Boolean(busyId)} onClick={() => move(type, 1)} className="rounded-lg px-2 py-1 text-sm text-stone-700 hover:bg-stone-100 disabled:opacity-40">
                   Down
                 </button>
-                <button type="button" disabled={Boolean(busyId)} onClick={() => remove(type)} className="rounded-lg px-2 py-1 text-sm text-red-300 hover:bg-slate-700">
+                <button type="button" disabled={Boolean(busyId)} onClick={() => remove(type)} className="rounded-lg px-2 py-1 text-sm text-red-300 hover:bg-stone-100">
                   Remove
                 </button>
               </li>
@@ -139,7 +139,7 @@ export default function AssetTypeOrganizer({ siteId, sites, types, usedNames, on
               onChange={(event) => setDraft(event.target.value)}
               placeholder="New type, such as Crawlers"
               aria-label="New asset type"
-              className="min-w-48 flex-1 rounded-xl border border-slate-600 bg-slate-900 px-3 py-2 text-sm text-slate-100 placeholder:text-slate-500"
+              className="min-w-48 flex-1 rounded-xl border border-stone-200 bg-white px-3 py-2 text-sm text-stone-900 placeholder:text-stone-400"
             />
             <button type="submit" disabled={!draft.trim() || Boolean(busyId)} className="rounded-xl bg-orange-500 px-4 py-2 text-sm font-semibold text-white disabled:opacity-60">
               Add type
@@ -148,14 +148,14 @@ export default function AssetTypeOrganizer({ siteId, sites, types, usedNames, on
 
           {missing.length > 0 ? (
             <div className="mt-3 flex flex-wrap items-center gap-2">
-              <span className="text-sm text-slate-400">Add to this site:</span>
+              <span className="text-sm text-stone-500">Add to this site:</span>
               {missing.map((name) => (
                 <button
                   key={name}
                   type="button"
                   disabled={Boolean(busyId)}
                   onClick={() => addType(name)}
-                  className="rounded-full bg-slate-900 px-3 py-1 text-sm text-slate-100 ring-1 ring-inset ring-slate-600 hover:bg-slate-700"
+                  className="rounded-full bg-white px-3 py-1 text-sm text-stone-900 ring-1 ring-inset ring-stone-200 hover:bg-stone-100"
                 >
                   {name}
                 </button>

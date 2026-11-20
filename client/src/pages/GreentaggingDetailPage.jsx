@@ -312,7 +312,7 @@ export default function GreentaggingDetailPage() {
             </a>
             <Link
               to="/greentagging"
-              className="rounded-xl border border-slate-600 px-4 py-2 text-sm font-medium"
+              className="rounded-xl border border-stone-200 px-4 py-2 text-sm font-medium"
             >
               Back to board
             </Link>
@@ -322,7 +322,7 @@ export default function GreentaggingDetailPage() {
 
       <ErrorBanner message={error} />
 
-      <section className="mb-6 rounded-3xl border border-slate-600 bg-slate-800/90 p-5 shadow-sm">
+      <section className="mb-6 rounded-3xl border border-stone-200 bg-white p-5 shadow-sm">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div className="flex flex-wrap items-center gap-2">
             {PIPELINE.map((step, index) => {
@@ -337,7 +337,7 @@ export default function GreentaggingDetailPage() {
                         ? "bg-orange-500 text-white"
                         : done
                           ? "bg-orange-500/20 text-orange-200"
-                          : "bg-slate-700 text-slate-400",
+                          : "bg-stone-100 text-stone-500",
                     ].join(" ")}
                   >
                     {step.label}
@@ -348,11 +348,11 @@ export default function GreentaggingDetailPage() {
             })}
           </div>
           <div className="flex flex-wrap items-center gap-3 text-sm">
-            <a href="#overall-checklist" className="font-semibold text-orange-300 hover:underline">
+            <a href="#overall-checklist" className="font-semibold text-orange-800 hover:underline">
               Checklist {checklistDone}/{checklistItems.length || 0}
             </a>
-            <span className="text-slate-500">·</span>
-            <span className="text-slate-400">
+            <span className="text-stone-400">·</span>
+            <span className="text-stone-500">
               {casesDone}/{assignment.cases.length} process cases
               {assignment.status === "ON_HOLD" ? " · On hold" : ""}
             </span>
@@ -366,7 +366,7 @@ export default function GreentaggingDetailPage() {
                 type="button"
                 disabled={submitting}
                 onClick={() => handleQuickStatus("IN_PROGRESS")}
-                className="rounded-xl bg-amber-500 px-4 py-2 text-sm font-semibold text-slate-950 disabled:opacity-60"
+                className="rounded-xl bg-amber-400 px-4 py-2 text-sm font-semibold text-stone-900 disabled:opacity-60"
               >
                 Start greentagging
               </button>
@@ -385,7 +385,7 @@ export default function GreentaggingDetailPage() {
                   type="button"
                   disabled={submitting}
                   onClick={() => handleQuickStatus("ON_HOLD")}
-                  className="rounded-xl border border-slate-600 px-4 py-2 text-sm font-medium text-slate-200 disabled:opacity-60"
+                  className="rounded-xl border border-stone-200 px-4 py-2 text-sm font-medium text-stone-700 disabled:opacity-60"
                 >
                   Put on hold
                 </button>
@@ -396,14 +396,14 @@ export default function GreentaggingDetailPage() {
                 type="button"
                 disabled={submitting}
                 onClick={() => handleQuickStatus("OPEN")}
-                className="rounded-xl border border-slate-600 px-4 py-2 text-sm font-medium text-slate-200 disabled:opacity-60"
+                className="rounded-xl border border-stone-200 px-4 py-2 text-sm font-medium text-stone-700 disabled:opacity-60"
               >
                 Reopen to awaiting
               </button>
             ) : null}
             <a
               href="#overall-checklist"
-              className="rounded-xl border border-orange-400/50 px-4 py-2 text-sm font-semibold text-orange-300"
+              className="rounded-xl border border-orange-400/50 px-4 py-2 text-sm font-semibold text-orange-800"
             >
               Jump to checklist
             </a>
@@ -412,7 +412,7 @@ export default function GreentaggingDetailPage() {
           <div className="mt-4">
             <a
               href="#overall-checklist"
-              className="rounded-xl border border-orange-400/50 px-4 py-2 text-sm font-semibold text-orange-300"
+              className="rounded-xl border border-orange-400/50 px-4 py-2 text-sm font-semibold text-orange-800"
             >
               Jump to checklist
             </a>
@@ -422,15 +422,15 @@ export default function GreentaggingDetailPage() {
 
       <section
         id="overall-checklist"
-        className="mb-6 scroll-mt-6 rounded-3xl border-2 border-orange-500/40 bg-gradient-to-b from-orange-950/40 to-slate-800/90 p-6 shadow-lg shadow-orange-950/20"
+        className="mb-6 scroll-mt-6 rounded-2xl border border-orange-200 bg-white p-6 shadow-sm"
       >
         <div className="mb-5 flex flex-wrap items-end justify-between gap-3">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-orange-300/90">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-orange-800/90">
               Start here
             </p>
-            <h3 className="mt-1 text-2xl font-bold tracking-tight text-slate-50">Overall checklist</h3>
-            <p className="mt-2 max-w-2xl text-sm text-slate-300">
+            <h3 className="mt-1 text-2xl font-semibold tracking-tight text-stone-900">Overall checklist</h3>
+            <p className="mt-2 max-w-2xl text-sm text-stone-600">
               Check off each step and attach photos as you work. Process case directions are further down if you
               need stage-by-stage help.
             </p>
@@ -472,20 +472,20 @@ export default function GreentaggingDetailPage() {
             <button
               type="submit"
               disabled={submitting}
-              className="rounded-xl border border-slate-600 px-3 py-1.5 text-xs font-medium text-slate-200 disabled:opacity-60"
+              className="rounded-xl border border-stone-200 px-3 py-1.5 text-xs font-medium text-stone-700 disabled:opacity-60"
             >
               Save notes
             </button>
           </form>
         ) : assignment.instructions ? (
-          <pre className="mb-4 whitespace-pre-wrap rounded-2xl border border-slate-700 bg-slate-900/70 p-4 text-sm leading-relaxed text-slate-100">
+          <pre className="mb-4 whitespace-pre-wrap rounded-2xl border border-stone-200 bg-white/70 p-4 text-sm leading-relaxed text-stone-900">
             {assignment.instructions}
           </pre>
         ) : null}
 
         {checklistItems.length === 0 ? (
-          <div className="rounded-2xl border border-dashed border-orange-400/40 bg-slate-950/40 px-4 py-8 text-center">
-            <p className="text-sm text-slate-300">No checklist items yet.</p>
+          <div className="rounded-2xl border border-dashed border-orange-200 bg-stone-50 px-4 py-8 text-center">
+            <p className="text-sm text-stone-600">No checklist items yet.</p>
             {writable ? (
               <button
                 type="button"
@@ -518,13 +518,13 @@ export default function GreentaggingDetailPage() {
                   key={item.id}
                   className={[
                     "rounded-2xl border px-3 py-3",
-                    done ? "border-orange-500/30 bg-orange-950/20" : "border-slate-600 bg-slate-950/50",
+                    done ? "border-orange-200 bg-orange-50" : "border-stone-200 bg-stone-100",
                   ].join(" ")}
                 >
                   <div className="flex items-start gap-3">
                     <input
                       type="checkbox"
-                      className="mt-1 h-4 w-4 rounded border-slate-500"
+                      className="mt-1 h-4 w-4 rounded border-stone-300"
                       checked={done}
                       disabled={!writable || submitting}
                       onChange={async (event) => {
@@ -545,18 +545,18 @@ export default function GreentaggingDetailPage() {
                       aria-label={item.label}
                     />
                     <div className="min-w-0 flex-1">
-                      <p className={done ? "text-sm text-slate-400 line-through" : "text-sm font-medium text-slate-100"}>
+                      <p className={done ? "text-sm text-stone-500 line-through" : "text-sm font-medium text-stone-900"}>
                         {item.label}
                       </p>
                       {done && item.completedBy ? (
-                        <p className="mt-1 text-xs text-slate-500">
+                        <p className="mt-1 text-xs text-stone-400">
                           Checked by {item.completedBy.name || item.completedBy.email}
                         </p>
                       ) : null}
 
-                      <div className="mt-3 rounded-xl border border-dashed border-slate-600 bg-slate-950/40 p-3">
+                      <div className="mt-3 rounded-xl border border-dashed border-stone-200 bg-stone-50 p-3">
                         <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
-                          <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">
+                          <p className="text-xs font-semibold uppercase tracking-wide text-stone-500">
                             Photos {photos.length ? `(${photos.length})` : ""}
                           </p>
                           {writable ? (
@@ -600,7 +600,7 @@ export default function GreentaggingDetailPage() {
                                   <img
                                     src={photo.url}
                                     alt={photo.originalName || "Checklist photo"}
-                                    className="h-24 w-24 rounded-xl border border-slate-600 object-cover"
+                                    className="h-24 w-24 rounded-xl border border-stone-200 object-cover"
                                   />
                                 </a>
                                 {writable ? (
@@ -622,7 +622,7 @@ export default function GreentaggingDetailPage() {
                                         setSubmitting(false);
                                       }
                                     }}
-                                    className="absolute -right-1 -top-1 rounded-full bg-slate-950 px-1.5 text-xs text-rose-300 ring-1 ring-rose-400/40"
+                                    className="absolute -right-1 -top-1 rounded-full bg-white px-1.5 text-xs text-rose-700 ring-1 ring-rose-200"
                                     aria-label="Remove photo"
                                   >
                                     ×
@@ -632,7 +632,7 @@ export default function GreentaggingDetailPage() {
                             ))}
                           </div>
                         ) : (
-                          <p className="text-xs text-slate-500">
+                          <p className="text-xs text-stone-400">
                             {writable
                               ? "No photos yet — tap + Add photo to attach evidence for this step."
                               : "No photos attached to this step."}
@@ -659,7 +659,7 @@ export default function GreentaggingDetailPage() {
                             setSubmitting(false);
                           }
                         }}
-                        className="text-xs text-rose-300 hover:underline disabled:opacity-60"
+                        className="text-xs text-rose-700 hover:underline disabled:opacity-60"
                       >
                         Remove
                       </button>
@@ -673,7 +673,7 @@ export default function GreentaggingDetailPage() {
 
         {writable ? (
           <form
-            className="mt-4 flex flex-wrap items-end gap-3 border-t border-slate-700 pt-4"
+            className="mt-4 flex flex-wrap items-end gap-3 border-t border-stone-200 pt-4"
             onSubmit={async (event) => {
               event.preventDefault();
               const label = newChecklistLabel.trim();
@@ -704,7 +704,7 @@ export default function GreentaggingDetailPage() {
             <button
               type="submit"
               disabled={submitting}
-              className="rounded-xl border border-orange-400/40 px-4 py-2 text-sm font-semibold text-orange-300 disabled:opacity-60"
+              className="rounded-xl border border-orange-200 px-4 py-2 text-sm font-semibold text-orange-800 disabled:opacity-60"
             >
               Add item
             </button>
@@ -713,14 +713,14 @@ export default function GreentaggingDetailPage() {
       </section>
 
       <div className="mb-6 grid gap-6 lg:grid-cols-2">
-        <section className="rounded-3xl border border-slate-600 bg-slate-800/90 p-6 shadow-sm">
+        <section className="rounded-3xl border border-stone-200 bg-white p-6 shadow-sm">
           <h3 className="text-lg font-semibold">Asset</h3>
           <dl className="mt-4 space-y-3 text-sm">
             <div className="flex justify-between gap-4">
-              <dt className="text-slate-400">Name</dt>
+              <dt className="text-stone-500">Name</dt>
               <dd className="font-medium">
                 {assignment.asset ? (
-                  <Link className="text-orange-300 hover:underline" to={`/assets/${assignment.asset.id}`}>
+                  <Link className="text-orange-800 hover:underline" to={`/assets/${assignment.asset.id}`}>
                     {assignment.asset.name}
                   </Link>
                 ) : (
@@ -729,30 +729,30 @@ export default function GreentaggingDetailPage() {
               </dd>
             </div>
             <div className="flex justify-between gap-4">
-              <dt className="text-slate-400">Site</dt>
+              <dt className="text-stone-500">Site</dt>
               <dd className="font-medium">{assignment.asset?.site?.name || "—"}</dd>
             </div>
             <div className="flex justify-between gap-4">
-              <dt className="text-slate-400">Serial</dt>
+              <dt className="text-stone-500">Serial</dt>
               <dd className="font-medium">{assignment.asset?.serialNumber || "—"}</dd>
             </div>
             <div className="flex justify-between gap-4">
-              <dt className="text-slate-400">Assignee</dt>
+              <dt className="text-stone-500">Assignee</dt>
               <dd className="font-medium">
                 {assignment.assignee?.name || assignment.assignee?.email || "Unassigned"}
               </dd>
             </div>
             <div className="flex justify-between gap-4">
-              <dt className="text-slate-400">Completed</dt>
+              <dt className="text-stone-500">Completed</dt>
               <dd className="font-medium">{formatDate(assignment.completedAt)}</dd>
             </div>
           </dl>
-          {assignment.summary ? <p className="mt-4 text-sm text-slate-300">{assignment.summary}</p> : null}
+          {assignment.summary ? <p className="mt-4 text-sm text-stone-600">{assignment.summary}</p> : null}
         </section>
 
         {writable ? (
           <form
-            className="space-y-4 rounded-3xl border border-slate-600 bg-slate-800/90 p-6 shadow-sm"
+            className="space-y-4 rounded-3xl border border-stone-200 bg-white p-6 shadow-sm"
             onSubmit={handleSaveAssignment}
           >
             <h3 className="text-lg font-semibold">Assignment details</h3>
@@ -816,7 +816,7 @@ export default function GreentaggingDetailPage() {
                   type="button"
                   disabled={submitting}
                   onClick={handleDeleteAssignment}
-                  className="rounded-xl border border-rose-300/40 px-4 py-2 text-sm font-semibold text-rose-300"
+                  className="rounded-xl border border-rose-300/40 px-4 py-2 text-sm font-semibold text-rose-700"
                 >
                   Delete assignment
                 </button>
@@ -824,23 +824,23 @@ export default function GreentaggingDetailPage() {
             </div>
           </form>
         ) : (
-          <section className="rounded-3xl border border-slate-600 bg-slate-800/90 p-6 shadow-sm">
-            <p className="text-sm text-slate-400">You can view the checklist and process cases for this assignment.</p>
+          <section className="rounded-3xl border border-stone-200 bg-white p-6 shadow-sm">
+            <p className="text-sm text-stone-500">You can view the checklist and process cases for this assignment.</p>
           </section>
         )}
       </div>
 
-      <section className="rounded-3xl border border-slate-600 bg-slate-800/90 p-6 shadow-sm">
+      <section className="rounded-3xl border border-stone-200 bg-white p-6 shadow-sm">
         <div className="mb-4">
           <h3 className="text-lg font-semibold">Process cases</h3>
-          <p className="mt-1 text-sm text-slate-400">
+          <p className="mt-1 text-sm text-stone-500">
             Pick Case A, B, C, D, or W from the dropdown to view and edit that case’s directions.
           </p>
         </div>
 
         {assignment.cases.length === 0 ? (
-          <div className="rounded-2xl border border-dashed border-slate-600 px-4 py-8 text-center">
-            <p className="text-sm text-slate-400">No process cases yet.</p>
+          <div className="rounded-2xl border border-dashed border-stone-200 px-4 py-8 text-center">
+            <p className="text-sm text-stone-500">No process cases yet.</p>
             {writable ? (
               <button
                 type="button"
@@ -889,26 +889,26 @@ export default function GreentaggingDetailPage() {
               <div className="mt-2 grid gap-6 lg:grid-cols-2" role="tabpanel">
                 <div>
                   <div className="mb-3 flex items-center justify-between gap-3">
-                    <h4 className="text-xl font-semibold text-slate-100">{activeCase.title}</h4>
+                    <h4 className="text-xl font-semibold text-stone-900">{activeCase.title}</h4>
                     <StatusBadge value={activeCase.status} />
                   </div>
                   {activeCase.directions ? (
-                    <pre className="whitespace-pre-wrap rounded-2xl border border-slate-700 bg-slate-900/70 p-4 text-sm leading-relaxed text-slate-100">
+                    <pre className="whitespace-pre-wrap rounded-2xl border border-stone-200 bg-white/70 p-4 text-sm leading-relaxed text-stone-900">
                       {activeCase.directions}
                     </pre>
                   ) : (
-                    <p className="rounded-2xl border border-dashed border-slate-600 p-4 text-sm text-slate-400">
+                    <p className="rounded-2xl border border-dashed border-stone-200 p-4 text-sm text-stone-500">
                       No directions yet for this case.
                     </p>
                   )}
                   {activeCase.completedAt ? (
-                    <p className="mt-3 text-xs text-slate-500">Completed {formatDate(activeCase.completedAt)}</p>
+                    <p className="mt-3 text-xs text-stone-400">Completed {formatDate(activeCase.completedAt)}</p>
                   ) : null}
                 </div>
 
                 {writable ? (
                   <form className="space-y-4" onSubmit={handleSaveCase}>
-                    <h4 className="font-semibold text-slate-100">Edit {activeCase.title}</h4>
+                    <h4 className="font-semibold text-stone-900">Edit {activeCase.title}</h4>
                     <FormField
                       label="Case"
                       name="caseTitle"
@@ -952,7 +952,7 @@ export default function GreentaggingDetailPage() {
                           type="button"
                           disabled={submitting}
                           onClick={handleDeleteCase}
-                          className="rounded-xl border border-rose-300/40 px-4 py-2 text-sm font-semibold text-rose-300"
+                          className="rounded-xl border border-rose-300/40 px-4 py-2 text-sm font-semibold text-rose-700"
                         >
                           Delete case
                         </button>
@@ -967,10 +967,10 @@ export default function GreentaggingDetailPage() {
 
         {writable ? (
           <form
-            className="mt-8 space-y-4 border-t border-slate-700 pt-6"
+            className="mt-8 space-y-4 border-t border-stone-200 pt-6"
             onSubmit={handleAddCase}
           >
-            <h4 className="font-semibold text-slate-100">Add another case</h4>
+            <h4 className="font-semibold text-stone-900">Add another case</h4>
             <div className="grid gap-4 md:grid-cols-2">
               <FormField
                 label="Case"
@@ -992,7 +992,7 @@ export default function GreentaggingDetailPage() {
             <button
               type="submit"
               disabled={submitting}
-              className="rounded-xl border border-orange-400/40 px-4 py-2 text-sm font-semibold text-orange-300 disabled:opacity-60"
+              className="rounded-xl border border-orange-200 px-4 py-2 text-sm font-semibold text-orange-800 disabled:opacity-60"
             >
               Add case
             </button>

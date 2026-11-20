@@ -24,11 +24,11 @@ export default class ErrorBoundary extends Component {
     }
 
     return (
-      <div className="flex min-h-screen items-center justify-center bg-slate-950 px-4 text-slate-100">
-        <div className="w-full max-w-md rounded-3xl border border-slate-600 bg-slate-900 p-8 shadow-2xl">
-          <p className="text-xs font-semibold uppercase tracking-[0.3em] text-orange-400">EMAT</p>
+      <div className="flex min-h-screen items-center justify-center bg-[#f4f4f1] px-4 text-stone-900">
+        <div className="w-full max-w-md rounded-3xl border border-stone-200 bg-white p-8 shadow-2xl">
+          <p className="text-xs font-semibold uppercase tracking-wide text-orange-700">EMAT</p>
           <h1 className="mt-3 text-2xl font-bold">Something went wrong</h1>
-          <p className="mt-2 text-sm text-slate-400">
+          <p className="mt-2 text-sm text-stone-500">
             The screen hit an unexpected error. Your data is safe — reload to continue.
           </p>
           <button

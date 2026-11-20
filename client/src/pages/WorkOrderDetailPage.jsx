@@ -221,7 +221,7 @@ export default function WorkOrderDetailPage() {
           <div className="flex items-center gap-3">
             <StatusBadge value={workOrder.status} />
             <StatusBadge value={workOrder.priority} />
-            <Link to="/workorders" className="rounded-xl border border-slate-600 px-4 py-2 text-sm font-medium">
+            <Link to="/workorders" className="rounded-xl border border-stone-200 px-4 py-2 text-sm font-medium">
               Back to work orders
             </Link>
           </div>
@@ -231,35 +231,35 @@ export default function WorkOrderDetailPage() {
       <ErrorBanner message={error} />
 
       <div className="grid gap-6 lg:grid-cols-2">
-        <section className="rounded-3xl border border-slate-600 bg-slate-800/90 p-6 shadow-sm">
+        <section className="rounded-3xl border border-stone-200 bg-white p-6 shadow-sm">
           <h3 className="text-lg font-semibold">Timeline</h3>
           <dl className="mt-4 space-y-3 text-sm">
             <div className="flex justify-between gap-4">
-              <dt className="text-slate-400">Requester</dt>
+              <dt className="text-stone-500">Requester</dt>
               <dd className="font-medium">{workOrder.requester?.name || workOrder.requester?.email || "—"}</dd>
             </div>
             <div className="flex justify-between gap-4">
-              <dt className="text-slate-400">Assignee</dt>
+              <dt className="text-stone-500">Assignee</dt>
               <dd className="font-medium">{workOrder.assignee?.name || workOrder.assignee?.email || "Unassigned"}</dd>
             </div>
             <div className="flex justify-between gap-4">
-              <dt className="text-slate-400">Due</dt>
+              <dt className="text-stone-500">Due</dt>
               <dd className="font-medium">{formatDate(workOrder.dueAt)}</dd>
             </div>
             <div className="flex justify-between gap-4">
-              <dt className="text-slate-400">Started</dt>
+              <dt className="text-stone-500">Started</dt>
               <dd className="font-medium">{formatDate(workOrder.startedAt)}</dd>
             </div>
             <div className="flex justify-between gap-4">
-              <dt className="text-slate-400">Completed</dt>
+              <dt className="text-stone-500">Completed</dt>
               <dd className="font-medium">{formatDate(workOrder.completedAt)}</dd>
             </div>
           </dl>
-          {workOrder.description ? <p className="mt-4 text-sm text-slate-300">{workOrder.description}</p> : null}
+          {workOrder.description ? <p className="mt-4 text-sm text-stone-600">{workOrder.description}</p> : null}
         </section>
 
         {isAuthenticated && editable ? (
-          <form className="space-y-4 rounded-3xl border border-slate-600 bg-slate-800/90 p-6 shadow-sm" onSubmit={handleSave}>
+          <form className="space-y-4 rounded-3xl border border-stone-200 bg-white p-6 shadow-sm" onSubmit={handleSave}>
             <h3 className="text-lg font-semibold">Edit work order</h3>
             {fieldAccess.title ? (
               <FormField label="Title" name="title" value={form.title} onChange={updateField} required />
@@ -353,8 +353,8 @@ export default function WorkOrderDetailPage() {
             </div>
           </form>
         ) : (
-          <section className="rounded-3xl border border-slate-600 bg-slate-800/90 p-6 shadow-sm">
-            <p className="text-sm text-slate-400">
+          <section className="rounded-3xl border border-stone-200 bg-white p-6 shadow-sm">
+            <p className="text-sm text-stone-500">
               {!isAuthenticated
                 ? "Sign in to edit this work order."
                 : "You do not have permission to edit this work order."}
@@ -368,24 +368,24 @@ export default function WorkOrderDetailPage() {
         )}
       </div>
 
-      <section className="mt-6 rounded-3xl border border-slate-600 bg-slate-800/90 p-6 shadow-sm">
+      <section className="mt-6 rounded-3xl border border-stone-200 bg-white p-6 shadow-sm">
         <div className="flex flex-wrap items-end justify-between gap-3">
           <div>
             <h3 className="text-lg font-semibold">Hours logged</h3>
-            <p className="mt-1 text-sm text-slate-400">
+            <p className="mt-1 text-sm text-stone-500">
               Total {formatHours(totalHours)} hour{totalHours === 1 ? "" : "s"} on this work order
               {workOrder.asset?.name ? ` · ${workOrder.asset.name}` : ""}
             </p>
           </div>
           {can("time-entries:report") ? (
-            <Link to="/reports/hours" className="text-sm font-medium text-orange-300 hover:underline">
+            <Link to="/reports/hours" className="text-sm font-medium text-orange-800 hover:underline">
               View hours report
             </Link>
           ) : null}
         </div>
 
         {canLogTime ? (
-          <form className="mt-4 grid gap-4 border-t border-slate-700 pt-4 md:grid-cols-4" onSubmit={handleLogHours}>
+          <form className="mt-4 grid gap-4 border-t border-stone-200 pt-4 md:grid-cols-4" onSubmit={handleLogHours}>
             <FormField
               label="Hours"
               name="hours"
@@ -434,16 +434,16 @@ export default function WorkOrderDetailPage() {
             </div>
           </form>
         ) : (
-          <p className="mt-4 text-sm text-slate-400">
+          <p className="mt-4 text-sm text-stone-500">
             {can("time-entries:write")
               ? "Assign this work order to yourself to log hours."
               : "Only operators and ops leads can log hours."}
           </p>
         )}
 
-        <div className="mt-4 overflow-hidden rounded-2xl border border-slate-700">
+        <div className="mt-4 overflow-hidden rounded-2xl border border-stone-200">
           <table className="min-w-full text-left text-sm">
-            <thead className="bg-slate-700/70 text-xs uppercase tracking-wide text-slate-400">
+            <thead className="bg-stone-100/70 text-xs uppercase tracking-wide text-stone-500">
               <tr>
                 <th className="px-4 py-3">Date</th>
                 <th className="px-4 py-3">Person</th>
@@ -455,7 +455,7 @@ export default function WorkOrderDetailPage() {
             <tbody>
               {timeEntries.length === 0 ? (
                 <tr>
-                  <td colSpan={5} className="px-4 py-6 text-center text-slate-400">
+                  <td colSpan={5} className="px-4 py-6 text-center text-stone-500">
                     No hours logged yet.
                   </td>
                 </tr>
@@ -467,20 +467,20 @@ export default function WorkOrderDetailPage() {
                       user.role === "OPS_LEAD" ||
                       (entry.userId === user.id && canLogTime));
                   return (
-                    <tr key={entry.id} className="border-t border-slate-700">
-                      <td className="whitespace-nowrap px-4 py-3 text-slate-300">
+                    <tr key={entry.id} className="border-t border-stone-200">
+                      <td className="whitespace-nowrap px-4 py-3 text-stone-600">
                         {formatDateOnly(entry.workDate)}
                       </td>
                       <td className="px-4 py-3">{entry.user?.name || entry.user?.email}</td>
                       <td className="px-4 py-3 text-right font-medium">{formatHours(entry.hours)}</td>
-                      <td className="px-4 py-3 text-slate-400">{entry.note || "—"}</td>
+                      <td className="px-4 py-3 text-stone-500">{entry.note || "—"}</td>
                       <td className="px-4 py-3 text-right">
                         {canManage ? (
                           <button
                             type="button"
                             disabled={timeSubmitting}
                             onClick={() => handleDeleteTimeEntry(entry.id)}
-                            className="text-sm text-rose-300 hover:underline disabled:opacity-60"
+                            className="text-sm text-rose-700 hover:underline disabled:opacity-60"
                           >
                             Delete
                           </button>

@@ -89,7 +89,7 @@ export default function WorkOrdersReportPage() {
       <ErrorBanner message={error} />
 
       <form
-        className="grid gap-4 rounded-3xl border border-slate-600 bg-slate-800/90 p-6 shadow-sm md:grid-cols-2 lg:grid-cols-5"
+        className="grid gap-4 rounded-3xl border border-stone-200 bg-white p-6 shadow-sm md:grid-cols-2 lg:grid-cols-5"
         onSubmit={(event) => {
           event.preventDefault();
           load(filters);
@@ -118,9 +118,9 @@ export default function WorkOrdersReportPage() {
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
         {cards.map((card) => (
-          <div key={card.label} className="rounded-2xl border border-slate-600 bg-slate-800/90 p-4">
-            <p className="text-xs uppercase tracking-wide text-slate-400">{card.label}</p>
-            <p className="mt-2 text-2xl font-semibold text-slate-100">{card.value}</p>
+          <div key={card.label} className="rounded-2xl border border-stone-200 bg-white p-4">
+            <p className="text-xs uppercase tracking-wide text-stone-500">{card.label}</p>
+            <p className="mt-2 text-2xl font-semibold text-stone-900">{card.value}</p>
           </div>
         ))}
       </div>
@@ -128,9 +128,9 @@ export default function WorkOrdersReportPage() {
       {loading ? <LoadingState label="Loading work orders..." /> : null}
 
       {!loading ? (
-        <div className="overflow-hidden rounded-3xl border border-slate-600 bg-slate-800/90 shadow-sm">
+        <div className="overflow-hidden rounded-3xl border border-stone-200 bg-white shadow-sm">
           <table className="min-w-full text-left text-sm">
-            <thead className="bg-slate-700/70 text-xs uppercase tracking-wide text-slate-400">
+            <thead className="bg-stone-100/70 text-xs uppercase tracking-wide text-stone-500">
               <tr>
                 <th className="px-4 py-3">Work order</th>
                 <th className="px-4 py-3">Status</th>
@@ -145,18 +145,18 @@ export default function WorkOrdersReportPage() {
             <tbody>
               {workOrders.length === 0 ? (
                 <tr>
-                  <td colSpan={8} className="px-4 py-8 text-center text-slate-400">
+                  <td colSpan={8} className="px-4 py-8 text-center text-stone-500">
                     No work orders for this filter.
                   </td>
                 </tr>
               ) : (
                 workOrders.map((order) => (
-                  <tr key={order.id} className="border-t border-slate-700">
+                  <tr key={order.id} className="border-t border-stone-200">
                     <td className="px-4 py-3">
-                      <Link className="text-orange-300 hover:underline" to={`/workorders/${order.id}`}>
+                      <Link className="text-orange-800 hover:underline" to={`/workorders/${order.id}`}>
                         {order.code}
                       </Link>
-                      <span className="block text-slate-300">{order.title}</span>
+                      <span className="block text-stone-600">{order.title}</span>
                     </td>
                     <td className="px-4 py-3">
                       <StatusBadge value={order.status} />
@@ -164,11 +164,11 @@ export default function WorkOrdersReportPage() {
                     <td className="px-4 py-3">
                       <StatusBadge value={order.priority} />
                     </td>
-                    <td className="px-4 py-3 text-slate-300">{order.site?.name || "—"}</td>
-                    <td className="px-4 py-3 text-slate-300">{order.asset?.name || "No asset"}</td>
+                    <td className="px-4 py-3 text-stone-600">{order.site?.name || "—"}</td>
+                    <td className="px-4 py-3 text-stone-600">{order.asset?.name || "No asset"}</td>
                     <td className="px-4 py-3">{order.assignee?.name || order.assignee?.email || "Unassigned"}</td>
                     <td className="px-4 py-3 text-right font-medium">{formatHours(order.totalHours ?? 0)}</td>
-                    <td className="whitespace-nowrap px-4 py-3 text-slate-300">{formatDateOnly(order.createdAt)}</td>
+                    <td className="whitespace-nowrap px-4 py-3 text-stone-600">{formatDateOnly(order.createdAt)}</td>
                   </tr>
                 ))
               )}

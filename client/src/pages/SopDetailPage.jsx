@@ -10,31 +10,31 @@ import { formatDate } from "../utils/labels.js";
 
 function VersionDetail({ version, copied, onCopy }) {
   return (
-    <div className="mt-3 space-y-3 rounded-2xl border border-slate-600 bg-slate-900/80 p-4 text-sm">
-      {version.summary ? <p className="text-slate-300">{version.summary}</p> : null}
+    <div className="mt-3 space-y-3 rounded-2xl border border-stone-200 bg-white/80 p-4 text-sm">
+      {version.summary ? <p className="text-stone-600">{version.summary}</p> : null}
       {version.documentUrl ? (
         <div className="flex flex-wrap items-center gap-2">
           <a
             href={version.documentUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex font-medium text-orange-400 hover:underline"
+            className="inline-flex font-medium text-orange-700 hover:underline"
           >
             Open document
           </a>
           <button
             type="button"
             onClick={() => onCopy(version.id, version.documentUrl)}
-            className="rounded-lg border border-slate-500 px-2.5 py-1 text-xs font-semibold text-slate-200 hover:bg-slate-700/50"
+            className="rounded-lg border border-stone-300 px-2.5 py-1 text-xs font-semibold text-stone-700 hover:bg-stone-50"
           >
             {copied ? "Copied" : "Copy link"}
           </button>
         </div>
       ) : null}
       {version.content ? (
-        <pre className="whitespace-pre-wrap leading-relaxed text-slate-100">{version.content}</pre>
+        <pre className="whitespace-pre-wrap leading-relaxed text-stone-900">{version.content}</pre>
       ) : (
-        <p className="text-slate-400">No inline procedure content in this version.</p>
+        <p className="text-stone-500">No inline procedure content in this version.</p>
       )}
     </div>
   );
@@ -186,7 +186,7 @@ export default function SopDetailPage() {
     return (
       <div>
         <ErrorBanner message={error || "SOP not found."} />
-        <Link to="/sops" className="text-sm font-medium text-orange-400 hover:underline">
+        <Link to="/sops" className="text-sm font-medium text-orange-700 hover:underline">
           Back to SOPs
         </Link>
       </div>
@@ -199,7 +199,7 @@ export default function SopDetailPage() {
         title={sop.title}
         description={`${sop.department} · v${sop.version} · Updated ${formatDate(sop.updatedAt)}`}
         action={
-          <Link to="/sops" className="rounded-xl border border-slate-600 px-4 py-2 text-sm font-medium text-slate-200">
+          <Link to="/sops" className="rounded-xl border border-stone-200 px-4 py-2 text-sm font-medium text-stone-700">
             All SOPs
           </Link>
         }
@@ -208,14 +208,14 @@ export default function SopDetailPage() {
       <ErrorBanner message={error} />
 
       <div className="grid gap-6 lg:grid-cols-2">
-        <section className="rounded-3xl border border-slate-600 bg-slate-800/90 p-6 shadow-sm">
+        <section className="rounded-3xl border border-stone-200 bg-white p-6 shadow-sm">
           <div className="flex items-center justify-between gap-3">
             <h3 className="text-lg font-semibold">Current procedure</h3>
-            <span className="rounded-full bg-orange-950 px-2.5 py-1 text-xs font-medium text-orange-300">
+            <span className="rounded-full bg-orange-50 px-2.5 py-1 text-xs font-medium text-orange-800">
               v{sop.version}
             </span>
           </div>
-          {sop.summary ? <p className="mt-3 text-sm text-slate-300">{sop.summary}</p> : null}
+          {sop.summary ? <p className="mt-3 text-sm text-stone-600">{sop.summary}</p> : null}
           {sop.documentUrl ? (
             <div className="mt-4 flex flex-wrap gap-2">
               <a
@@ -229,25 +229,25 @@ export default function SopDetailPage() {
               <button
                 type="button"
                 onClick={() => copyDocumentLink(sop.documentUrl)}
-                className="inline-flex rounded-xl border border-slate-500 px-4 py-2 text-sm font-semibold text-slate-200 hover:bg-slate-700/50"
+                className="inline-flex rounded-xl border border-stone-300 px-4 py-2 text-sm font-semibold text-stone-700 hover:bg-stone-50"
               >
                 {copiedLink ? "Copied" : "Copy link"}
               </button>
             </div>
           ) : null}
           {sop.content ? (
-            <pre className="mt-4 whitespace-pre-wrap rounded-2xl border border-slate-600 bg-slate-900/80 p-4 text-sm leading-relaxed text-slate-100">
+            <pre className="mt-4 whitespace-pre-wrap rounded-2xl border border-stone-200 bg-white/80 p-4 text-sm leading-relaxed text-stone-900">
               {sop.content}
             </pre>
           ) : !sop.documentUrl ? (
-            <p className="mt-4 text-sm text-slate-400">No procedure content has been added yet.</p>
+            <p className="mt-4 text-sm text-stone-500">No procedure content has been added yet.</p>
           ) : null}
         </section>
 
         {isAuthenticated && can("sops:write") ? (
-          <form className="space-y-4 rounded-3xl border border-slate-600 bg-slate-800/90 p-6 shadow-sm" onSubmit={handleSave}>
+          <form className="space-y-4 rounded-3xl border border-stone-200 bg-white p-6 shadow-sm" onSubmit={handleSave}>
             <h3 className="text-lg font-semibold">Edit SOP</h3>
-            <p className="text-sm text-slate-400">
+            <p className="text-sm text-stone-500">
               Saving changes archives the current version in history. Bump the version number when you publish
               meaningful updates.
             </p>
@@ -271,7 +271,7 @@ export default function SopDetailPage() {
             />
             <FormField label="Summary" name="summary" value={form.summary} onChange={updateField} />
             <div>
-              <label className="text-sm font-medium text-slate-200" htmlFor="content">
+              <label className="text-sm font-medium text-stone-700" htmlFor="content">
                 Procedure content
               </label>
               <textarea
@@ -287,7 +287,7 @@ export default function SopDetailPage() {
               <button
                 type="submit"
                 disabled={submitting}
-                className="rounded-xl bg-slate-950 px-4 py-2 text-sm font-semibold text-white disabled:opacity-60"
+                className="rounded-xl bg-stone-900 px-4 py-2 text-sm font-semibold text-white disabled:opacity-60"
               >
                 {submitting ? "Saving..." : "Save changes"}
               </button>
@@ -304,8 +304,8 @@ export default function SopDetailPage() {
             </div>
           </form>
         ) : (
-          <section className="rounded-3xl border border-slate-600 bg-slate-800/90 p-6 shadow-sm">
-            <p className="text-sm text-slate-400">
+          <section className="rounded-3xl border border-stone-200 bg-white p-6 shadow-sm">
+            <p className="text-sm text-stone-500">
               {!isAuthenticated
                 ? "Sign in to edit department SOPs."
                 : "Ops Lead access is required to edit SOPs."}
@@ -319,23 +319,23 @@ export default function SopDetailPage() {
         )}
       </div>
 
-      <section className="mt-6 rounded-3xl border border-slate-600 bg-slate-800/90 p-6 shadow-sm">
+      <section className="mt-6 rounded-3xl border border-stone-200 bg-white p-6 shadow-sm">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <h3 className="text-lg font-semibold">Version history</h3>
-          <p className="text-sm text-slate-400">
+          <p className="text-sm text-stone-500">
             First published {formatDate(sop.createdAt)} · {versions.length} archived{" "}
             {versions.length === 1 ? "version" : "versions"}
           </p>
         </div>
 
         {versions.length === 0 ? (
-          <p className="mt-4 text-sm text-slate-400">
+          <p className="mt-4 text-sm text-stone-500">
             No previous versions yet. The first edit will archive v{sop.version} here.
           </p>
         ) : (
-          <div className="mt-4 overflow-hidden rounded-2xl border border-slate-600">
+          <div className="mt-4 overflow-hidden rounded-2xl border border-stone-200">
             <table className="min-w-full text-left text-sm">
-              <thead className="bg-slate-700/70 text-xs uppercase tracking-wide text-slate-400">
+              <thead className="bg-stone-100/70 text-xs uppercase tracking-wide text-stone-500">
                 <tr>
                   <th className="px-4 py-3">Version</th>
                   <th className="px-4 py-3">Archived</th>
@@ -349,27 +349,27 @@ export default function SopDetailPage() {
                   const isExpanded = expandedVersionId === version.id;
                   return (
                     <Fragment key={version.id}>
-                      <tr className="border-t border-slate-600">
+                      <tr className="border-t border-stone-200">
                         <td className="px-4 py-3 font-medium">v{version.version}</td>
-                        <td className="px-4 py-3 text-slate-300">{formatDate(version.createdAt)}</td>
-                        <td className="px-4 py-3 text-slate-300">
+                        <td className="px-4 py-3 text-stone-600">{formatDate(version.createdAt)}</td>
+                        <td className="px-4 py-3 text-stone-600">
                           {version.publishedBy?.name || version.publishedBy?.email || "Unknown"}
                         </td>
-                        <td className="px-4 py-3 text-slate-300">{version.changeNote || "—"}</td>
+                        <td className="px-4 py-3 text-stone-600">{version.changeNote || "—"}</td>
                         <td className="px-4 py-3 text-right">
                           <button
                             type="button"
                             onClick={() => setExpandedVersionId(isExpanded ? null : version.id)}
-                            className="text-sm font-medium text-orange-400 hover:underline"
+                            className="text-sm font-medium text-orange-700 hover:underline"
                           >
                             {isExpanded ? "Hide" : "View"}
                           </button>
                         </td>
                       </tr>
                       {isExpanded ? (
-                        <tr className="border-t border-slate-700 bg-slate-900/50">
+                        <tr className="border-t border-stone-200 bg-white/50">
                           <td className="px-4 py-4" colSpan={5}>
-                            <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">
+                            <p className="text-xs font-semibold uppercase tracking-wide text-stone-500">
                               {version.title} · {version.department}
                             </p>
                             <VersionDetail

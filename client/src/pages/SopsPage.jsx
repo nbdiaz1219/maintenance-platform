@@ -130,16 +130,16 @@ export default function SopsPage() {
               Sign in to add SOPs
             </Link>
           ) : !can("sops:write") ? (
-            <span className="text-sm text-slate-400">Ops Lead access required to publish SOPs</span>
+            <span className="text-sm text-stone-500">Ops Lead access required to publish SOPs</span>
           ) : null
         }
       />
 
       <ErrorBanner message={error} />
 
-      <div className="mb-6 flex flex-wrap items-end gap-4 rounded-3xl border border-slate-600 bg-slate-800/90 p-4 shadow-sm">
+      <div className="mb-6 flex flex-wrap items-end gap-4 rounded-3xl border border-stone-200 bg-white p-4 shadow-sm">
         <div className="min-w-[12rem] flex-1">
-          <label className="text-sm font-medium text-slate-200" htmlFor="departmentFilter">
+          <label className="text-sm font-medium text-stone-700" htmlFor="departmentFilter">
             Filter by department
           </label>
           <select
@@ -160,13 +160,13 @@ export default function SopsPage() {
 
       {isAuthenticated && can("sops:write") ? (
         <form
-          className="mb-6 grid gap-4 rounded-3xl border border-slate-600 bg-slate-800/90 p-6 shadow-sm md:grid-cols-2"
+          className="mb-6 grid gap-4 rounded-3xl border border-stone-200 bg-white p-6 shadow-sm md:grid-cols-2"
           onSubmit={handleCreate}
         >
           <h3 className="text-lg font-semibold md:col-span-2">Add SOP</h3>
           <FormField label="Title" name="title" value={form.title} onChange={updateField} required />
           <div>
-            <label className="text-sm font-medium text-slate-200" htmlFor="department">
+            <label className="text-sm font-medium text-stone-700" htmlFor="department">
               Department
             </label>
             <input
@@ -195,7 +195,7 @@ export default function SopsPage() {
           />
           <FormField label="Summary" name="summary" value={form.summary} onChange={updateField} />
           <div className="md:col-span-2">
-            <label className="text-sm font-medium text-slate-200" htmlFor="content">
+            <label className="text-sm font-medium text-stone-700" htmlFor="content">
               Procedure content
             </label>
             <textarea
@@ -212,7 +212,7 @@ export default function SopsPage() {
             <button
               type="submit"
               disabled={submitting}
-              className="rounded-xl bg-slate-950 px-4 py-2 text-sm font-semibold text-white disabled:opacity-60"
+              className="rounded-xl bg-stone-900 px-4 py-2 text-sm font-semibold text-white disabled:opacity-60"
             >
               {submitting ? "Publishing..." : "Publish SOP"}
             </button>
@@ -228,14 +228,14 @@ export default function SopsPage() {
         <div className="space-y-8">
           {groupedSops.map(([department, items]) => (
             <section key={department}>
-              <h3 className="mb-3 text-lg font-semibold text-slate-100">{department}</h3>
+              <h3 className="mb-3 text-lg font-semibold text-stone-900">{department}</h3>
               <div className="grid gap-4">
                 {items.map((sop) => (
                   <div key={sop.id} className="flow-card p-4">
                     <div className="flex items-start justify-between gap-3">
                       <Link to={`/sops/${sop.id}`} className="min-w-0 flex-1 transition-opacity hover:opacity-90">
                         <p className="font-medium">{sop.title}</p>
-                        <p className="mt-1 text-sm text-slate-400">
+                        <p className="mt-1 text-sm text-stone-500">
                           {[sop.summary, `v${sop.version}`].filter(Boolean).join(" · ")}
                         </p>
                       </Link>
@@ -245,7 +245,7 @@ export default function SopsPage() {
                             href={sop.documentUrl}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="rounded-lg border border-orange-400/40 px-3 py-1.5 text-xs font-semibold text-orange-300 hover:bg-orange-400/10"
+                            className="rounded-lg border border-orange-200 px-3 py-1.5 text-xs font-semibold text-orange-800 hover:bg-orange-400/10"
                             title="Open document in Google Drive"
                           >
                             Open in Google Drive
@@ -253,7 +253,7 @@ export default function SopsPage() {
                           <button
                             type="button"
                             onClick={() => copyDocumentLink(sop.id, sop.documentUrl)}
-                            className="rounded-lg border border-slate-500 px-3 py-1.5 text-xs font-semibold text-slate-200 hover:bg-slate-700/50"
+                            className="rounded-lg border border-stone-300 px-3 py-1.5 text-xs font-semibold text-stone-700 hover:bg-stone-50"
                             title="Copy document link"
                           >
                             {copiedSopId === sop.id ? "Copied" : "Copy link"}

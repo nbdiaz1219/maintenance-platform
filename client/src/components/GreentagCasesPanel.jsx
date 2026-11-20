@@ -64,25 +64,25 @@ export default function GreentagCasesPanel({ assignment, writable, onAssignmentC
   }
 
   return (
-    <section className="mt-6 rounded-3xl border border-slate-600 bg-slate-800/90 p-6 shadow-sm">
+    <section className="mt-6 rounded-3xl border border-stone-200 bg-white p-6 shadow-sm">
       <div className="mb-4 flex flex-wrap items-end justify-between gap-3">
         <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-sky-300/90">Process cases</p>
-          <h3 className="mt-1 text-xl font-bold text-slate-50">Case A, B, C, D, or W</h3>
-          <p className="mt-1 text-sm text-slate-400">
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-sky-800/90">Process cases</p>
+          <h3 className="mt-1 text-xl font-semibold text-stone-900">Case A, B, C, D, or W</h3>
+          <p className="mt-1 text-sm text-stone-500">
             Pick a case from the dropdown to view its directions.
           </p>
         </div>
         <Link
           to={`/greentagging/${assignment.id}`}
-          className="text-sm font-semibold text-orange-300 hover:text-orange-200"
+          className="text-sm font-semibold text-orange-800 hover:text-orange-200"
         >
           Edit cases →
         </Link>
       </div>
 
       {cases.length === 0 ? (
-        <p className="rounded-2xl border border-dashed border-slate-600 px-4 py-6 text-center text-sm text-slate-400">
+        <p className="rounded-2xl border border-dashed border-stone-200 px-4 py-6 text-center text-sm text-stone-500">
           No process cases yet.
           {writable ? " Standard Case A–W will appear after the job syncs." : null}
         </p>
@@ -113,7 +113,7 @@ export default function GreentagCasesPanel({ assignment, writable, onAssignmentC
                     type="button"
                     disabled={busy}
                     onClick={() => updateStatus("IN_PROGRESS")}
-                    className="rounded-xl border border-slate-500 px-3 py-2 text-sm font-semibold text-slate-200 disabled:opacity-60"
+                    className="rounded-xl border border-stone-300 px-3 py-2 text-sm font-semibold text-stone-700 disabled:opacity-60"
                   >
                     Reopen {activeCase.title}
                   </button>
@@ -125,15 +125,15 @@ export default function GreentagCasesPanel({ assignment, writable, onAssignmentC
           {activeCase ? (
             <div>
               <div className="mb-3 flex items-center justify-between gap-3">
-                <h4 className="text-lg font-semibold text-slate-100">{activeCase.title}</h4>
+                <h4 className="text-lg font-semibold text-stone-900">{activeCase.title}</h4>
                 <StatusBadge value={activeCase.status} />
               </div>
               {activeCase.directions ? (
-                <pre className="max-h-64 overflow-auto whitespace-pre-wrap rounded-2xl border border-slate-700 bg-slate-900/70 p-4 text-sm leading-relaxed text-slate-100">
+                <pre className="max-h-64 overflow-auto whitespace-pre-wrap rounded-2xl border border-stone-200 bg-white/70 p-4 text-sm leading-relaxed text-stone-900">
                   {activeCase.directions}
                 </pre>
               ) : (
-                <p className="rounded-2xl border border-dashed border-slate-600 p-4 text-sm text-slate-400">
+                <p className="rounded-2xl border border-dashed border-stone-200 p-4 text-sm text-stone-500">
                   No directions for this case yet. Open the job to edit them.
                 </p>
               )}

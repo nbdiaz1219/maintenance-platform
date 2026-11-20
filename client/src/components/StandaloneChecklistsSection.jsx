@@ -92,7 +92,7 @@ export default function StandaloneChecklistsSection({ writable, canDelete }) {
     <div className="space-y-6">
       <ErrorBanner message={error} />
 
-      <div className="rounded-3xl border-2 border-orange-500/40 bg-orange-950/20 p-4">
+      <div className="rounded-3xl border-2 border-orange-200 bg-orange-50 p-4">
         <div className="flex flex-wrap items-end justify-between gap-3">
           <div className="min-w-[16rem] flex-1">
             <FormField
@@ -124,7 +124,7 @@ export default function StandaloneChecklistsSection({ writable, canDelete }) {
             </button>
           ) : null}
         </div>
-        <p className="mt-2 text-xs text-slate-400">
+        <p className="mt-2 text-xs text-stone-500">
           These live on their own. Use them for greentagging procedures, audits, or reusable steps that are not
           tied to one asset arrival.
         </p>
@@ -132,7 +132,7 @@ export default function StandaloneChecklistsSection({ writable, canDelete }) {
 
       {writable && showCreate ? (
         <form
-          className="space-y-4 rounded-3xl border border-slate-600 bg-slate-800/90 p-6"
+          className="space-y-4 rounded-3xl border border-stone-200 bg-white p-6"
           onSubmit={handleCreate}
         >
           <h3 className="text-lg font-semibold">Create Green Tagging Procedure</h3>
@@ -162,22 +162,22 @@ export default function StandaloneChecklistsSection({ writable, canDelete }) {
       ) : null}
 
       {!selected ? (
-        <section className="rounded-3xl border border-dashed border-orange-500/40 bg-orange-950/10 p-8 text-center">
-          <p className="text-sm text-slate-300">
+        <section className="rounded-3xl border border-dashed border-orange-200 bg-orange-50 p-8 text-center">
+          <p className="text-sm text-stone-600">
             {writable
               ? "Create a new Green Tagging Procedure, or select one above to edit."
               : "No Green Tagging Procedure selected."}
           </p>
         </section>
       ) : (
-        <section className="rounded-3xl border-2 border-orange-500/50 bg-gradient-to-b from-orange-950/50 to-slate-800/95 p-6 shadow-lg shadow-orange-950/25">
+        <section className="rounded-2xl border border-orange-200 bg-white p-6 shadow-sm">
           <div className="mb-5 flex flex-wrap items-end justify-between gap-3">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-orange-300/90">
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-orange-800/90">
                 Green Tagging Procedure
               </p>
-              <h3 className="mt-1 text-2xl font-bold text-slate-50">{selected.title}</h3>
-              <p className="mt-2 text-sm text-slate-300">Not linked to a job or asset — edit anytime.</p>
+              <h3 className="mt-1 text-2xl font-semibold text-stone-900">{selected.title}</h3>
+              <p className="mt-2 text-sm text-stone-600">Not linked to a job or asset — edit anytime.</p>
             </div>
             <div className="flex flex-wrap items-center gap-2">
               {items.length ? (
@@ -199,7 +199,7 @@ export default function StandaloneChecklistsSection({ writable, canDelete }) {
                     setChecklists((current) => current.filter((item) => item.id !== selected.id));
                     setSelectedId("");
                   }}
-                  className="rounded-xl border border-rose-300/40 px-3 py-1.5 text-xs font-semibold text-rose-300"
+                  className="rounded-xl border border-rose-300/40 px-3 py-1.5 text-xs font-semibold text-rose-700"
                 >
                   Delete procedure
                 </button>
@@ -244,19 +244,19 @@ export default function StandaloneChecklistsSection({ writable, canDelete }) {
               <button
                 type="submit"
                 disabled={busy}
-                className="rounded-xl border border-slate-600 px-3 py-1.5 text-xs font-medium text-slate-200 disabled:opacity-60"
+                className="rounded-xl border border-stone-200 px-3 py-1.5 text-xs font-medium text-stone-700 disabled:opacity-60"
               >
                 Save procedure details
               </button>
             </form>
           ) : selected.notes ? (
-            <pre className="mb-4 whitespace-pre-wrap rounded-2xl border border-slate-700 bg-slate-900/70 p-4 text-sm text-slate-100">
+            <pre className="mb-4 whitespace-pre-wrap rounded-2xl border border-stone-200 bg-white/70 p-4 text-sm text-stone-900">
               {selected.notes}
             </pre>
           ) : null}
 
           {items.length === 0 ? (
-            <p className="rounded-2xl border border-dashed border-orange-400/40 px-4 py-8 text-center text-sm text-slate-400">
+            <p className="rounded-2xl border border-dashed border-orange-200 px-4 py-8 text-center text-sm text-stone-500">
               No steps yet. Add procedure items below.
             </p>
           ) : (
@@ -269,13 +269,13 @@ export default function StandaloneChecklistsSection({ writable, canDelete }) {
                     key={item.id}
                     className={[
                       "rounded-2xl border px-3 py-3",
-                      done ? "border-orange-500/30 bg-orange-950/20" : "border-slate-600 bg-slate-950/50",
+                      done ? "border-orange-200 bg-orange-50" : "border-stone-200 bg-stone-100",
                     ].join(" ")}
                   >
                     <div className="flex items-start gap-3">
                       <input
                         type="checkbox"
-                        className="mt-1 h-4 w-4 rounded border-slate-500"
+                        className="mt-1 h-4 w-4 rounded border-stone-300"
                         checked={done}
                         disabled={!writable || busy}
                         onChange={async (event) => {
@@ -325,7 +325,7 @@ export default function StandaloneChecklistsSection({ writable, canDelete }) {
                             <button
                               type="button"
                               onClick={() => setEditingId("")}
-                              className="rounded-lg border border-slate-600 px-3 py-1.5 text-xs text-slate-300"
+                              className="rounded-lg border border-stone-200 px-3 py-1.5 text-xs text-stone-600"
                             >
                               Cancel
                             </button>
@@ -335,8 +335,8 @@ export default function StandaloneChecklistsSection({ writable, canDelete }) {
                             <p
                               className={
                                 done
-                                  ? "text-sm text-slate-400 line-through"
-                                  : "text-sm font-medium text-slate-100"
+                                  ? "text-sm text-stone-500 line-through"
+                                  : "text-sm font-medium text-stone-900"
                               }
                             >
                               {item.label}
@@ -348,7 +348,7 @@ export default function StandaloneChecklistsSection({ writable, canDelete }) {
                                   setEditingId(item.id);
                                   setEditLabel(item.label);
                                 }}
-                                className="text-xs font-medium text-orange-300 hover:underline"
+                                className="text-xs font-medium text-orange-800 hover:underline"
                               >
                                 Edit text
                               </button>
@@ -356,9 +356,9 @@ export default function StandaloneChecklistsSection({ writable, canDelete }) {
                           </div>
                         )}
 
-                        <div className="mt-3 rounded-xl border border-dashed border-slate-600 bg-slate-950/40 p-3">
+                        <div className="mt-3 rounded-xl border border-dashed border-stone-200 bg-stone-50 p-3">
                           <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
-                            <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">
+                            <p className="text-xs font-semibold uppercase tracking-wide text-stone-500">
                               Photos {photos.length ? `(${photos.length})` : ""}
                             </p>
                             {writable ? (
@@ -396,7 +396,7 @@ export default function StandaloneChecklistsSection({ writable, canDelete }) {
                                     <img
                                       src={photo.url}
                                       alt={photo.originalName || "Photo"}
-                                      className="h-24 w-24 rounded-xl border border-slate-600 object-cover"
+                                      className="h-24 w-24 rounded-xl border border-stone-200 object-cover"
                                     />
                                   </a>
                                   {writable ? (
@@ -412,7 +412,7 @@ export default function StandaloneChecklistsSection({ writable, canDelete }) {
                                         }, "Unable to remove photo");
                                         if (next) replaceChecklist(next);
                                       }}
-                                      className="absolute -right-1 -top-1 rounded-full bg-slate-950 px-1.5 text-xs text-rose-300 ring-1 ring-rose-400/40"
+                                      className="absolute -right-1 -top-1 rounded-full bg-white px-1.5 text-xs text-rose-700 ring-1 ring-rose-200"
                                     >
                                       ×
                                     </button>
@@ -421,7 +421,7 @@ export default function StandaloneChecklistsSection({ writable, canDelete }) {
                               ))}
                             </div>
                           ) : (
-                            <p className="text-xs text-slate-500">
+                            <p className="text-xs text-stone-400">
                               {writable ? "No photos yet." : "No photos attached."}
                             </p>
                           )}
@@ -440,7 +440,7 @@ export default function StandaloneChecklistsSection({ writable, canDelete }) {
                             }, "Unable to remove item");
                             if (next) replaceChecklist(next);
                           }}
-                          className="text-xs text-rose-300 hover:underline"
+                          className="text-xs text-rose-700 hover:underline"
                         >
                           Remove
                         </button>
@@ -454,7 +454,7 @@ export default function StandaloneChecklistsSection({ writable, canDelete }) {
 
           {writable ? (
             <form
-              className="mt-4 flex flex-wrap items-end gap-3 border-t border-slate-700 pt-4"
+              className="mt-4 flex flex-wrap items-end gap-3 border-t border-stone-200 pt-4"
               onSubmit={async (event) => {
                 event.preventDefault();
                 const label = newItemLabel.trim();
@@ -481,7 +481,7 @@ export default function StandaloneChecklistsSection({ writable, canDelete }) {
               <button
                 type="submit"
                 disabled={busy}
-                className="rounded-xl border border-orange-400/40 px-4 py-2 text-sm font-semibold text-orange-300 disabled:opacity-60"
+                className="rounded-xl border border-orange-200 px-4 py-2 text-sm font-semibold text-orange-800 disabled:opacity-60"
               >
                 Add item
               </button>

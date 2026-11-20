@@ -56,9 +56,9 @@ export default function AuditLogPage() {
       <ErrorBanner message={error} />
       {loading ? <LoadingState label="Loading audit log..." /> : null}
       {!loading ? (
-        <div className="overflow-hidden rounded-3xl border border-slate-600 bg-slate-800/90 shadow-sm">
+        <div className="overflow-hidden rounded-3xl border border-stone-200 bg-white shadow-sm">
           <table className="min-w-full text-left text-sm">
-            <thead className="bg-slate-700/70 text-xs uppercase tracking-wide text-slate-400">
+            <thead className="bg-stone-100/70 text-xs uppercase tracking-wide text-stone-500">
               <tr>
                 <th className="px-4 py-3">When</th>
                 <th className="px-4 py-3">Action</th>
@@ -70,27 +70,27 @@ export default function AuditLogPage() {
             <tbody>
               {logs.length === 0 ? (
                 <tr>
-                  <td colSpan={5} className="px-4 py-8 text-center text-slate-400">
+                  <td colSpan={5} className="px-4 py-8 text-center text-stone-500">
                     No audit entries yet.
                   </td>
                 </tr>
               ) : (
                 logs.map((log) => (
-                  <tr key={log.id} className="border-t border-slate-700 align-top">
-                    <td className="whitespace-nowrap px-4 py-3 text-slate-300">
+                  <tr key={log.id} className="border-t border-stone-200 align-top">
+                    <td className="whitespace-nowrap px-4 py-3 text-stone-600">
                       {new Date(log.createdAt).toLocaleString()}
                     </td>
                     <td className="px-4 py-3 font-medium capitalize">{formatAction(log.action)}</td>
-                    <td className="px-4 py-3 text-slate-300">
+                    <td className="px-4 py-3 text-stone-600">
                       {log.entityType}
                       {log.entityId ? (
-                        <span className="mt-1 block font-mono text-xs text-slate-400">{log.entityId}</span>
+                        <span className="mt-1 block font-mono text-xs text-stone-500">{log.entityId}</span>
                       ) : null}
                     </td>
-                    <td className="px-4 py-3 text-slate-300">
+                    <td className="px-4 py-3 text-stone-600">
                       {log.actor?.name || log.actor?.email || "—"}
                     </td>
-                    <td className="max-w-xs truncate px-4 py-3 font-mono text-xs text-slate-400">
+                    <td className="max-w-xs truncate px-4 py-3 font-mono text-xs text-stone-500">
                       {formatMetadata(log.metadata)}
                     </td>
                   </tr>

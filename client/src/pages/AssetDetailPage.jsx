@@ -130,11 +130,11 @@ export default function AssetDetailPage() {
             <StatusBadge value={asset.operationalStatus} />
             <Link
               to={`/greentagging?assetId=${asset.id}`}
-              className="rounded-xl border border-slate-600 px-4 py-2 text-sm font-medium"
+              className="rounded-xl border border-stone-200 px-4 py-2 text-sm font-medium"
             >
               Greentagging
             </Link>
-            <Link to="/assets" className="rounded-xl border border-slate-600 px-4 py-2 text-sm font-medium">
+            <Link to="/assets" className="rounded-xl border border-stone-200 px-4 py-2 text-sm font-medium">
               Back to assets
             </Link>
           </div>
@@ -144,31 +144,31 @@ export default function AssetDetailPage() {
       <ErrorBanner message={error} />
 
       <div className="grid gap-6 lg:grid-cols-2">
-        <section className="rounded-3xl border border-slate-600 bg-slate-800/90 p-6 shadow-sm">
+        <section className="rounded-3xl border border-stone-200 bg-white p-6 shadow-sm">
           <h3 className="text-lg font-semibold">Details</h3>
           <dl className="mt-4 space-y-3 text-sm">
             <div className="flex justify-between gap-4">
-              <dt className="text-slate-400">Type</dt>
+              <dt className="text-stone-500">Type</dt>
               <dd className="font-medium">{asset.assetType || "Uncategorized"}</dd>
             </div>
             <div className="flex justify-between gap-4">
-              <dt className="text-slate-400">Serial number</dt>
+              <dt className="text-stone-500">Serial number</dt>
               <dd className="font-medium">{asset.serialNumber || "—"}</dd>
             </div>
             <div className="flex justify-between gap-4">
-              <dt className="text-slate-400">Installed</dt>
+              <dt className="text-stone-500">Installed</dt>
               <dd className="font-medium">{formatDate(asset.installedAt)}</dd>
             </div>
             <div className="flex justify-between gap-4">
-              <dt className="text-slate-400">Work orders</dt>
+              <dt className="text-stone-500">Work orders</dt>
               <dd className="font-medium">{asset.workOrders?.length || 0}</dd>
             </div>
           </dl>
-          {asset.description ? <p className="mt-4 text-sm text-slate-300">{asset.description}</p> : null}
+          {asset.description ? <p className="mt-4 text-sm text-stone-600">{asset.description}</p> : null}
         </section>
 
         {isAuthenticated && can("assets:write") ? (
-          <form className="space-y-4 rounded-3xl border border-slate-600 bg-slate-800/90 p-6 shadow-sm" onSubmit={handleSave}>
+          <form className="space-y-4 rounded-3xl border border-stone-200 bg-white p-6 shadow-sm" onSubmit={handleSave}>
             <h3 className="text-lg font-semibold">Edit asset</h3>
             <FormField
               label="Site"
@@ -230,8 +230,8 @@ export default function AssetDetailPage() {
             </div>
           </form>
         ) : (
-          <section className="rounded-3xl border border-slate-600 bg-slate-800/90 p-6 shadow-sm">
-            <p className="text-sm text-slate-400">
+          <section className="rounded-3xl border border-stone-200 bg-white p-6 shadow-sm">
+            <p className="text-sm text-stone-500">
               {!isAuthenticated
                 ? "Sign in to edit or delete this asset."
                 : "Ops Lead or Operator access is required to edit assets."}
@@ -245,22 +245,22 @@ export default function AssetDetailPage() {
         )}
       </div>
 
-      <section className="mt-6 rounded-3xl border border-slate-600 bg-slate-800/90 p-6 shadow-sm">
+      <section className="mt-6 rounded-3xl border border-stone-200 bg-white p-6 shadow-sm">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <h3 className="text-lg font-semibold">Inventory parts</h3>
           <Link
             to={`/inventory?assetId=${id}`}
-            className="rounded-xl border border-slate-600 px-4 py-2 text-sm font-medium text-slate-200"
+            className="rounded-xl border border-stone-200 px-4 py-2 text-sm font-medium text-stone-700"
           >
             Manage inventory
           </Link>
         </div>
         {inventoryParts.length === 0 ? (
-          <p className="mt-4 text-sm text-slate-400">No parts recorded for this unit yet.</p>
+          <p className="mt-4 text-sm text-stone-500">No parts recorded for this unit yet.</p>
         ) : (
-          <div className="mt-4 overflow-hidden rounded-2xl border border-slate-100">
+          <div className="mt-4 overflow-hidden rounded-2xl border border-stone-200">
             <table className="min-w-full text-left text-sm">
-              <thead className="bg-slate-700/70 text-xs uppercase tracking-wide text-slate-400">
+              <thead className="bg-stone-100/70 text-xs uppercase tracking-wide text-stone-500">
                 <tr>
                   <th className="px-4 py-3">Part number</th>
                   <th className="px-4 py-3">Location</th>
@@ -269,14 +269,14 @@ export default function AssetDetailPage() {
               </thead>
               <tbody>
                 {inventoryParts.map((part) => (
-                  <tr key={part.id} className="border-t border-slate-700">
+                  <tr key={part.id} className="border-t border-stone-200">
                     <td className="px-4 py-3">
-                      <Link to={`/inventory/${part.id}`} className="font-medium text-orange-400 hover:underline">
+                      <Link to={`/inventory/${part.id}`} className="font-medium text-orange-700 hover:underline">
                         {part.partNumber}
                       </Link>
                     </td>
-                    <td className="px-4 py-3 text-slate-300">{part.location}</td>
-                    <td className="px-4 py-3 text-slate-300">{part.quantity}</td>
+                    <td className="px-4 py-3 text-stone-600">{part.location}</td>
+                    <td className="px-4 py-3 text-stone-600">{part.quantity}</td>
                   </tr>
                 ))}
               </tbody>

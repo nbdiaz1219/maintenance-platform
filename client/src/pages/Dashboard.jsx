@@ -32,7 +32,7 @@ function severityFillColor(percent) {
 
 function MetricBarTrack({ children, className = "" }) {
   return (
-    <div className={`mt-4 h-2.5 overflow-hidden rounded-full bg-slate-700/80 ${className}`}>{children}</div>
+    <div className={`mt-4 h-2.5 overflow-hidden rounded-full bg-stone-100 ${className}`}>{children}</div>
   );
 }
 
@@ -46,7 +46,7 @@ function SeverityPercentBar({ percent, label }) {
           style={{ width: `${safePercent}%` }}
         />
       </MetricBarTrack>
-      {label ? <p className="mt-1.5 text-xs text-slate-400">{label}</p> : null}
+      {label ? <p className="mt-1.5 text-xs text-stone-500">{label}</p> : null}
     </div>
   );
 }
@@ -57,7 +57,7 @@ function PriorityMixBar({ segments, label }) {
     return (
       <div className="mt-4">
         <MetricBarTrack />
-        {label ? <p className="mt-1.5 text-xs text-slate-400">{label}</p> : null}
+        {label ? <p className="mt-1.5 text-xs text-stone-500">{label}</p> : null}
       </div>
     );
   }
@@ -76,7 +76,7 @@ function PriorityMixBar({ segments, label }) {
           ) : null,
         )}
       </MetricBarTrack>
-      {label ? <p className="mt-1.5 text-xs text-slate-400">{label}</p> : null}
+      {label ? <p className="mt-1.5 text-xs text-stone-500">{label}</p> : null}
     </div>
   );
 }
@@ -84,7 +84,7 @@ function PriorityMixBar({ segments, label }) {
 function MetricCard({ metric, loading }) {
   return (
     <article className="flow-metric p-5">
-      <p className="text-sm font-medium text-slate-400">{metric.label}</p>
+      <p className="text-sm font-medium text-stone-500">{metric.label}</p>
       <p className="mt-3 text-3xl font-bold tracking-tight">{loading ? "..." : metric.value}</p>
       {!loading && metric.bar ? metric.bar : !loading && metric.bar === null ? <div className="mt-4 h-[26px]" /> : null}
     </article>
@@ -218,40 +218,40 @@ export default function Dashboard() {
         <article className="flow-panel p-6">
           <div className="flex items-center justify-between gap-3">
             <h3 className="text-xl font-semibold">Recent assets</h3>
-            <Link to="/assets" className="text-sm font-medium text-orange-400 hover:text-orange-100">
+            <Link to="/assets" className="text-sm font-medium text-orange-700 hover:text-orange-900">
               View all
             </Link>
           </div>
-          <div className="mt-4 divide-y divide-slate-100">
+          <div className="mt-4 divide-y divide-stone-200">
             {loading ? <LoadingState label="Loading assets..." /> : null}
             {!loading &&
               assets.slice(0, 6).map((asset) => (
                 <Link
                   key={asset.id}
                   to={`/assets/${asset.id}`}
-                  className="flex items-center justify-between gap-3 rounded-xl py-3 transition-colors duration-300 hover:bg-slate-700/40"
+                  className="flex items-center justify-between gap-3 rounded-xl py-3 transition-colors duration-300 hover:bg-stone-100/40"
                 >
                   <div>
                     <p className="font-medium">{asset.name}</p>
-                    <p className="text-sm text-slate-400">{asset.site?.name || "Unknown site"}</p>
+                    <p className="text-sm text-stone-500">{asset.site?.name || "Unknown site"}</p>
                   </div>
                   <StatusBadge value={asset.operationalStatus} />
                 </Link>
               ))}
-            {!loading && assets.length === 0 ? <p className="py-3 text-slate-400">No assets found.</p> : null}
+            {!loading && assets.length === 0 ? <p className="py-3 text-stone-500">No assets found.</p> : null}
           </div>
         </article>
 
         <article className="flow-panel p-6">
           <div className="flex items-center justify-between gap-3">
             <h3 className="text-xl font-semibold">Recent work orders</h3>
-            <Link to="/workorders" className="text-sm font-medium text-orange-400 hover:text-orange-100">
+            <Link to="/workorders" className="text-sm font-medium text-orange-700 hover:text-orange-900">
               View all
             </Link>
           </div>
-          <div className="mt-4 overflow-hidden rounded-2xl border border-slate-600/80">
+          <div className="mt-4 overflow-hidden rounded-2xl border border-stone-200/80">
             <table className="w-full border-collapse text-left text-sm">
-              <thead className="bg-slate-700/70 text-slate-300">
+              <thead className="bg-stone-100/70 text-stone-600">
                 <tr>
                   <th className="p-3">Code</th>
                   <th className="p-3">Title</th>
@@ -259,19 +259,19 @@ export default function Dashboard() {
                   <th className="p-3">Priority</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100">
+              <tbody className="divide-y divide-stone-200">
                 {loading ? (
                   <tr>
-                    <td className="p-3 text-slate-400" colSpan="4">
+                    <td className="p-3 text-stone-500" colSpan="4">
                       Loading work orders...
                     </td>
                   </tr>
                 ) : null}
                 {!loading &&
                   workOrders.slice(0, 8).map((order) => (
-                    <tr key={order.id} className="hover:bg-slate-700/40">
+                    <tr key={order.id} className="hover:bg-stone-100/40">
                       <td className="p-3">
-                        <Link to={`/workorders/${order.id}`} className="font-mono text-xs text-orange-400">
+                        <Link to={`/workorders/${order.id}`} className="font-mono text-xs text-orange-700">
                           {order.code}
                         </Link>
                       </td>
@@ -286,7 +286,7 @@ export default function Dashboard() {
                   ))}
                 {!loading && workOrders.length === 0 ? (
                   <tr>
-                    <td className="p-3 text-slate-400" colSpan="4">
+                    <td className="p-3 text-stone-500" colSpan="4">
                       No work orders found.
                     </td>
                   </tr>
@@ -301,7 +301,7 @@ export default function Dashboard() {
         <article className="flow-panel p-6">
           <div className="flex items-center justify-between gap-3">
             <h3 className="text-xl font-semibold">Department SOPs</h3>
-            <Link to="/sops" className="text-sm font-medium text-orange-400 hover:text-orange-100">
+            <Link to="/sops" className="text-sm font-medium text-orange-700 hover:text-orange-900">
               View all
             </Link>
           </div>
@@ -314,17 +314,17 @@ export default function Dashboard() {
                   to={`/sops/${sop.id}`}
                   className="flow-card block p-4 transition-transform duration-300 hover:-translate-y-0.5"
                 >
-                  <p className="text-xs font-semibold uppercase tracking-wide text-orange-400">{sop.department}</p>
+                  <p className="text-xs font-semibold uppercase tracking-wide text-orange-700">{sop.department}</p>
                   <p className="mt-1 font-medium">{sop.title}</p>
-                  <p className="mt-1 text-sm text-slate-400">
+                  <p className="mt-1 text-sm text-stone-500">
                     {[sop.summary, `v${sop.version}`].filter(Boolean).join(" · ")}
                   </p>
                 </Link>
               ))}
             {!loading && sops.length === 0 ? (
-              <p className="text-sm text-slate-400 sm:col-span-2 lg:col-span-3">
+              <p className="text-sm text-stone-500 sm:col-span-2 lg:col-span-3">
                 No SOPs published yet.{" "}
-                <Link to="/sops" className="font-medium text-orange-400 hover:underline">
+                <Link to="/sops" className="font-medium text-orange-700 hover:underline">
                   Add your first department SOP
                 </Link>
                 .

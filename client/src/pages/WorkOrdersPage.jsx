@@ -114,7 +114,7 @@ export default function WorkOrdersPage() {
               Sign in to create
             </Link>
           ) : !can("workorders:create") ? (
-            <span className="text-sm text-slate-400">Sign in to create work orders</span>
+            <span className="text-sm text-stone-500">Sign in to create work orders</span>
           ) : null
         }
       />
@@ -122,7 +122,7 @@ export default function WorkOrdersPage() {
       <ErrorBanner message={error} />
 
       {isAuthenticated && can("workorders:create") ? (
-        <form className="mb-6 grid gap-4 rounded-3xl border border-slate-600 bg-slate-800/90 p-6 shadow-sm md:grid-cols-2" onSubmit={handleCreate}>
+        <form className="mb-6 grid gap-4 rounded-3xl border border-stone-200 bg-white p-6 shadow-sm md:grid-cols-2" onSubmit={handleCreate}>
           <FormField label="Title" name="title" value={form.title} onChange={updateField} required />
           <FormField
             label="Priority"

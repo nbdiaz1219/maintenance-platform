@@ -108,7 +108,7 @@ export default function HoursReportPage() {
       <ErrorBanner message={error} />
 
       <form
-        className="grid gap-4 rounded-3xl border border-slate-600 bg-slate-800/90 p-6 shadow-sm md:grid-cols-2 lg:grid-cols-3"
+        className="grid gap-4 rounded-3xl border border-stone-200 bg-white p-6 shadow-sm md:grid-cols-2 lg:grid-cols-3"
         onSubmit={handleFilterSubmit}
       >
         <FormField label="From" name="from" type="date" value={filters.from} onChange={updateFilter} />
@@ -166,9 +166,9 @@ export default function HoursReportPage() {
           { label: "People", value: summary.totals?.people ?? 0 },
           { label: "Assets", value: summary.totals?.assets ?? 0 },
         ].map((card) => (
-          <div key={card.label} className="rounded-2xl border border-slate-600 bg-slate-800/90 p-4">
-            <p className="text-xs uppercase tracking-wide text-slate-400">{card.label}</p>
-            <p className="mt-2 text-2xl font-semibold text-slate-100">{card.value}</p>
+          <div key={card.label} className="rounded-2xl border border-stone-200 bg-white p-4">
+            <p className="text-xs uppercase tracking-wide text-stone-500">{card.label}</p>
+            <p className="mt-2 text-2xl font-semibold text-stone-900">{card.value}</p>
           </div>
         ))}
       </div>
@@ -176,9 +176,9 @@ export default function HoursReportPage() {
       {loading ? <LoadingState label="Loading hours..." /> : null}
 
       {!loading ? (
-        <div className="overflow-hidden rounded-3xl border border-slate-600 bg-slate-800/90 shadow-sm">
+        <div className="overflow-hidden rounded-3xl border border-stone-200 bg-white shadow-sm">
           <table className="min-w-full text-left text-sm">
-            <thead className="bg-slate-700/70 text-xs uppercase tracking-wide text-slate-400">
+            <thead className="bg-stone-100/70 text-xs uppercase tracking-wide text-stone-500">
               <tr>
                 <th className="px-4 py-3">Person</th>
                 <th className="px-4 py-3">Asset</th>
@@ -190,26 +190,26 @@ export default function HoursReportPage() {
             <tbody>
               {summary.rows.length === 0 ? (
                 <tr>
-                  <td colSpan={5} className="px-4 py-8 text-center text-slate-400">
+                  <td colSpan={5} className="px-4 py-8 text-center text-stone-500">
                     No hours logged for this filter.
                   </td>
                 </tr>
               ) : (
                 summary.rows.map((row) => (
-                  <tr key={`${row.userId}-${row.assetId || "none"}`} className="border-t border-slate-700">
+                  <tr key={`${row.userId}-${row.assetId || "none"}`} className="border-t border-stone-200">
                     <td className="px-4 py-3 font-medium">{row.user?.name || row.user?.email}</td>
                     <td className="px-4 py-3">
                       {row.asset ? (
-                        <Link className="text-orange-300 hover:underline" to={`/assets/${row.asset.id}`}>
+                        <Link className="text-orange-800 hover:underline" to={`/assets/${row.asset.id}`}>
                           {row.asset.name}
                         </Link>
                       ) : (
-                        <span className="text-slate-400">No asset</span>
+                        <span className="text-stone-500">No asset</span>
                       )}
                     </td>
-                    <td className="px-4 py-3 text-slate-300">{row.site?.name || "—"}</td>
+                    <td className="px-4 py-3 text-stone-600">{row.site?.name || "—"}</td>
                     <td className="px-4 py-3 text-right font-semibold">{formatHours(row.hours)}</td>
-                    <td className="px-4 py-3 text-right text-slate-400">{row.entryCount}</td>
+                    <td className="px-4 py-3 text-right text-stone-500">{row.entryCount}</td>
                   </tr>
                 ))
               )}
@@ -219,12 +219,12 @@ export default function HoursReportPage() {
       ) : null}
 
       {!loading && summary.entries?.length ? (
-        <div className="overflow-hidden rounded-3xl border border-slate-600 bg-slate-800/90 shadow-sm">
-          <div className="border-b border-slate-700 px-4 py-3">
-            <h3 className="text-sm font-semibold text-slate-200">Recent entries</h3>
+        <div className="overflow-hidden rounded-3xl border border-stone-200 bg-white shadow-sm">
+          <div className="border-b border-stone-200 px-4 py-3">
+            <h3 className="text-sm font-semibold text-stone-700">Recent entries</h3>
           </div>
           <table className="min-w-full text-left text-sm">
-            <thead className="bg-slate-700/70 text-xs uppercase tracking-wide text-slate-400">
+            <thead className="bg-stone-100/70 text-xs uppercase tracking-wide text-stone-500">
               <tr>
                 <th className="px-4 py-3">Date</th>
                 <th className="px-4 py-3">Person</th>
@@ -236,17 +236,17 @@ export default function HoursReportPage() {
             </thead>
             <tbody>
               {summary.entries.slice(0, 50).map((entry) => (
-                <tr key={entry.id} className="border-t border-slate-700">
-                  <td className="whitespace-nowrap px-4 py-3 text-slate-300">{formatDateOnly(entry.workDate)}</td>
+                <tr key={entry.id} className="border-t border-stone-200">
+                  <td className="whitespace-nowrap px-4 py-3 text-stone-600">{formatDateOnly(entry.workDate)}</td>
                   <td className="px-4 py-3">{entry.user?.name || entry.user?.email}</td>
                   <td className="px-4 py-3">
-                    <Link className="text-orange-300 hover:underline" to={`/workorders/${entry.workOrder.id}`}>
+                    <Link className="text-orange-800 hover:underline" to={`/workorders/${entry.workOrder.id}`}>
                       {entry.workOrder.code}
                     </Link>
                   </td>
-                  <td className="px-4 py-3 text-slate-300">{entry.workOrder.asset?.name || "No asset"}</td>
+                  <td className="px-4 py-3 text-stone-600">{entry.workOrder.asset?.name || "No asset"}</td>
                   <td className="px-4 py-3 text-right font-medium">{formatHours(entry.hours)}</td>
-                  <td className="px-4 py-3 text-slate-400">{entry.note || "—"}</td>
+                  <td className="px-4 py-3 text-stone-500">{entry.note || "—"}</td>
                 </tr>
               ))}
             </tbody>
