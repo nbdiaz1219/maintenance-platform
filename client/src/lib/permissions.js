@@ -46,6 +46,7 @@ const PERMISSIONS = {
   "workorders:assign": ROLES,
   "time-entries:write": ["ADMIN", "OPS_LEAD", "OPERATOR"],
   "time-entries:report": ["ADMIN", "OPS_LEAD"],
+  "time-entries:submitted": ["ADMIN", "OPS_LEAD", "OPERATOR"],
   "greentagging:read": ROLES,
   "greentagging:write": ["ADMIN", "OPS_LEAD", "OPERATOR"],
   "greentagging:delete": ["ADMIN", "OPS_LEAD"],

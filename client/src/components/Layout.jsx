@@ -12,6 +12,7 @@ const navItems = [
   { to: "/inventory", label: "Inventory" },
   { to: "/sops", label: "Department SOPs" },
   { to: "/reports/hours", label: "Hours report", permission: "time-entries:report" },
+  { to: "/reports/submitted", label: "Submitted Reports", permission: "time-entries:submitted" },
   { to: "/access/request", label: "Request access" },
   { to: "/admin/users", label: "User access", permission: "users:read" },
   { to: "/admin/access-requests", label: "Access requests", permission: "access-requests:read" },

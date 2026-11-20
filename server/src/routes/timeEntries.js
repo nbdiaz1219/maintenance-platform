@@ -1,6 +1,7 @@
 const express = require("express");
 const prisma = require("../lib/prisma");
-const { timeEntriesReport } = require("../middleware/routeGuards");
+const { timeEntriesReport, timeEntriesSubmitted } = require("../middleware/routeGuards");
+const { hasPermission } = require("../lib/permissions");
 const { getAccessibleSiteIds, buildSiteIdFilter } = require("../services/siteAccessService");
 
 const router = express.Router();
@@ -112,3 +113,64 @@ router.get("/summary", ...timeEntriesReport, async (req, res, next) => {
 });
 
 module.exports = router;
+
+/**
+ * Submitted time reports (individual submitted entries).
+ * GET /api/time-entries/submitted?from=&to=&siteId=&userId=&assetId=
+ * Users without time-entries:report only ever see their own submissions.
+ */
+router.get("/submitted", ...timeEntriesSubmitted, async (req, res, next) => {
+  try {
+    const siteIds = await getAccessibleSiteIds(req.user);
+    const siteFilter = buildSiteIdFilter(siteIds);
+    const { from, to, siteId, assetId } = req.query;
+    const canReport = hasPermission(req.user.role, "time-entries:report");
+    const userId = canReport ? req.query.userId : req.user.id;
+
+    if (siteId && siteFilter.siteId?.in && !siteFilter.siteId.in.includes(siteId)) {
+      return res.status(403).json({ error: "Forbidden", message: "Site not in your access" });
+    }
+
+    const workDateFilter = {};
+    if (from) workDateFilter.gte = new Date(from);
+    if (to) workDateFilter.lte = new Date(to);
+
+    const entries = await prisma.workOrderTimeEntry.findMany({
+      where: {
+        ...(userId ? { userId } : {}),
+        ...(Object.keys(workDateFilter).length ? { workDate: workDateFilter } : {}),
+        workOrder: {
+          ...(siteId ? { siteId } : siteFilter),
+          ...(assetId ? { assetId } : {}),
+        },
+      },
+      include: {
+        user: { select: userSelect },
+        workOrder: {
+          select: {
+            id: true,
+            code: true,
+            title: true,
+            siteId: true,
+            assetId: true,
+            site: { select: { id: true, name: true } },
+            asset: { select: { id: true, name: true, serialNumber: true } },
+          },
+        },
+      },
+      orderBy: [{ workDate: "desc" }, { createdAt: "desc" }],
+    });
+
+    const totalHours = entries.reduce((sum, entry) => sum + entry.hours, 0);
+    res.json({
+      entries,
+      totals: {
+        hours: Math.round(totalHours * 100) / 100,
+        entries: entries.length,
+        people: new Set(entries.map((entry) => entry.userId)).size,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+});

@@ -48,6 +48,7 @@ const PERMISSIONS = {
   // Time tracking
   "time-entries:write": ["ADMIN", "OPS_LEAD", "OPERATOR"],
   "time-entries:report": ["ADMIN", "OPS_LEAD"],
+  "time-entries:submitted": ["ADMIN", "OPS_LEAD", "OPERATOR"],
 
   // Greentagging
   "greentagging:read": ROLES,

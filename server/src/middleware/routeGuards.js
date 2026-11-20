@@ -28,6 +28,7 @@ const sopsWrite = [auth, requirePermission("sops:write")];
 const sopsDelete = [auth, requirePermission("sops:delete")];
 const timeEntriesWrite = [auth, requirePermission("time-entries:write")];
 const timeEntriesReport = [auth, requirePermission("time-entries:report")];
+const timeEntriesSubmitted = [auth, requirePermission("time-entries:submitted")];
 const greentaggingRead = [auth, requirePermission("greentagging:read")];
 const greentaggingWrite = [auth, requirePermission("greentagging:write")];
 const greentaggingDelete = [auth, requirePermission("greentagging:delete")];
@@ -60,6 +61,7 @@ module.exports = {
   sopsDelete,
   timeEntriesWrite,
   timeEntriesReport,
+  timeEntriesSubmitted,
   greentaggingRead,
   greentaggingWrite,
   greentaggingDelete,
