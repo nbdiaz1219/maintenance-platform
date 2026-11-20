@@ -65,6 +65,27 @@ describeIfDb("asset routes", () => {
     expect(noMatch.body).toHaveLength(0);
   });
 
+  it("filters assets by site and status, ordered by name", async () => {
+    const { response: otherSite } = await createSite(app, token, { name: "Plant B" });
+    await createAsset(app, token, siteId, { name: "Zebra fan", operationalStatus: "OFFLINE" });
+    await createAsset(app, token, siteId, { name: "Alpha pump", operationalStatus: "OPERATIONAL" });
+    await createAsset(app, token, otherSite.body.id, { name: "Beta crane", operationalStatus: "OPERATIONAL" });
+
+    const bySite = await request(app)
+      .get(`/api/assets?siteId=${siteId}&sort=name`)
+      .set(authHeader(token));
+    expect(bySite.status).toBe(200);
+    expect(bySite.body.map((asset) => asset.name)).toEqual(["Alpha pump", "Zebra fan"]);
+
+    const offline = await request(app)
+      .get("/api/assets?status=OFFLINE")
+      .set(authHeader(token));
+    expect(offline.status).toBe(200);
+    expect(offline.body).toHaveLength(1);
+    expect(offline.body[0].name).toBe("Zebra fan");
+    expect(offline.body[0]._count.workOrders).toBe(0);
+  });
+
   it("returns an asset by id", async () => {
     const { response: createResponse } = await createAsset(app, token, siteId, {
       serialNumber: "SN-002",

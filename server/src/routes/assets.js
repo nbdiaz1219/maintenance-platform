@@ -12,30 +12,44 @@ const {
 
 const router = express.Router();
 
+const ASSET_STATUSES = new Set(["OPERATIONAL", "DEGRADED", "OFFLINE", "DECOMMISSIONED"]);
+
 router.get("/", ...assetsRead, async (req, res, next) => {
   try {
     const siteIds = await getAccessibleSiteIds(req.user);
     const search = String(req.query.search || req.query.q || "").trim();
+    const status = String(req.query.status || "").trim();
+    const siteId = String(req.query.siteId || "").trim();
+    const sortByName = req.query.sort === "name";
     const siteFilter = buildSiteIdFilter(siteIds);
-    const where = search
-      ? {
-          AND: [
-            siteFilter,
-            {
-              OR: [
-                { name: { contains: search, mode: "insensitive" } },
-                { serialNumber: { contains: search, mode: "insensitive" } },
-                { description: { contains: search, mode: "insensitive" } },
-                { site: { name: { contains: search, mode: "insensitive" } } },
-              ],
-            },
-          ],
-        }
-      : siteFilter;
+
+    if (status && !ASSET_STATUSES.has(status)) {
+      return res.status(400).json({ error: "Invalid status" });
+    }
+    if (siteId && siteFilter.siteId?.in && !siteFilter.siteId.in.includes(siteId)) {
+      return res.status(403).json({ error: "Forbidden", message: "Site not in your access" });
+    }
+
+    const filters = [siteId ? { siteId } : siteFilter];
+    if (status) filters.push({ operationalStatus: status });
+    if (search) {
+      filters.push({
+        OR: [
+          { name: { contains: search, mode: "insensitive" } },
+          { serialNumber: { contains: search, mode: "insensitive" } },
+          { description: { contains: search, mode: "insensitive" } },
+          { site: { name: { contains: search, mode: "insensitive" } } },
+        ],
+      });
+    }
+
     const assets = await prisma.asset.findMany({
-      where,
-      include: { workOrders: true, site: true },
-      orderBy: { createdAt: "desc" },
+      where: { AND: filters },
+      include: {
+        site: true,
+        _count: { select: { workOrders: true } },
+      },
+      orderBy: sortByName ? [{ site: { name: "asc" } }, { name: "asc" }] : { createdAt: "desc" },
     });
     res.json(assets);
   } catch (error) {
