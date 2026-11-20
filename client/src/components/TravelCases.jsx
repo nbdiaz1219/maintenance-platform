@@ -1,12 +1,28 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { api, getErrorMessage } from "../api/client.js";
 
 const starterTypes = ["Robots", "Raster arms"];
 
-export default function TravelCases({ cases, assets, sites, siteId, typeNames = [], canWrite, canDelete, onChanged }) {
+export default function TravelCases({
+  cases,
+  assets,
+  sites,
+  siteId,
+  typeNames = [],
+  canWrite,
+  canDelete,
+  onChanged,
+  showForm = false,
+  onShowForm,
+}) {
   const [serialNumber, setSerialNumber] = useState("");
   const [name, setName] = useState("");
+  const [createSiteId, setCreateSiteId] = useState(siteId || "");
+
+  useEffect(() => {
+    if (siteId) setCreateSiteId(siteId);
+  }, [siteId]);
   const [openId, setOpenId] = useState("");
   const [names, setNames] = useState({});
   const [component, setComponent] = useState({});
@@ -36,15 +52,17 @@ export default function TravelCases({ cases, assets, sites, siteId, typeNames = 
 
   async function createCase(event) {
     event.preventDefault();
-    if (!siteId || !serialNumber.trim()) return;
+    const chosenSite = createSiteId || siteId;
+    if (!chosenSite || !name.trim() || !serialNumber.trim()) return;
     await run("new", async () => {
       await api.post("/api/cases", {
-        siteId,
+        siteId: chosenSite,
         serialNumber: serialNumber.trim(),
         name: name.trim(),
       });
       setSerialNumber("");
       setName("");
+      onShowForm?.(false);
     });
   }
 
@@ -61,50 +79,72 @@ export default function TravelCases({ cases, assets, sites, siteId, typeNames = 
   }
 
   return (
-    <section className="mb-6 rounded border border-[#e5e5e5] bg-white p-4 shadow-[0_2px_2px_0_rgba(0,0,0,0.1)]">
-      <div className="mb-3">
-        <h2 className="text-base font-bold text-[#181818]">Travel cases</h2>
-        <p className="mt-1 text-[13px] text-[#444444]">
-          Give each case its own serial number, pack the equipment that rides in it, and ship the case as one unit.
-        </p>
+    <section id="travel-cases" className="mb-6 rounded border border-[#e5e5e5] bg-white p-4 shadow-[0_2px_2px_0_rgba(0,0,0,0.1)]">
+      <div className="mb-3 flex flex-wrap items-start justify-between gap-3">
+        <div>
+          <h2 className="text-base font-bold text-[#181818]">Travel cases</h2>
+          <p className="mt-1 text-[13px] text-[#444444]">
+            Name a case, give it a serial number, then add the components that ship inside it.
+          </p>
+        </div>
+        {canWrite ? (
+          <button
+            type="button"
+            onClick={() => onShowForm?.(!showForm)}
+            className="rounded bg-[#0176d3] px-4 py-2 text-sm font-bold text-white"
+          >
+            {showForm ? "Close" : "Create a case"}
+          </button>
+        ) : null}
       </div>
       {error ? <p className="mb-3 text-[13px] text-[#8e030f]">{error}</p> : null}
 
-      {canWrite ? (
-        siteId ? (
-          <form className="mb-4 flex flex-wrap items-end gap-2" onSubmit={createCase}>
-            <label className="grid gap-1 text-[12px] font-bold text-[#444444]">
-              Case name
-              <input
-                value={name}
-                onChange={(event) => setName(event.target.value)}
-                placeholder="Spot travel kit"
-                required
-                aria-label="Case name"
-                className="rounded border border-[#c9c9c9] px-3 py-1.5 text-sm font-normal text-[#181818]"
-              />
-            </label>
-            <label className="grid gap-1 text-[12px] font-bold text-[#444444]">
-              Case serial
-              <input
-                value={serialNumber}
-                onChange={(event) => setSerialNumber(event.target.value)}
-                required
-                aria-label="Case serial number"
-                className="rounded border border-[#c9c9c9] px-3 py-1.5 text-sm font-normal text-[#181818]"
-              />
-            </label>
-            <button
-              type="submit"
-              disabled={busy === "new"}
-              className="rounded bg-[#0176d3] px-3 py-2 text-[13px] font-bold text-white disabled:opacity-60"
+      {canWrite && showForm ? (
+        <form className="mb-4 flex flex-wrap items-end gap-2 rounded border border-[#e5e5e5] bg-[#f3f3f3] p-3" onSubmit={createCase}>
+          <label className="grid gap-1 text-[12px] font-bold text-[#444444]">
+            Site
+            <select
+              value={createSiteId || siteId}
+              onChange={(event) => setCreateSiteId(event.target.value)}
+              required
+              aria-label="Case site"
+              className="rounded border border-[#c9c9c9] bg-white px-3 py-1.5 text-sm font-normal text-[#181818]"
             >
-              Add case
-            </button>
-          </form>
-        ) : (
-          <p className="mb-4 text-[13px] text-[#444444]">Choose a site above to add a case at that location.</p>
-        )
+              <option value="">Choose a site</option>
+              {sites.map((site) => (
+                <option key={site.id} value={site.id}>{site.name}</option>
+              ))}
+            </select>
+          </label>
+          <label className="grid gap-1 text-[12px] font-bold text-[#444444]">
+            Case name
+            <input
+              value={name}
+              onChange={(event) => setName(event.target.value)}
+              placeholder="Spot travel kit"
+              required
+              aria-label="Case name"
+              className="rounded border border-[#c9c9c9] bg-white px-3 py-1.5 text-sm font-normal text-[#181818]"
+            />
+          </label>
+          <label className="grid gap-1 text-[12px] font-bold text-[#444444]">
+            Case serial
+            <input
+              value={serialNumber}
+              onChange={(event) => setSerialNumber(event.target.value)}
+              required
+              aria-label="Case serial number"
+              className="rounded border border-[#c9c9c9] bg-white px-3 py-1.5 text-sm font-normal text-[#181818]"
+            />
+          </label>
+          <button
+            type="submit"
+            disabled={busy === "new" || sites.length === 0}
+            className="rounded bg-[#0176d3] px-3 py-2 text-[13px] font-bold text-white disabled:opacity-60"
+          >
+            Create a case
+          </button>
+        </form>
       ) : null}
 
       {visibleCases.length === 0 ? (

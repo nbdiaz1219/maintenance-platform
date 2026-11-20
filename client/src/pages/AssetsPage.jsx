@@ -60,6 +60,7 @@ export default function AssetsPage() {
   const [form, setForm] = useState(emptyForm);
   const [submitting, setSubmitting] = useState(false);
   const [showCreate, setShowCreate] = useState(false);
+  const [showCaseForm, setShowCaseForm] = useState(false);
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
   const [siteFilter, setSiteFilter] = useState("");
@@ -188,13 +189,25 @@ export default function AssetsPage() {
               Sign in to create
             </Link>
           ) : can("assets:write") ? (
-            <button
-              type="button"
-              onClick={() => setShowCreate((open) => !open)}
-              className="rounded bg-[#0176d3] px-4 py-2 text-sm font-semibold text-white"
-            >
-              {showCreate ? "Close" : "Add asset"}
-            </button>
+            <div className="flex flex-wrap gap-2">
+              <button
+                type="button"
+                onClick={() => {
+                  setShowCaseForm(true);
+                  document.getElementById("travel-cases")?.scrollIntoView({ behavior: "smooth", block: "start" });
+                }}
+                className="rounded bg-[#0176d3] px-4 py-2 text-sm font-bold text-white"
+              >
+                Create a case
+              </button>
+              <button
+                type="button"
+                onClick={() => setShowCreate((open) => !open)}
+                className="rounded border border-[#c9c9c9] bg-white px-4 py-2 text-sm font-bold text-[#181818]"
+              >
+                {showCreate ? "Close" : "Add asset"}
+              </button>
+            </div>
           ) : (
             <span className="text-sm text-stone-500">Ops Lead or Operator access required to create</span>
           )
@@ -269,6 +282,8 @@ export default function AssetsPage() {
         ]}
         canWrite={isAuthenticated && can("assets:write")}
         canDelete={isAuthenticated && can("assets:delete")}
+        showForm={showCaseForm}
+        onShowForm={setShowCaseForm}
         onChanged={() => loadData({ quiet: true })}
       />
 
