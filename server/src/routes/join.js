@@ -9,7 +9,12 @@ const DOWNLOADS_DIR = process.env.EMAT_DOWNLOADS_DIR
 const MAC_ZIP = "EMAT-mac.zip";
 const READY_NAME = "EMAT-Tracking-Database.zip";
 const APP_NAME = "EMAT Tracking Database.app";
+const APP_DISPLAY_NAME = "EMAT Tracking Database";
 const DEFAULTS_REL = path.join(APP_NAME, "Contents", "Resources", "team-defaults.json");
+const ICON_CANDIDATES = [
+  path.join(__dirname, "..", "..", "assets", "AppIcon.icns"),
+  path.join(__dirname, "..", "..", "..", "electron", "build", "icon.icns"),
+];
 
 function escapeHtml(value) {
   return String(value)
@@ -61,6 +66,54 @@ function hasMacDownload() {
   return fs.existsSync(baseZipPath());
 }
 
+function bundledIconPath() {
+  return ICON_CANDIDATES.find((candidate) => fs.existsSync(candidate)) || null;
+}
+
+function setPlistString(plist, key, value) {
+  const pattern = new RegExp(`(<key>${key}</key>\\s*<string>)[\\s\\S]*?(</string>)`);
+  if (pattern.test(plist)) {
+    return plist.replace(pattern, `$1${value}$2`);
+  }
+  return plist.replace("</dict>", `  <key>${key}</key>\n  <string>${value}</string>\n</dict>`);
+}
+
+/**
+ * The published zip is still the stock Electron shell. Drop our .icns over
+ * electron.icns / AppIcon.icns and set the bundle display name so Finder
+ * and the Dock pick up the EMAT icon without a full Mac rebuild.
+ */
+function applyMacIdentity(appPath) {
+  const iconPath = bundledIconPath();
+  const resourcesDir = path.join(appPath, "Contents", "Resources");
+  fs.mkdirSync(resourcesDir, { recursive: true });
+  if (iconPath) {
+    fs.copyFileSync(iconPath, path.join(resourcesDir, "AppIcon.icns"));
+    fs.copyFileSync(iconPath, path.join(resourcesDir, "electron.icns"));
+  }
+
+  const plistPath = path.join(appPath, "Contents", "Info.plist");
+  if (!fs.existsSync(plistPath)) return;
+  let plist = fs.readFileSync(plistPath, "utf8");
+  plist = setPlistString(plist, "CFBundleIconFile", "AppIcon");
+  plist = setPlistString(plist, "CFBundleName", APP_DISPLAY_NAME);
+  plist = setPlistString(plist, "CFBundleDisplayName", APP_DISPLAY_NAME);
+  fs.writeFileSync(plistPath, plist);
+}
+
+function locateMacApp(stage) {
+  const named = path.join(stage, APP_NAME);
+  if (fs.existsSync(named)) return named;
+  const found = fs
+    .readdirSync(stage)
+    .find((entry) => entry.endsWith(".app") && fs.statSync(path.join(stage, entry)).isDirectory());
+  if (!found) return null;
+  const source = path.join(stage, found);
+  if (found === APP_NAME) return source;
+  fs.renameSync(source, named);
+  return named;
+}
+
 /**
  * Inject this host’s Team URL without corrupting the .app (macOS apps need
  * Frameworks symlinks — never rewrite the zip with adm-zip).
@@ -77,6 +130,9 @@ function buildReadyZipFile(teamUrl) {
       execFileSync("ditto", ["-x", "-k", baseZip, stage], { stdio: "pipe" });
     }
 
+    const appPath = locateMacApp(stage);
+    if (appPath) applyMacIdentity(appPath);
+
     const defaultsPath = path.join(stage, DEFAULTS_REL);
     fs.mkdirSync(path.dirname(defaultsPath), { recursive: true });
     fs.writeFileSync(
@@ -92,8 +148,7 @@ function buildReadyZipFile(teamUrl) {
       "utf8",
     );
 
-    const appPath = path.join(stage, APP_NAME);
-    if (process.platform === "darwin" && fs.existsSync(appPath)) {
+    if (process.platform === "darwin" && appPath && fs.existsSync(appPath)) {
       try {
         execFileSync("codesign", ["--force", "--deep", "--sign", "-", appPath], { stdio: "pipe" });
       } catch {
@@ -174,6 +229,7 @@ DEST="\${INSTALL_DIR}/\${APP_NAME}"
 rm -rf "\${DEST}"
 ditto "\${SRC}" "\${DEST}"
 xattr -cr "\${DEST}" 2>/dev/null || true
+touch "\${DEST}/Contents/Info.plist" "\${DEST}/Contents/Resources/AppIcon.icns" "\${DEST}/Contents/Resources/electron.icns" "\${DEST}" 2>/dev/null || true
 
 echo "Opening…"
 open "\${DEST}"
@@ -404,5 +460,6 @@ module.exports = {
   READY_NAME,
   hasMacDownload,
   buildReadyZipFile,
+  applyMacIdentity,
   detectPublicOrigin,
 };

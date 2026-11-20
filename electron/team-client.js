@@ -192,12 +192,14 @@ function startLocalStack(projectRoot) {
 }
 
 function createWindow() {
+  const icon = resolveDockIcon();
   mainWindow = new BrowserWindow({
     width: 1320,
     height: 860,
     minWidth: 960,
     minHeight: 640,
     title: APP_NAME,
+    icon: icon || undefined,
     backgroundColor: "#020617",
     webPreferences: {
       contextIsolation: true,
@@ -498,9 +500,12 @@ ipcMain.handle("team:save-url", async (_event, url) => {
 
 function resolveDockIcon() {
   const candidates = [
+    typeof process.resourcesPath === "string" ? path.join(process.resourcesPath, "icon.png") : null,
+    typeof process.resourcesPath === "string" ? path.join(process.resourcesPath, "icon.icns") : null,
     path.join(__dirname, "build", "icon.png"),
+    path.join(__dirname, "build", "icon.icns"),
     path.join(__dirname, "..", "client", "public", "icons", "icon.svg"),
-  ];
+  ].filter(Boolean);
   for (const candidate of candidates) {
     if (fs.existsSync(candidate)) {
       const image = nativeImage.createFromPath(candidate);
@@ -522,6 +527,8 @@ if (!gotLock) {
   });
 
   app.on("second-instance", () => focusWindow());
+
+  app.setName(APP_NAME);
 
   app.whenReady().then(() => {
     app.setName(APP_NAME);
